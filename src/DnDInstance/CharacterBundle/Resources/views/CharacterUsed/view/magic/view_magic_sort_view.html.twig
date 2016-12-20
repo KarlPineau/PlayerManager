@@ -1,0 +1,9 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/view_gifts.html.twig #}
+<h4>Mes sorts :</h4>
+<ul>
+{% for sortInstance in characterUsed.sorts %}
+    <li><a href="{{path('dndrules_sort_sort_view', {'slug': sortInstance.sort.slug})}}" target="_blank">{{sortInstance.sort.name}}</a></li>
+{% else %}
+    <li>Aucun sort maitrisé pour le moment.</li>
+{% endfor %}
+</ul>

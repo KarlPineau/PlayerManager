@@ -1,0 +1,26 @@
+# -- Language -- #
+dndrules_language_language_home:
+    path:     /langues
+    defaults: { _controller: DnDRulesLanguageBundle:Language:index }
+
+dndrules_language_language_insert:
+    path:     /langue/insertion
+    defaults: { _controller: DnDRulesLanguageBundle:Language:register }
+    
+dndrules_language_language_view:
+    path:     /langue/vue/{slug}
+    defaults: { _controller: DnDRulesLanguageBundle:Language:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_language_language_edit:
+    path:     /langue/editer/{slug}
+    defaults: { _controller: DnDRulesLanguageBundle:Language:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_language_language_delete:
+    path:     /langue/supprimer/{slug}
+    defaults: { _controller: DnDRulesLanguageBundle:Language:delete }
+    requirements:
+        slug:  \S{0,255}

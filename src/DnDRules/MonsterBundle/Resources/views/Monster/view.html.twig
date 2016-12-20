@@ -1,0 +1,80 @@
+{# src/DnDRules/MonsterBundle/Resources/views/Monster/view.html.twig #}
+ 
+{% extends "DnDRulesMonsterBundle:Monster:layout.html.twig" %}
+
+{% block title %}
+    {{ monster.name }} - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    {{ monster.name }} :
+{% endblock %}
+    
+{% block h1_extend %}
+    {% if is_granted('ROLE_ADMIN') %}
+    <a class="btn btn-lg btn-primary" href="{{ path('dndrules_monster_monster_edit', {'slug': monster.slug}) }}" >Modifier</a>
+    <a class="btn btn-lg btn-danger main-JS-delete" href="{{ path('dndrules_monster_monster_delete', {'slug': monster.slug}) }}" >Supprimer</a>
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">{{monster.name}}</li>
+    <li class="active">Voir</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="row">
+            <div class="col-md-6">
+                {% if monster.description is not empty %}
+                    <div class="well">
+                        <h2>Description :</h2>
+                        {{ monster.description|raw }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning" role="alert">Aucune description fournie pour ce monstre.</div>
+                {% endif %}
+                {% if monster.socialOrganisation is not empty %}
+                    <div class="well">
+                        <h2>Organisation sociale :</h2>
+                        {{ monster.socialOrganisation|raw }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning" role="alert">Aucune organisation sociale fournie pour ce monstre.</div>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <div role="tabpanel">
+                    <!-- Nav tabs -->
+                    <ul class="nav nav-tabs" role="tablist" id="UserTab">
+                        <li role="presentation" class="active"><a href="#combat" aria-controls="combat" role="tab" data-toggle="tab">Combat</a></li>
+                        <li role="presentation"><a href="#caracteristiques" aria-controls="caracteristiques" role="tab" data-toggle="tab">Caractéristiques</a></li>
+                        <li role="presentation"><a href="#rp" aria-controls="rp" role="tab" data-toggle="tab">RP</a></li>
+                    </ul>
+                </div>
+
+                <!-- Tab panes -->
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="combat">
+                        {% include 'DnDRulesMonsterBundle:Monster:view/view_combat.html.twig' %}
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="caracteristiques">
+                        {% include 'DnDRulesMonsterBundle:Monster:view/view_caracteristiques.html.twig' %}
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="rp">
+                        {% include 'DnDRulesMonsterBundle:Monster:view/view_rp.html.twig' %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+# -- Skill -- #
+dndrules_skill_skill_home:
+    path:     /compétences
+    defaults: { _controller: DnDRulesSkillBundle:Skill:index }
+
+dndrules_skill_skill_insert:
+    path:     /compétence/insertion
+    defaults: { _controller: DnDRulesSkillBundle:Skill:register }
+    
+dndrules_skill_skill_view:
+    path:     /compétence/vue/{slug}
+    defaults: { _controller: DnDRulesSkillBundle:Skill:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_skill_skill_edit:
+    path:     /compétence/editer/{slug}
+    defaults: { _controller: DnDRulesSkillBundle:Skill:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_skill_skill_delete:
+    path:     /compétence/supprimer/{slug}
+    defaults: { _controller: DnDRulesSkillBundle:Skill:delete }
+    requirements:
+        slug:  \S{0,255}

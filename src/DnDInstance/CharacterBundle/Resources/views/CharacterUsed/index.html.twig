@@ -1,0 +1,52 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/index.html.twig #}
+ 
+{% extends "DnDInstanceCharacterBundle:CharacterUsed:layout.html.twig" %}
+
+{% block title %}
+    Personnages - {{ parent() }}
+{% endblock %} 
+    
+{% block h1 %}
+    Personnages
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+{% endblock %}
+
+{% block h1_extend %}
+    <a class="btn btn-primary" href="{{ path('dndinstance_characterused_characterused_insert') }}"><i class="fa fa-plus" aria-hidden="true"></i> Nouveau</a>
+{% endblock %}
+    
+{% block PM_body %}
+<div class="row">
+    <section class="col-xs-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert col-sm-12 alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        <table class="table table-striped" style="width: 100%">
+            <tr>
+                <th>#</th>
+                <th>Nom</th>
+                <th>Action</th>
+            </tr>
+            {% for characterused in listCharactersUsed %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td><a href="{{ path('dndinstance_characterused_characterused_view', { 'slug' : characterused.slug} ) }}">{{ characterused.name }}</a> {% if app.user == characterused.user %}<i class="fa fa-user" aria-hidden="true" title="{{ characterused.name }} est un de vos personnages"></i>{% endif %}</td>
+                    <td>
+                        {% if is_granted("ROLE_ADMIN") %}<a class="btn btn-danger main-JS-delete" href="{{ path('dndinstance_characterused_characterused_delete', { 'slug' : characterused.slug} ) }}"><i class="fa fa-trash" aria-hidden="true"></i></a>{% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <th colspan="5" class="text-center">Aucun Personnage connu.</th>
+                </tr>
+            {% endfor %}
+        </table>
+    </section>
+</div>
+{% endblock %}

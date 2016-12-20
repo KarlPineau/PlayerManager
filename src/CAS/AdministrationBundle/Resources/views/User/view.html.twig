@@ -1,0 +1,63 @@
+{# src/HDA/AdministrationBundle/Resources/views/Index/index.html.twig #}
+
+{% extends "CASAdministrationBundle::layout.html.twig" %}
+
+{% block title %}
+    {{ user.email }} - {{ parent() }}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">{{ user.email }}</li>
+{% endblock %}
+
+{% block brandtitle %}
+    {{ user.email }}
+{% endblock %}
+
+{% block h1 %}
+    {{ user.email }}
+{% endblock %}
+
+{% block h1_extend %}
+    <a class="btn btn-danger main-JS-delete" href="{{ path('cas_administration_user_remove', {'id': user.id}) }}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <section id="content" class="col-lg-12">
+            {% for flashMessage in app.session.flashbag.get('notice') %}
+                <div class="alert alert-success">
+                    {{ flashMessage }}
+                </div>
+            {% endfor %}
+
+            <div class="jumbotron">
+                <div class="row">
+                    <div class="col-md-6">
+                        <dl class="dl-horizontal">
+                            <dt>Email</dt><dd>{{ user.email }}</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>Rôles</dt>
+                            <dd>
+                                {% for role in user.roles %}
+                                    {% if loop.index > 1 %}, {% endif %}
+                                    {{ role }}
+                                {% endfor %}
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <dl class="dl-horizontal">
+                            <dt>Date d'enregistrement</dt><dd>{% if user.createDate != null %}{{ user.createDate|date('d-m-Y') }}{% else %}Inconnue{% endif %}</dd>
+                        </dl>
+                        <dl class="dl-horizontal">
+                            <dt>Dernière modif. du profil</dt><dd>{% if user.updateDate != null %}{{ user.updateDate|date('d-m-Y') }}{% else %}Inconnue{% endif %}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}

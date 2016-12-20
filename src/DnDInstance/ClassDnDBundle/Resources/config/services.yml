@@ -1,0 +1,4 @@
+services:
+#    dn_d_instance_class_dn_d.example:
+#        class: DnDInstance\ClassDnDBundle\Example
+#        arguments: [@service_id, "plain_value", %parameter%]

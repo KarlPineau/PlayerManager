@@ -1,0 +1,26 @@
+# -- Size -- #
+dndrules_size_size_home:
+    path:     /tailles
+    defaults: { _controller: DnDRulesSizeBundle:Size:index }
+
+dndrules_size_size_insert:
+    path:     /taille/insertion
+    defaults: { _controller: DnDRulesSizeBundle:Size:register }
+    
+dndrules_size_size_view:
+    path:     /taille/vue/{slug}
+    defaults: { _controller: DnDRulesSizeBundle:Size:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_size_size_edit:
+    path:     /taille/editer/{slug}
+    defaults: { _controller: DnDRulesSizeBundle:Size:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_size_size_delete:
+    path:     /taille/supprimer/{slug}
+    defaults: { _controller: DnDRulesSizeBundle:Size:delete }
+    requirements:
+        slug:  \S{0,255}

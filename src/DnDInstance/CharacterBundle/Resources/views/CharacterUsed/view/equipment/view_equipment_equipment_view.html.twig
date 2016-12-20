@@ -1,0 +1,8 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/view_gifts.html.twig #}
+<ul>
+{% for equipmentInstance in characterUsed.equipments %}
+    <li><a href="{{path('dndrules_equipment_administration_view', {'slug': equipmentInstance.equipment.slug})}}" target="_blank">{{equipmentInstance.equipment.name}}</a></li>
+{% else %}
+    <li>Aucun équipement pour le moment.</li>
+{% endfor %}
+</ul>

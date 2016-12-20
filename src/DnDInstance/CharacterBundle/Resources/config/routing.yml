@@ -1,0 +1,70 @@
+# -- CharacterUsed -- #
+dndinstance_characterused_characterused_home:
+    path:     /personnages
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:index }
+
+dndinstance_characterused_characterused_insert:
+    path:     /personnage/insertion
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:register }
+
+dndinstance_characterused_characterused_insert_abilities:
+    path:     /personnage/insertion/caracteristiques/{slug}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterAbility:registerAbilities }
+    requirements:
+        slug:  \S{0,255}
+
+dndinstance_characterused_characterused_edit_abilities:
+    path:     /personnage/edition/caracteristiques/{slug}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterAbility:editAbilities }
+    requirements:
+        slug:  \S{0,255}
+
+dndinstance_characterused_characterused_insert_skills:
+    path:     /personnage/insertion/competences/{slug}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterSkill:registerSkills }
+    requirements:
+        slug:  \S{0,255}
+
+dndinstance_characterused_characterused_edit_skills:
+    path:     /personnage/edition/competences/{slug}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterSkill:editSkills }
+    requirements:
+        slug:  \S{0,255}
+
+dndinstance_characterused_characterused_edit_hpcurrent:
+    path:     /personnage/edition/point-de-vie/{slug}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterHp:editHpCurrent }
+    requirements:
+        slug:  \S{0,255}
+    
+dndinstance_characterused_characterused_view:
+    path:     /personnage/vue/{slug}/{inline}/{profile}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:view, inline: false, profile: full }
+    requirements:
+        slug:  \S{0,255}
+        inline: true|false
+        inline: full|short
+    
+dndinstance_characterused_characterused_edit:
+    path:     /personnage/editer/{slug}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndinstance_characterused_characterused_delete:
+    path:     /personnage/supprimer/{slug}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:delete }
+    requirements:
+        slug:  \S{0,255}
+
+dndinstance_characterused_characterused_edit_xppoints:
+    path:     /personnage/edition/points-experience/{slug}
+    defaults: { _controller: DnDInstanceCharacterBundle:XpPoints:editXpPoints }
+    requirements:
+        slug:  \S{0,255}
+
+dndinstance_characterused_characterused_edit_upgradelevel:
+    path:     /personnage/edition/upgrade-niveau/{slug}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:upgradeLevel }
+    requirements:
+        slug:  \S{0,255}

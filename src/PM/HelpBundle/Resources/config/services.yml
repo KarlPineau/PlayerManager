@@ -1,0 +1,4 @@
+services:
+    pm_help.deletehelptext:
+        class: PM\HelpBundle\Service\deleteHelpText
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]

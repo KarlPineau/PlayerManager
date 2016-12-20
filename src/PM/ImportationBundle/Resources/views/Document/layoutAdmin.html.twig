@@ -1,0 +1,21 @@
+{# src/PM/ImportationBundle/Resources/views/Document/layoutAdmin.html.twig #}
+ 
+{% extends "::admin.html.twig" %}
+
+{% block title %}
+    Document - {{ parent() }}
+{% endblock %}
+
+{% block follow %}
+    <meta name="robots" content="noindex,nofollow" />
+{% endblock %}
+    
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('pm_document_administration_home') }}">Document</a></li>
+{% endblock %}
+
+{% block body %}
+    {% block PM_body %}
+    {% endblock %}
+{% endblock %}

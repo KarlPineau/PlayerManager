@@ -1,0 +1,8 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/view_gifts.html.twig #}
+<ul>
+{% for armorInstance in characterUsed.armors %}
+    <li><a href="{{path('dndrules_armor_armor_view', {'slug': armorInstance.armor.slug})}}" target="_blank">{{armorInstance.armor.name}}</a></li>
+{% else %}
+    <li>Aucune armure pour le moment.</li>
+{% endfor %}
+</ul>

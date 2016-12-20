@@ -1,0 +1,107 @@
+# -- Sort -- #
+dndrules_sort_sort_home:
+    path:     /sorts
+    defaults: { _controller: DnDRulesSortBundle:Sort:index }
+
+dndrules_sort_sort_insert:
+    path:     /sorts/insertion
+    defaults: { _controller: DnDRulesSortBundle:Sort:register }
+    
+dndrules_sort_sort_view:
+    path:     /sorts/vue/{slug}
+    defaults: { _controller: DnDRulesSortBundle:Sort:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_sort_sort_edit:
+    path:     /sorts/editer/{slug}
+    defaults: { _controller: DnDRulesSortBundle:Sort:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_sort_sort_delete:
+    path:     /sorts/supprimer/{slug}
+    defaults: { _controller: DnDRulesSortBundle:Sort:delete }
+    requirements:
+        slug:  \S{0,255}
+        
+# -- Composante -- #
+dndrules_sort_composante_home:
+    path:     /composantes
+    defaults: { _controller: DnDRulesSortBundle:Composante:index }
+
+dndrules_sort_composante_insert:
+    path:     /composantes/insertion
+    defaults: { _controller: DnDRulesSortBundle:Composante:register }
+    
+dndrules_sort_composante_view:
+    path:     /composantes/vue/{slug}
+    defaults: { _controller: DnDRulesSortBundle:Composante:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_sort_composante_edit:
+    path:     /composantes/editer/{slug}
+    defaults: { _controller: DnDRulesSortBundle:Composante:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_sort_composante_delete:
+    path:     /composantes/supprimer/{slug}
+    defaults: { _controller: DnDRulesSortBundle:Composante:delete }
+    requirements:
+        slug:  \S{0,255}
+        
+# -- SortSchool -- #
+dndrules_sort_sortschool_home:
+    path:     /ecole-de-sort
+    defaults: { _controller: DnDRulesSortBundle:SortSchool:index }
+
+dndrules_sort_sortschool_insert:
+    path:     /ecole-de-sort/insertion
+    defaults: { _controller: DnDRulesSortBundle:SortSchool:register }
+    
+dndrules_sort_sortschool_view:
+    path:     /ecole-de-sort/vue/{slug}
+    defaults: { _controller: DnDRulesSortBundle:SortSchool:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_sort_sortschool_edit:
+    path:     /ecole-de-sort/editer/{slug}
+    defaults: { _controller: DnDRulesSortBundle:SortSchool:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_sort_sortschool_delete:
+    path:     /ecole-de-sort/supprimer/{slug}
+    defaults: { _controller: DnDRulesSortBundle:SortSchool:delete }
+    requirements:
+        slug:  \S{0,255}
+        
+# -- Domain -- #
+dndrules_sort_domain_home:
+    path:     /domaines
+    defaults: { _controller: DnDRulesSortBundle:Domain:index }
+
+dndrules_sort_domain_insert:
+    path:     /domaines/insertion
+    defaults: { _controller: DnDRulesSortBundle:Domain:register }
+    
+dndrules_sort_domain_view:
+    path:     /domaines/vue/{slug}
+    defaults: { _controller: DnDRulesSortBundle:Domain:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_sort_domain_edit:
+    path:     /domaines/editer/{slug}
+    defaults: { _controller: DnDRulesSortBundle:Domain:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_sort_domain_delete:
+    path:     /domaines/supprimer/{slug}
+    defaults: { _controller: DnDRulesSortBundle:Domain:delete }
+    requirements:
+        slug:  \S{0,255}

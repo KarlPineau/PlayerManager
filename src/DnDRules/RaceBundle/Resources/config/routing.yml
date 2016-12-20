@@ -1,0 +1,26 @@
+# -- Race -- #
+dndrules_race_race_home:
+    path:     /races
+    defaults: { _controller: DnDRulesRaceBundle:Race:index }
+
+dndrules_race_race_insert:
+    path:     /race/insertion
+    defaults: { _controller: DnDRulesRaceBundle:Race:register }
+    
+dndrules_race_race_view:
+    path:     /race/vue/{slug}
+    defaults: { _controller: DnDRulesRaceBundle:Race:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_race_race_edit:
+    path:     /race/editer/{slug}
+    defaults: { _controller: DnDRulesRaceBundle:Race:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_race_race_delete:
+    path:     /race/supprimer/{slug}
+    defaults: { _controller: DnDRulesRaceBundle:Race:delete }
+    requirements:
+        slug:  \S{0,255}

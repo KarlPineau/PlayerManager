@@ -1,0 +1,186 @@
+<?php
+
+namespace PM\HomeBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Critical
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="PM\HomeBundle\Entity\CriticalRepository")
+ */
+class Critical
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="rangeCriticalBegin", type="integer")
+     */
+    private $rangeCriticalBegin;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="rangeCriticalEnd", type="integer")
+     */
+    private $rangeCriticalEnd;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="multiplier", type="integer")
+     */
+    private $multiplier;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="DnDRules\WeaponBundle\Entity\Weapon", inversedBy="criticals")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $weapon;
+
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="createDate", type="datetime", nullable=false)
+     */
+    protected $createDate;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set rangeCriticalBegin
+     *
+     * @param integer $rangeCriticalBegin
+     * @return Critical
+     */
+    public function setRangeCriticalBegin($rangeCriticalBegin)
+    {
+        $this->rangeCriticalBegin = $rangeCriticalBegin;
+
+        return $this;
+    }
+
+    /**
+     * Get rangeCriticalBegin
+     *
+     * @return integer 
+     */
+    public function getRangeCriticalBegin()
+    {
+        return $this->rangeCriticalBegin;
+    }
+
+    /**
+     * Set rangeCriticalEnd
+     *
+     * @param integer $rangeCriticalEnd
+     * @return Critical
+     */
+    public function setRangeCriticalEnd($rangeCriticalEnd)
+    {
+        $this->rangeCriticalEnd = $rangeCriticalEnd;
+
+        return $this;
+    }
+
+    /**
+     * Get rangeCriticalEnd
+     *
+     * @return integer 
+     */
+    public function getRangeCriticalEnd()
+    {
+        return $this->rangeCriticalEnd;
+    }
+
+    /**
+     * Set multiplier
+     *
+     * @param integer $multiplier
+     * @return Critical
+     */
+    public function setMultiplier($multiplier)
+    {
+        $this->multiplier = $multiplier;
+
+        return $this;
+    }
+
+    /**
+     * Get multiplier
+     *
+     * @return integer 
+     */
+    public function getMultiplier()
+    {
+        return $this->multiplier;
+    }
+
+    /**
+     * Set createDate
+     *
+     * @param \DateTime $createDate
+     * @return Critical
+     */
+    public function setCreateDate($createDate)
+    {
+        $this->createDate = $createDate;
+
+        return $this;
+    }
+
+    /**
+     * Get createDate
+     *
+     * @return \DateTime 
+     */
+    public function getCreateDate()
+    {
+        return $this->createDate;
+    }
+
+    /**
+     * Set weapon
+     *
+     * @param \DnDRules\WeaponBundle\Entity\Weapon $weapon
+     * @return Critical
+     */
+    public function setWeapon(\DnDRules\WeaponBundle\Entity\Weapon $weapon = null)
+    {
+        $this->weapon = $weapon;
+
+        return $this;
+    }
+
+    /**
+     * Get weapon
+     *
+     * @return \DnDRules\WeaponBundle\Entity\Weapon
+     */
+    public function getWeapon()
+    {
+        return $this->weapon;
+    }
+}

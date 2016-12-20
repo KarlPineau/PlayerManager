@@ -1,0 +1,4 @@
+services:
+    dndinstance_monster.monster:
+        class: DnDInstance\MonsterBundle\Service\monsterGenerate
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]

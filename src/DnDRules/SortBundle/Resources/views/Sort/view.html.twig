@@ -1,0 +1,96 @@
+{# src/DnDRules/SortBundle/Resources/views/Sort/view.html.twig #}
+ 
+{% extends "DnDRulesSortBundle:Sort:layout.html.twig" %}
+
+{% block title %}
+    {{ sort.name }} - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    {{ sort.name }} :
+{% endblock %}
+    
+{% block h1_extend %}
+    {% if is_granted('ROLE_ADMIN') %}
+    <a class="btn btn-lg btn-primary" href="{{ path('dndrules_sort_sort_edit', {'slug': sort.slug}) }}" >Modifier</a>
+    <a class="btn btn-lg btn-danger main-JS-delete" href="{{ path('dndrules_sort_sort_delete', {'slug': sort.slug}) }}" >Supprimer</a>
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">{{sort.name}}</li>
+    <li class="active">Voir</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="row">
+            <div class="col-md-6">
+                {% if sort.effect is not empty %}
+                    <h2>Effets</h2>
+                    <div class="well">
+                        {{ sort.effect|raw }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning" role="alert">Oups ... Les effets de ce sort ne sont pas renseignés ...</div>
+                {% endif %}
+                {% if sort.description is not empty %}
+                    <h2>Description</h2>
+                    <div class="well">
+                        {{ sort.description|raw }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning" role="alert">Aucune description fournie pour ce sort.</div>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <h2>Informations :</h2>
+                <ul>
+                    <li>Liste des composantes :</li>
+                    <ul>
+                    {% for composante in sort.composantes %}
+                        <li><a href="{{ path('dndrules_sort_composante_view', { 'slug' : composante.slug} ) }}" target="_blank">{{ composante.name }}</a></li>
+                    {% else %}
+                        <li>Oups, la liste est vide ...</li>
+                    {%endfor%}
+                    </ul>
+                    <li>Liste des Classes :</li>
+                    <ul>
+                    {% for classeInstance in sort.classes %}
+                        <li><a href="{{ path('dndrules_classdnd_classdnd_view', { 'slug' : classeInstance.classdnd.slug} ) }}" target="_blank">{{classeInstance.classdnd.name}}</a>, à partir du niveau {{classeInstance.minimumLevel.level}}</li>
+                    {% else %}
+                        <li>Oups, la liste est vide ...</li>
+                    {%endfor%}
+                    </ul>
+                    <li>Liste des Domaines :</li>
+                    <ul>
+                    {% for sortdomain in sort.domains %}
+                        <li><a href="{{ path('dndrules_sort_domain_view', { 'slug' : sortdomain.domain.slug} ) }}" target="_blank">{{sortdomain.domain.name}}</a>, à partir du niveau {{sortdomain.minimumLevel.level}}</li>
+                    {% else %}
+                        <li>Oups, la liste est vide ...</li>
+                    {%endfor%}
+                    </ul>
+                    <li>Ecole : {% if sort.sortSchool is not empty %}{{sort.sortSchool.name}}{% endif %}</li>
+                    <li>Branches pour cette Ecole : {% if sort.sortSchoolPlugged is not empty %}{{sort.sortSchoolPlugged}}{% endif %}</li>
+                    <li>Registres pour cette Ecole : {% if sort.sortSchoolRegistre is not empty %}{{sort.sortSchoolRegistre}}{% endif %}</li>
+                    <li>Temps d'incantation : {% if sort.castTime is not empty %}{{sort.castTime}}{% endif %}</li>
+                    <li>Portée : {% if sort.scope is not empty %}{{sort.scope}}{% endif %}</li>
+                    <li>Durée : {% if sort.period is not empty %}{{sort.period}}{% endif %}</li>
+                    <li>Cible : {% if sort.target is not empty %}{{sort.target}}{% endif %}</li>
+                    <li>Zone d'effet : {% if sort.effectzone is not empty %}{{sort.effectzone}}{% endif %}</li>
+                    <li>Jets de sauvegarde : {% if sort.jds is not empty %}{{sort.jds}}{% endif %}</li>
+                    <li>Résistance à la magie : {% if sort.magicResistance is not empty %}{{sort.magicResistance}}{% endif %}</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

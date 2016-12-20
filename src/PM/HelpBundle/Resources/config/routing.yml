@@ -1,0 +1,51 @@
+# -- HelpText -- #
+pm_helptext_administration_home:
+    path:     /administration/textes-aide
+    defaults: { _controller: PMHelpBundle:HelpText:index }
+
+pm_helptext_administration_insert:
+    path:     /administration/textes-aide/insertion
+    defaults: { _controller: PMHelpBundle:HelpText:register }
+
+pm_helptext_administration_list:
+    path:     /administration/textes-aide/liste
+    defaults: { _controller: PMHelpBundle:HelpText:list }
+    
+pm_helptext_administration_view:
+    path:     /administration/textes-aide/vue/{id}
+    defaults: { _controller: PMHelpBundle:HelpText:view }
+    requirements:
+        id:  \S{0,255}
+    
+pm_helptext_administration_edit:
+    path:     /administration/textes-aide/editer/{id}
+    defaults: { _controller: PMHelpBundle:HelpText:edit }
+    requirements:
+        id:  \S{0,255}
+    
+pm_helptext_administration_delete:
+    path:     /administration/textes-aide/supprimer/{id}
+    defaults: { _controller: PMHelpBundle:HelpText:delete }
+    requirements:
+        id:  \S{0,255}
+
+# --- ROUTES PUBLIQUES --- #
+# -- Help -- #
+pm_help_public_home:
+    path:     /donjons-et-dragons/accueil
+    defaults: { _controller: PMHelpBundle:HelpPublic:index }
+
+# -- HelpText -- #
+pm_helptext_public_home:
+    path:     /donjons-et-dragons/textes-aide
+    defaults: { _controller: PMHelpBundle:HelpTextPublic:index }
+
+pm_helptext_public_list:
+    path:     /donjons-et-dragons/textes-aide/liste
+    defaults: { _controller: PMHelpBundle:HelpTextPublic:list }
+    
+pm_helptext_public_view:
+    path:     /donjons-et-dragons/textes-aide/vue/{id}
+    defaults: { _controller: PMHelpBundle:HelpTextPublic:view }
+    requirements:
+        id:  \S{0,255}

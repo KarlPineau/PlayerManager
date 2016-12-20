@@ -1,0 +1,4 @@
+services:
+    game_game.gameaction:
+        class: Game\GameBundle\Service\gameAction
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]

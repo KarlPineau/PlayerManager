@@ -1,0 +1,4 @@
+services:
+    dndrules_race.deleterace:
+        class: DnDRules\CharacterBundle\Service\deleteRace
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]

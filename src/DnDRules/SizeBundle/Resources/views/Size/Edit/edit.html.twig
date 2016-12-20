@@ -1,0 +1,39 @@
+{# src/DnDRules/SizeBundle/Resources/views/Size/register.html.twig #}
+ 
+{% extends "DnDRulesSizeBundle:Size:layout.html.twig" %}
+
+{% block title %}
+    Edition - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    Edition :
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('dndrules_size_size_view', {'slug': size.slug}) }}">{{size.name}}</a></li>
+    <li class="active">Edition</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="well">
+            {% include "DnDRulesSizeBundle:Size:Edit/edit_content.html.twig" %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+    
+{% block javascripts_block %}
+    {% javascripts  '@DnDRulesSizeBundle/Resources/public/js/*'  %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

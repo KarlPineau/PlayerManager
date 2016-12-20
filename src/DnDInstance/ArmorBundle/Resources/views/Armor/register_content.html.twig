@@ -1,0 +1,26 @@
+{# src/DnDRules/ArmorBundle/Resources/views/Armor/register_content.html.twig #}
+
+<form class="form-horizontal"  action="{{ path('dndinstance_armor_armor_instanceforcharacter', {'characterSlug': characterUsed.slug}) }}" method="post" {{ form_enctype(form) }} role="form">
+    {% if not form.vars.valid %}
+    <div class="alert alert-error">
+        <strong>Votre formulaire contient les erreurs suivantes :</strong>
+        {{ form_errors(form) }}
+        {{ form_errors(form.armor) }}
+    </div>
+    <br />
+    {% endif %}
+
+    <fieldset>
+
+        <div class="form-group">
+           <div class="col-md-3 control-label">
+                {{ form_label(form.armor, "Armure :", {'label_attr': {'class': 'control-label'}}) }}
+            </div>
+            <div class="col-md-9">
+                {{ form_widget(form.armor, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+    </fieldset>
+    {{ form_rest(form) }}
+    <div class="text-center"><input type="submit" class="btn btn-default" /></div>
+</form>

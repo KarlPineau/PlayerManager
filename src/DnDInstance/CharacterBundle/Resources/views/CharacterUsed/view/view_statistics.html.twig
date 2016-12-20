@@ -1,0 +1,16 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/view_statistics.html.twig #}
+<h2>Statistiques :</h2>
+<ul>
+    <li>Création :</li>
+    <ul>
+        <li>Par <a href="{{path('cas_administration_user_view', {'id': characterUsed.createUser.id})}}" target="_blank">{{characterUsed.createUser.username}}</a></li>
+        <li>le {{characterUsed.createDate|date("d M Y")}}</li>
+    </ul>
+    {% if characterUsed.updateUser is not null %}
+    <li>Dernière modification :</li>
+    <ul>
+        <li>Par <a href="{{path('cas_administration_user_view', {'id': characterUsed.updateUser.id})}}" target="_blank">{{characterUsed.updateUser.username}}</a></li>
+        <li>le {{characterUsed.updateDate|date("d M Y")}}</li>
+    </ul>
+    {% endif %}
+</ul>

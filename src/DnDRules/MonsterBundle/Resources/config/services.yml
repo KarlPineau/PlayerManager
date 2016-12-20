@@ -1,0 +1,20 @@
+services:
+    dndrules_monster.monsteraction:
+        class: DnDRules\MonsterBundle\Service\monsterAction
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]
+        
+    dndrules_monster.environmentaction:
+        class: DnDRules\MonsterBundle\Service\environmentAction
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]
+        
+    dndrules_monster.monstertypeaction:
+        class: DnDRules\MonsterBundle\Service\monsterTypeAction
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]
+        
+    dndrules_monster.monstersubtypeaction:
+        class: DnDRules\MonsterBundle\Service\monsterSubTypeAction
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]
+        
+    dndrules_monster.speedspecialaction:
+        class: DnDRules\MonsterBundle\Service\speedSpecialAction
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]

@@ -1,0 +1,21 @@
+{# src/PM/ImportationBundle/Resources/views/Document/listDocuments.html.twig #}
+<table class="table table-striped" style="width: 100%">
+    <tr>
+        <th style="max-width: 30px;">#</th>
+        <th style="text-align: left;">Nom</th>
+        <th style="max-width: 30px;">Access</th>
+        <th style="max-width: 30px;">Traitement</th>
+    </tr>
+    {% for document in listDocuments %}
+        <tr>
+            <td style="text-align: left;">{{ loop.index }}</td>
+            <td style="text-align: left;">{{ document.name }}</td>
+            <td style="text-align: left;"><a href="/web{{ vich_uploader_asset(document, 'imageFile') }}">Accéder</a></td>
+            <td style="max-width: 30px;">{% if document.traitement == false %}<a href="{{path('pm_document_administration_process', {'document_id': document.id})}}" class="btn btn-warning">Traiter</a>{% else %}<button type="button" class="btn btn-success">Traité</button>{% endif %}</td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5" style="text-align: center; font-weight: bold;">Aucune document connue.</td>
+        </tr>
+    {% endfor %}
+</table>

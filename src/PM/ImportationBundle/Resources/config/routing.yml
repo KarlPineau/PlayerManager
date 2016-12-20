@@ -1,0 +1,24 @@
+pm_importation_home:
+    path:     /hello/{name}
+    defaults: { _controller: PMImportationBundle:Default:index }
+     
+# -- Document -- #
+pm_document_administration_home:
+    path:     /administration/documents
+    defaults: { _controller: PMImportationBundle:Document:index }
+
+pm_document_administration_insert:
+    path:     /administration/documents/insertion
+    defaults: { _controller: PMImportationBundle:Document:register }
+    
+pm_document_administration_delete:
+    path:     /administration/documents/supprimer/{id}
+    defaults: { _controller: PMImportationBundle:Document:delete }
+    requirements:
+        id:  \d+
+        
+pm_document_administration_process:
+    path:     /administration/documents/traitement/{document_id}
+    defaults: { _controller: PMImportationBundle:Document:process }
+    requirements:
+        document_id:  \d+

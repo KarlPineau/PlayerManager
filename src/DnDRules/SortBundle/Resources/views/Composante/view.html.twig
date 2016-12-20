@@ -1,0 +1,54 @@
+{# src/DnDRules/SortBundle/Resources/views/Composante/view.html.twig #}
+ 
+{% extends "DnDRulesSortBundle:Composante:layout.html.twig" %}
+
+{% block title %}
+    {{ composante.name }} - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    {{ composante.name }} :
+{% endblock %}
+    
+{% block h1_extend %}
+    {% if is_granted('ROLE_ADMIN') %}
+    <a class="btn btn-lg btn-primary" href="{{ path('dndrules_sort_composante_edit', {'slug': composante.slug}) }}" >Modifier</a>
+    <a class="btn btn-lg btn-danger main-JS-delete" href="{{ path('dndrules_sort_composante_delete', {'slug': composante.slug}) }}" >Supprimer</a>
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">{{composante.name}}</li>
+    <li class="active">Voir</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="row">
+            <div class="col-md-6">
+                {% if composante.description is not empty %}
+                    <div class="well">
+                        {{ composante.description|raw }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning" role="alert">Aucune description fournie pour cette composante.</div>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <h2>Informations :</h2>
+                <ul>
+                    <li>Initiales : {{composante.initial}}</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

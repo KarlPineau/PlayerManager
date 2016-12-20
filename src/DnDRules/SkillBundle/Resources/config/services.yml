@@ -1,0 +1,4 @@
+services:
+    dndrules_skill.skillaction:
+        class: DnDRules\SkillBundle\Service\skillAction
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]

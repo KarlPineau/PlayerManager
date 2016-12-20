@@ -1,0 +1,23 @@
+dndinstance_monster_monster_generatemonster:
+    path:     /instance/monstre/generer/{slug}
+    defaults: { _controller: DnDInstanceMonsterBundle:Monster:generate }
+    requirements:
+        slug:  \S{0,255}
+        
+dndinstance_monster_monster_listforgame:
+    path:     /instance/monstre/liste/{slug}
+    defaults: { _controller: DnDInstanceMonsterBundle:Monster:listForGame }
+    requirements:
+        slug:  \S{0,255}
+        
+dndinstance_monster_monster_edit:
+    path:     /instance/monstre/editer/{slug}
+    defaults: { _controller: DnDInstanceMonsterBundle:Monster:edit }
+    requirements:
+        slug:  \S{0,255}
+        
+dndinstance_monster_monster_delete:
+    path:     /instance/monstre/supprimer/{slug}
+    defaults: { _controller: DnDInstanceMonsterBundle:Monster:delete }
+    requirements:
+        slug:  \S{0,255}

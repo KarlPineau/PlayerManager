@@ -1,0 +1,27 @@
+{# src/DnDRules/SortBundle/Resources/views/SortSchool/layoutAdmin.html.twig #}
+ 
+{% if is_granted('ROLE_ADMIN') %}{% set extends = "::admin.html.twig" %}
+{% else %}{% set extends = "::public.html.twig" %}{% endif %}
+{% extends extends %}
+
+{% block title %}
+    SortSchools - {{ parent() }}
+{% endblock %}
+
+{% block follow %}
+    <meta name="robots" content="noindex,nofollow" />
+{% endblock %}
+    
+{% block breadcrumb %}
+    {{ parent() }}
+    {% if app.request.get('_route') == 'dndrules_sort_sortschool_home' %}
+        <li class="active">École</li>
+    {% else %}
+        <li><a href="{{ path('dndrules_sort_sortschool_home') }}">École</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {% block PM_body %}
+    {% endblock %}
+{% endblock %}

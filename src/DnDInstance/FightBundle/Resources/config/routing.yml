@@ -1,0 +1,30 @@
+dndinstance_fight_fight_generatefight:
+    path:     /combat/instance/generer/{slug}
+    defaults: { _controller: DnDInstanceFightBundle:Fight:generate }
+    requirements:
+        slug:  \S{0,255}
+        
+dndinstance_fight_fight_listforgame:
+    path:     /combat/instance/liste/{slug}
+    defaults: { _controller: DnDInstanceFightBundle:Fight:listForGame }
+    requirements:
+        slug:  \S{0,255}
+        
+dndinstance_fight_fight_edit:
+    path:     /combat/instance/editer/{slug}
+    defaults: { _controller: DnDInstanceFightBundle:Fight:edit }
+    requirements:
+        slug:  \S{0,255}
+        
+dndinstance_fight_fight_delete:
+    path:     /combat/instance/supprimer/{id}
+    defaults: { _controller: DnDInstanceFightBundle:Fight:delete }
+    requirements:
+        id:  \d*
+        
+dndinstance_fight_fightcharacterused_edit:
+    path:     /combat/instance/personnage/editer/{game_slug}/{id}
+    defaults: { _controller: DnDInstanceFightBundle:FightCharacterUsed:edit }
+    requirements:
+        id:  \d*
+        game_slug:  \S{0,255}

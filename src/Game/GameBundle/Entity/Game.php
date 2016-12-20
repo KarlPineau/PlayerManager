@@ -1,0 +1,609 @@
+<?php
+
+namespace Game\GameBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * Game
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="Game\GameBundle\Entity\GameRepository")
+ */
+class Game
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = "1",
+     *      max = "255",
+     *      minMessage = "Votre nom doit faire au moins {{ limit }} caractères",
+     *      maxMessage = "Votre nom ne peut pas être plus long que {{ limit }} caractères"
+     * )
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @Gedmo\Slug(fields={"name", "createDate"})
+     * @ORM\Column(name="slug", type="string", length=255, nullable=false, unique=true)
+     */
+    private $slug;
+
+    /**
+     * @var string
+     * @Assert\Length(
+     *      max = "10000",
+     *      maxMessage = "Votre description ne doit pas dépasser {{ limit }} caractères."
+     * )
+     *
+     * @ORM\Column(name="synopsis", type="text", nullable=true)
+     */
+    private $synopsis;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="importChara", type="boolean", nullable=true, options={"default" = false})
+     */
+    private $importChara;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="lvlMin", type="smallint", nullable=true, options={"default" = 0})
+     */
+    private $lvlMin;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="lvlMax", type="smallint", nullable=true, options={"default" = 0})
+     */
+    private $lvlMax;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="wealthFactor", type="decimal", nullable=true, options={"default" = 1})
+     */
+    private $wealthFactor;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="active", type="boolean", nullable=true, options={"default" = true})
+     */
+    private $active;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="CAS\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $gameMasters;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterUsed")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $characters;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="DnDRules\RaceBundle\Entity\Race")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $openRaces;
+    
+    /**
+     * @ORM\ManyToMany(targetEntity="DnDRules\ClassDnDBundle\Entity\ClassDnD")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $openClasses;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $createUser;
+
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="createDate", type="datetime", nullable=false)
+     */
+    protected $createDate;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $updateUser;
+
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="updateDate", type="datetime", nullable=true)
+     */
+    protected $updateDate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="updateComment", type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = "255",
+     *      maxMessage = "Le commentaire ne doit pas dépasser {{ limit }} caractères."
+     * )
+     */
+    protected $updateComment;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->gameMasters = new ArrayCollection();
+        $this->characters = new ArrayCollection();
+        $this->openRaces = new ArrayCollection();
+        $this->openClasses = new ArrayCollection();
+    }
+    
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set importChara
+     *
+     * @param boolean $importChara
+     * @return Game
+     */
+    public function setImportChara($importChara)
+    {
+        $this->importChara = $importChara;
+
+        return $this;
+    }
+
+    /**
+     * Get importChara
+     *
+     * @return boolean 
+     */
+    public function getImportChara()
+    {
+        return $this->importChara;
+    }
+
+    /**
+     * Set lvlMin
+     *
+     * @param integer $lvlMin
+     * @return Game
+     */
+    public function setLvlMin($lvlMin)
+    {
+        $this->lvlMin = $lvlMin;
+
+        return $this;
+    }
+
+    /**
+     * Get lvlMin
+     *
+     * @return integer 
+     */
+    public function getLvlMin()
+    {
+        return $this->lvlMin;
+    }
+
+    /**
+     * Set lvlMax
+     *
+     * @param integer $lvlMax
+     * @return Game
+     */
+    public function setLvlMax($lvlMax)
+    {
+        $this->lvlMax = $lvlMax;
+
+        return $this;
+    }
+
+    /**
+     * Get lvlMax
+     *
+     * @return integer 
+     */
+    public function getLvlMax()
+    {
+        return $this->lvlMax;
+    }
+
+    /**
+     * Set wealthFactor
+     *
+     * @param string $wealthFactor
+     * @return Game
+     */
+    public function setWealthFactor($wealthFactor)
+    {
+        $this->wealthFactor = $wealthFactor;
+
+        return $this;
+    }
+
+    /**
+     * Get wealthFactor
+     *
+     * @return string 
+     */
+    public function getWealthFactor()
+    {
+        return $this->wealthFactor;
+    }
+
+    /**
+     * Set active
+     *
+     * @param boolean $active
+     * @return Game
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active
+     *
+     * @return boolean 
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * Set createDate
+     *
+     * @param \DateTime $createDate
+     * @return Game
+     */
+    public function setCreateDate($createDate)
+    {
+        $this->createDate = $createDate;
+
+        return $this;
+    }
+
+    /**
+     * Get createDate
+     *
+     * @return \DateTime 
+     */
+    public function getCreateDate()
+    {
+        return $this->createDate;
+    }
+
+    /**
+     * Set updateDate
+     *
+     * @param \DateTime $updateDate
+     * @return Game
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+
+        return $this;
+    }
+
+    /**
+     * Get updateDate
+     *
+     * @return \DateTime 
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * Set updateComment
+     *
+     * @param string $updateComment
+     * @return Game
+     */
+    public function setUpdateComment($updateComment)
+    {
+        $this->updateComment = $updateComment;
+
+        return $this;
+    }
+
+    /**
+     * Get updateComment
+     *
+     * @return string 
+     */
+    public function getUpdateComment()
+    {
+        return $this->updateComment;
+    }
+
+    /**
+     * Set createUser
+     *
+     * @param \CAS\UserBundle\Entity\User $createUser
+     * @return Game
+     */
+    public function setCreateUser(\CAS\UserBundle\Entity\User $createUser)
+    {
+        $this->createUser = $createUser;
+
+        return $this;
+    }
+
+    /**
+     * Get createUser
+     *
+     * @return \CAS\UserBundle\Entity\User
+     */
+    public function getCreateUser()
+    {
+        return $this->createUser;
+    }
+
+    /**
+     * Set updateUser
+     *
+     * @param \CAS\UserBundle\Entity\User $updateUser
+     * @return Game
+     */
+    public function setUpdateUser(\CAS\UserBundle\Entity\User $updateUser = null)
+    {
+        $this->updateUser = $updateUser;
+
+        return $this;
+    }
+
+    /**
+     * Get updateUser
+     *
+     * @return \CAS\UserBundle\Entity\User
+     */
+    public function getUpdateUser()
+    {
+        return $this->updateUser;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Game
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Game
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set synopsis
+     *
+     * @param string $synopsis
+     * @return Game
+     */
+    public function setSynopsis($synopsis)
+    {
+        $this->synopsis = $synopsis;
+
+        return $this;
+    }
+
+    /**
+     * Get synopsis
+     *
+     * @return string 
+     */
+    public function getSynopsis()
+    {
+        return $this->synopsis;
+    }
+
+    /**
+     * Add gameMasters
+     *
+     * @param \CAS\UserBundle\Entity\User $gameMasters
+     * @return Game
+     */
+    public function addGameMaster(\CAS\UserBundle\Entity\User $gameMasters)
+    {
+        $this->gameMasters[] = $gameMasters;
+
+        return $this;
+    }
+
+    /**
+     * Remove gameMasters
+     *
+     * @param \CAS\UserBundle\Entity\User $gameMaster
+     */
+    public function removeGameMaster(\CAS\UserBundle\Entity\User $gameMaster)
+    {
+        $this->gameMasters->removeElement($gameMaster);
+    }
+
+    /**
+     * Get gameMasters
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGameMasters()
+    {
+        return $this->gameMasters;
+    }
+
+    /**
+     * Add characters
+     *
+     * @param \DnDInstance\CharacterBundle\Entity\CharacterUsed $character
+     * @return Game
+     */
+    public function addCharacter(\DnDInstance\CharacterBundle\Entity\CharacterUsed $character)
+    {
+        $this->characters[] = $character;
+
+        return $this;
+    }
+
+    /**
+     * Remove characters
+     *
+     * @param \DnDInstance\CharacterBundle\Entity\CharacterUsed $character
+     */
+    public function removeCharacter(\DnDInstance\CharacterBundle\Entity\CharacterUsed $character)
+    {
+        $this->characters->removeElement($character);
+    }
+
+    /**
+     * Get characters
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCharacters()
+    {
+        return $this->characters;
+    }
+
+    /**
+     * Add openRaces
+     *
+     * @param \DnDRules\RaceBundle\Entity\Race $openRace
+     * @return Game
+     */
+    public function addOpenRace(\DnDRules\RaceBundle\Entity\Race $openRace)
+    {
+        $this->openRaces[] = $openRace;
+
+        return $this;
+    }
+
+    /**
+     * Remove openRaces
+     *
+     * @param \DnDRules\RaceBundle\Entity\Race $openRace
+     */
+    public function removeOpenRace(\DnDRules\RaceBundle\Entity\Race $openRace)
+    {
+        $this->openRaces->removeElement($openRace);
+    }
+
+    /**
+     * Get openRaces
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOpenRaces()
+    {
+        return $this->openRaces;
+    }
+
+    /**
+     * Add openClasses
+     *
+     * @param \DnDRules\ClassDnDBundle\Entity\ClassDnD $openClasse
+     * @return Game
+     */
+    public function addOpenClass(\DnDRules\ClassDnDBundle\Entity\ClassDnD $openClasse)
+    {
+        $this->openClasses[] = $openClasse;
+
+        return $this;
+    }
+
+    /**
+     * Remove openClasses
+     *
+     * @param \DnDRules\ClassDnDBundle\Entity\ClassDnD $openClasse
+     */
+    public function removeOpenClass(\DnDRules\ClassDnDBundle\Entity\ClassDnD $openClasse)
+    {
+        $this->openClasses->removeElement($openClasse);
+    }
+
+    /**
+     * Get openClasses
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOpenClasses()
+    {
+        return $this->openClasses;
+    }
+}

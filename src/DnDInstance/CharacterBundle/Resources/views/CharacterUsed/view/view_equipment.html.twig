@@ -1,0 +1,76 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/view_gifts.html.twig #}
+<div class="row">
+    <div class="col-md-4">
+        <h3>Armes :</h3>
+        {% if allowEdit == true and profile == 'full' %}
+        <div role="tabpanel">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist" id="UserTab">
+                <li role="presentation" class="active"><a href="#weapon-view{{characterUsed.slug}}" aria-controls="weapon-view{{characterUsed.slug}}" role="tab" data-toggle="tab">Liste</a></li>
+                <li role="presentation"><a href="#weapon-add{{characterUsed.slug}}" aria-controls="weapon-add{{characterUsed.slug}}" role="tab" data-toggle="tab">Ajouter</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="weapon-view{{characterUsed.slug}}">
+                    {% include 'DnDInstanceCharacterBundle:CharacterUsed:view/equipment/view_equipment_weapon_view.html.twig' %}
+                </div>
+                <div role="tabpanel" class="tab-pane" id="weapon-add{{characterUsed.slug}}">
+                    {% include 'DnDInstanceCharacterBundle:CharacterUsed:view/equipment/view_equipment_weapon_add.html.twig' %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+            {% include 'DnDInstanceCharacterBundle:CharacterUsed:view/equipment/view_equipment_weapon_view.html.twig' %}
+        {% endif %}
+    </div>
+    <div class="col-md-4">
+        <h3>Armures/Bouclier :</h3>
+        {% if allowEdit == true and profile == 'full' %}
+        <div role="tabpanel">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist" id="UserTab">
+                <li role="presentation" class="active"><a href="#armor-view{{characterUsed.slug}}" aria-controls="armor-view{{characterUsed.slug}}" role="tab" data-toggle="tab">Liste</a></li>
+                <li role="presentation"><a href="#armor-add{{characterUsed.slug}}" aria-controls="armor-add{{characterUsed.slug}}" role="tab" data-toggle="tab">Ajouter</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="armor-view{{characterUsed.slug}}">
+                    {% include 'DnDInstanceCharacterBundle:CharacterUsed:view/equipment/view_equipment_armor_view.html.twig' %}
+                </div>
+                <div role="tabpanel" class="tab-pane" id="armor-add{{characterUsed.slug}}">
+                    {% include 'DnDInstanceCharacterBundle:CharacterUsed:view/equipment/view_equipment_armor_add.html.twig' %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+            {% include 'DnDInstanceCharacterBundle:CharacterUsed:view/equipment/view_equipment_armor_view.html.twig' %}
+        {% endif %}
+    </div>
+    
+    <div class="col-md-4">
+        <h3>Equipement :</h3>
+        {% if allowEdit == true and profile == 'full' %}
+        <div role="tabpanel">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist" id="UserTab">
+                <li role="presentation" class="active"><a href="#equipment-view{{characterUsed.slug}}" aria-controls="equipment-view{{characterUsed.slug}}" role="tab" data-toggle="tab">Liste</a></li>
+                <li role="presentation"><a href="#equipment-add{{characterUsed.slug}}" aria-controls="equipment-add{{characterUsed.slug}}" role="tab" data-toggle="tab">Ajouter</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="equipment-view{{characterUsed.slug}}">
+                    {% include 'DnDInstanceCharacterBundle:CharacterUsed:view/equipment/view_equipment_equipment_view.html.twig' %}
+                </div>
+                <div role="tabpanel" class="tab-pane" id="equipment-add{{characterUsed.slug}}">
+                    {% include 'DnDInstanceCharacterBundle:CharacterUsed:view/equipment/view_equipment_equipment_add.html.twig' %}
+                </div>
+            </div>
+        </div>
+        {% else %}
+            {% include 'DnDInstanceCharacterBundle:CharacterUsed:view/equipment/view_equipment_equipment_view.html.twig' %}
+        {% endif %}
+    </div>
+</div>

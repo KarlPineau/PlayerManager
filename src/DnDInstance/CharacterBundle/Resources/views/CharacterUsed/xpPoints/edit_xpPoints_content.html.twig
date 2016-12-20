@@ -1,0 +1,22 @@
+<form class="form-horizontal" method="post" {{ form_enctype(form) }} role="form">
+    {% if not form.vars.valid %}
+    <div class="alert alert-error">
+        <strong>Votre formulaire contient les erreurs suivantes :</strong>
+        {{ form_errors(form.increase) }}
+    </div>
+    <br />
+    {% endif %}
+
+    <fieldset>
+        <legend>XP de {{characterUsed.name}} :</legend>
+
+        <div class="form-group">
+            {{ form_label(form.increase, "Points :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-3">
+                {{ form_widget(form.increase, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+    </fieldset>
+    {{ form_rest(form) }}
+    <div class="text-center"><input type="submit" class="btn btn-default" /></div>
+</form>

@@ -1,0 +1,9 @@
+{# src/DnDRules/MonsterBundle/Resources/views/Monster/view.html.twig #}
+ 
+<ul>
+    <li>Initiative : {% if monster.initiative is not null %}{{monster.initiative}}{% else %}Valeur non renseignée{% endif %}</li>
+    <li>Modificateur de Lutte : {% if monster.grappleModifier is not null %}{{monster.grappleModifier}}{% else %}Valeur non renseignée{% endif %}</li>
+    <li>CA : {% if monster.ac is not null %}{{monster.ac}}{% else %}Valeur non renseignée{% endif %}</li>
+    <li>CA de Contact : {% if monster.touchAC is not null %}{{monster.touchAC}}{% else %}Valeur non renseignée{% endif %}</li>
+    <li>CA de Prise au dépourvu : {% if monster.ffAC is not null %}{{monster.ffAC}}{% else %}Valeur non renseignée{% endif %}</li>
+</ul>

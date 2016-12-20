@@ -1,0 +1,5 @@
+dndinstance_armor_armor_instanceforcharacter:
+    path:     /instance/armure/ajouter/{characterSlug}
+    defaults: { _controller: DnDInstanceArmorBundle:Armor:instanceForCharacter }
+    requirements:
+        characterSlug:  \S{0,255}

@@ -1,0 +1,142 @@
+{# src/DnDRules/SortBundle/Resources/views/Sort/register_content.html.twig #}
+
+<form class="form-horizontal" method="post" action="{{ path('dndrules_sort_sort_edit', {'slug': sort.slug}) }}" {{ form_enctype(form) }} role="form">
+    {% if not form.vars.valid %}
+    <div class="alert alert-error">
+        <strong>Votre formulaire contient les erreurs suivantes :</strong>
+        {{ form_errors(form) }}
+        {{ form_errors(form.name) }}
+        {{ form_errors(form.description) }}
+        {{ form_errors(form.composantes) }}
+        {{ form_errors(form.sortSchool) }}
+        {{ form_errors(form.sortSchoolPlugged) }}
+        {{ form_errors(form.sortSchoolRegistre) }}
+        {{ form_errors(form.castTime) }}
+        {{ form_errors(form.scope) }}
+        {{ form_errors(form.effect) }}
+        {{ form_errors(form.effectzone) }}
+        {{ form_errors(form.period) }}
+        {{ form_errors(form.jds) }}
+        {{ form_errors(form.target) }}
+        {{ form_errors(form.magicResistance) }}
+        {{ form_errors(form.updateComment) }}
+    </div>
+    <br />
+    {% endif %}
+
+    <fieldset>
+        <legend>Sort :</legend>
+
+        <div class="form-group">
+            {{ form_label(form.name, "Nom :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.name, {'attr': {'placeholder': 'Nom de votre Sort', 'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.composantes, "Composantes :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.composantes, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.sortSchool, "Ecole :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.sortSchool, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.sortSchoolPlugged, "Branches :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.sortSchoolPlugged, {'attr': {'placeholder': "Branches ouvertes pour cette école", 'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.sortSchoolRegistre, "Registres :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.sortSchoolRegistre, {'attr': {'placeholder': "Registres ouverts pour cette école", 'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.castTime, "Temps d'incantation :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.castTime, {'attr': {'placeholder': "Temps d'incantation du sort", 'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.scope, "Portée :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.scope, {'attr': {'placeholder': 'Portée de votre Sort', 'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.effect, "Effets :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.effect, {'attr': {'class': 'form-control', 'rows': '9'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.effectzone, "Zone d'Effet :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.effectzone, {'attr': {'placeholder': 'Zone dEffet de votre Sort', 'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            {{ form_label(form.period, "Durée :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.period, {'attr': {'placeholder': 'Durée de votre Sort', 'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.jds, "Jets de sauvegarde :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.jds, {'attr': {'placeholder': 'Jets de sauvegarde de votre Sort', 'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.target, "Cible :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.target, {'attr': {'placeholder': 'Cible de votre Sort', 'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.magicResistance, "Résistance à la magie :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.magicResistance, {'attr': {'placeholder': '', 'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+           <div class="col-md-3 control-label">
+                <span class="glyphicon glyphicon-question-sign" style="cursor: pointer;" data-content="La description de votre Sort sera utilisée comme texte descriptif de ce dernier sur sa page publique, accessible à tous." data-toggle="popover" data-container="body" data-original-title="Description" ></span>
+                {{ form_label(form.description, "Description :", {'label_attr': {'class': 'control-label'}}) }}
+            </div>
+            <div class="col-md-9">
+                {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': '9'}}) }}
+            </div>
+        </div>
+    </fieldset>
+        <hr />
+    <div class="form-group">
+        {{ form_label(form.updateComment, "Commentaire :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+        <div class="col-md-9">
+            {{ form_widget(form.updateComment, {'attr': {'placeholder': 'A propos de l\'édition', 'class': 'form-control'}}) }}
+        </div>
+    </div>
+        <br />
+    {{ form_rest(form) }}
+    <div class="text-center"><input type="submit" class="btn btn-default" /></div>
+</form>

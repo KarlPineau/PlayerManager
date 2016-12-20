@@ -1,0 +1,43 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/view_gifts.html.twig #}
+{% for sortsByClass in sortsByClasses %}
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4 class="panel-title">{{sortsByClass[0].name}}</h4>
+        </div>
+        <div class="panel-body">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                {% for sortsByLevel in sortsByClass[1] %}
+                    {% if sortsByLevel[0].level <= characterUsed.classDnDInstances[0].level.level %}
+                <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="heading{{characterUsed.slug}}{{sortsByLevel[0].level}}">
+                        <h5 class="panel-title">
+                            <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{characterUsed.slug}}{{sortsByLevel[0].level}}" aria-expanded="false" aria-controls="collapse{{characterUsed.slug}}{{sortsByLevel[0].level}}">
+                            Niveau {{sortsByLevel[0].level}} :
+                            </a>
+                        </h5>
+                    </div>
+                    <div id="collapse{{characterUsed.slug}}{{sortsByLevel[0].level}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading{{characterUsed.slug}}{{sortsByLevel[0].level}}">
+                        <div class="panel-body">
+                            <ul>
+                            {% for sort in sortsByLevel[1] %}
+                                <li>
+                                    <a href="{{path('dndrules_sort_sort_view', {'slug': sort.slug})}}" target="_blank">{{sort.name}}</a>
+                                    <span class="glyphicon glyphicon-question-sign" style="cursor: pointer;" 
+                                      data-content="{{sort.description}}" data-toggle="popover" data-container="body" 
+                                      data-original-title="{{sort.name}}" ></span>
+                                </li>
+                            {% else %}
+                                <li>Pas de sorts disponibles ...</li>
+                            {% endfor %}
+                            </ul> 
+                        </div>
+                    </div>
+                </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% else %}
+    Aucun sort pour votre personnage :(.
+{% endfor %}

@@ -1,0 +1,34 @@
+pm_home_home_index:
+    path:     /
+    defaults: { _controller: PMHomeBundle:Home:index }
+
+# -- DiceType -- #
+pm_dicetype_administration_home:
+    path:     /administration/dés
+    defaults: { _controller: PMHomeBundle:DiceType:index }
+
+pm_dicetype_administration_insert:
+    path:     /administration/dés/insertion
+    defaults: { _controller: PMHomeBundle:DiceType:register }
+
+pm_dicetype_administration_list:
+    path:     /administration/dés/liste
+    defaults: { _controller: PMHomeBundle:DiceType:list }
+    
+pm_dicetype_administration_view:
+    path:     /administration/dés/vue/{dicetype_id}
+    defaults: { _controller: PMHomeBundle:DiceType:view }
+    requirements:
+        dicetype_id:  \S{0,255}
+    
+pm_dicetype_administration_edit:
+    path:     /administration/dés/editer/{dicetype_id}
+    defaults: { _controller: PMHomeBundle:DiceType:edit }
+    requirements:
+        dicetype_id:  \S{0,255}
+    
+pm_dicetype_administration_delete:
+    path:     /administration/dés/supprimer/{dicetype_id}
+    defaults: { _controller: PMHomeBundle:DiceType:delete }
+    requirements:
+        dicetype_id:  \S{0,255}

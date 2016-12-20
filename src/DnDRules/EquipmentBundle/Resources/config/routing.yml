@@ -1,0 +1,26 @@
+# -- Equipment -- #
+dndrules_equipment_equipment_home:
+    path:     /equipements
+    defaults: { _controller: DnDRulesEquipmentBundle:Equipment:index }
+
+dndrules_equipment_equipment_insert:
+    path:     /equipement/insertion
+    defaults: { _controller: DnDRulesEquipmentBundle:Equipment:register }
+    
+dndrules_equipment_equipment_view:
+    path:     /equipement/vue/{slug}
+    defaults: { _controller: DnDRulesEquipmentBundle:Equipment:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_equipment_equipment_edit:
+    path:     /equipement/editer/{slug}
+    defaults: { _controller: DnDRulesEquipmentBundle:Equipment:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_equipment_equipment_delete:
+    path:     /equipement/supprimer/{slug}
+    defaults: { _controller: DnDRulesEquipmentBundle:Equipment:delete }
+    requirements:
+        slug:  \S{0,255}

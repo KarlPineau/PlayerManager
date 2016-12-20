@@ -1,0 +1,36 @@
+{# src/PM/CharacterBundle/Resources/views/DiceType/view.html.twig #}
+ 
+{% extends "PMHomeBundle:DiceType:layoutAdmin.html.twig" %}
+
+{% block title %}
+    Dé de {{ dicetype.dice }} - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    Dé de {{ dicetype.dice }} :
+{% endblock %}
+    
+{% block h1_extend %}
+    <a class="btn btn-lg btn-primary" href="{{ path('pm_dicetype_administration_edit', {'dicetype_id': dicetype.id}) }}" >Modifier</a>
+    <a class="btn btn-lg btn-danger main-JS-delete" href="{{ path('pm_dicetype_administration_delete', {'dicetype_id': dicetype.id}) }}" >Supprimer</a>
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Dé de {{dicetype.dice}}</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <h2>Texte descriptif</h2>
+        <div class="alert alert-warning" role="alert">Aucune description fournie pour ce dé.</div>
+    </section>
+</div>
+{% endblock %}

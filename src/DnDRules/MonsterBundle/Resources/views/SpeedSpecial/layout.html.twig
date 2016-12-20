@@ -1,0 +1,27 @@
+{# src/DnDRules/MonsterBundle/Resources/views/SpeedSpecial/layoutAdmin.html.twig #}
+ 
+{% if is_granted('ROLE_ADMIN') %}{% set extends = "::admin.html.twig" %}
+{% else %}{% set extends = "::public.html.twig" %}{% endif %}
+{% extends extends %}
+
+{% block title %}
+    Mode de Déplacement - {{ parent() }}
+{% endblock %}
+
+{% block follow %}
+    <meta name="robots" content="noindex,nofollow" />
+{% endblock %}
+    
+{% block breadcrumb %}
+    {{ parent() }}
+    {% if app.request.get('_route') == 'dndrules_monster_speedspecial_home' %}
+        <li class="active">Modes de Déplacement</li>
+    {% else %}
+        <li><a href="{{ path('dndrules_monster_speedspecial_home') }}">Modes de Déplacement</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {% block PM_body %}
+    {% endblock %}
+{% endblock %}

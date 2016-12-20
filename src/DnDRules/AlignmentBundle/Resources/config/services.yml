@@ -1,0 +1,4 @@
+services:
+    dndrules_alignment.deletealignment:
+        class: DnDRules\AlignmentBundle\Service\deleteAlignment
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]

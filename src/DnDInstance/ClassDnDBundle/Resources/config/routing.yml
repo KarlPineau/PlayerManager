@@ -1,0 +1,3 @@
+dn_d_instance_class_dn_d_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: DnDInstanceClassDnDBundle:Default:index }

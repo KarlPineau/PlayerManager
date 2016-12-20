@@ -1,0 +1,18 @@
+{# src/Game/GameBundle/Resources/views/Game/view/view_players.html.twig #}
+<div role="tabpanel">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist" id="UserTab">
+        {% for character in game.characters %}
+        <li role="presentation" {% if loop.index == 1 %}class="active"{%endif%}><a href="#{{character.slug}}" aria-controls="{{character.slug}}" role="tab" data-toggle="tab">{{character.name}}</a></li>
+        {% endfor %}
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        {% for character in game.characters %}
+        <div role="tabpanel" class="tab-pane {% if loop.index == 1 %}active{%endif%}" id="{{character.slug}}">
+            {{ render(controller('DnDInstanceCharacterBundle:CharacterUsed:view', {'slug': character.slug, 'inline' : true, 'profile': 'short'})) }}
+        </div>
+        {% endfor %}
+    </div>
+</div>

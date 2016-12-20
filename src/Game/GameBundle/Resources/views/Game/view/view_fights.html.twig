@@ -1,0 +1,30 @@
+{# src/Game/GameBundle/Resources/views/Game/view/view_fights.html.twig #}
+<div role="tabpanel">
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist" id="FightTab">
+        <li role="presentation" class="active"><a href="#fights-list" aria-controls="fights-list" role="tab" data-toggle="tab">Liste</a></li>
+        <li role="presentation"><a href="#fights-add" aria-controls="fights-add" role="tab" data-toggle="tab">Ajouter</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane active" id="fights-list">
+            {{ render(controller('DnDInstanceFightBundle:Fight:listForGame', {'slug': game.slug})) }}
+        </div>
+        <div role="tabpanel" class="tab-pane" id="fights-add">
+            {{ render(controller('DnDInstanceFightBundle:Fight:generate', {'slug': game.slug})) }}
+        </div>
+    </div>
+</div>
+        
+{#
+Etape : 
+- 1 : génération d'une entité Fight
+- 2 : On y ajoute une liste de personnages et PNJ impliqués
+- 3 : On récupère les initatives de tout le monde / Pour les PNJ, tiré au sort
+- 4 : On détermine les armes des PNJ
+
+- On affiche la liste dans l'ordre des Initiatives
+- Pour chaque personnage, on affiche l'initiative
+- Pour les PNJ, on affiche l'arme
+#}

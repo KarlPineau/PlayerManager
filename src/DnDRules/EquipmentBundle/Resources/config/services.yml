@@ -1,0 +1,4 @@
+services:
+    dndrulesequipment.equipmentaction:
+        class: DnDRules\EquipmentBundle\Service\equipmentAction
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]

@@ -1,0 +1,4 @@
+services:
+    dndrules_level.deletelevel:
+        class: DnDRules\LevelBundle\Service\deleteLevel
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]

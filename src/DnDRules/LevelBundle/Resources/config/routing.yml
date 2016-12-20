@@ -1,0 +1,26 @@
+# -- Level -- #
+dndrules_level_level_home:
+    path:     /niveaux
+    defaults: { _controller: DnDRulesLevelBundle:Level:index }
+
+dndrules_level_level_insert:
+    path:     /niveau/insertion
+    defaults: { _controller: DnDRulesLevelBundle:Level:register }
+
+dndrules_level_level_view:
+    path:     /niveau/vue/{level}
+    defaults: { _controller: DnDRulesLevelBundle:Level:view }
+    requirements:
+        level:  \S{0,255}
+    
+dndrules_level_level_edit:
+    path:     /niveau/editer/{level}
+    defaults: { _controller: DnDRulesLevelBundle:Level:edit }
+    requirements:
+        level:  \S{0,255}
+    
+dndrules_level_level_delete:
+    path:     /niveau/supprimer/{level}
+    defaults: { _controller: DnDRulesLevelBundle:Level:delete }
+    requirements:
+        level:  \S{0,255}

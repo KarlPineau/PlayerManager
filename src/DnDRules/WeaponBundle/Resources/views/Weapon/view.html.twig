@@ -1,0 +1,83 @@
+{# src/DnDRules/WeaponBundle/Resources/views/Weapon/view.html.twig #}
+ 
+{% extends "DnDRulesWeaponBundle:Weapon:layout.html.twig" %}
+
+{% block title %}
+    {{ weapon.name }} - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    {{ weapon.name }} :
+{% endblock %}
+    
+{% block h1_extend %}
+    {% if is_granted('ROLE_ADMIN') %}
+    <a class="btn btn-lg btn-primary" href="{{ path('dndrules_weapon_weapon_edit', {'slug': weapon.slug}) }}" >Modifier</a>
+    <a class="btn btn-lg btn-danger main-JS-delete" href="{{ path('dndrules_weapon_weapon_delete', {'slug': weapon.slug}) }}" >Supprimer</a>
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">{{weapon.name}}</li>
+    <li class="active">Voir</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="row">
+            <div class="col-md-6">
+                
+            </div>
+            <div class="col-md-6">
+                <h2>Informations :</h2>
+                <ul>
+                    <li>Prix : {% if weapon.price is not empty %}{{weapon.price}}{% endif %}</li>
+                    <li>Facteur de portée : {% if weapon.scope is not empty %}{{weapon.scope}}{% endif %}</li>
+                    <li>Poids : {% if weapon.weight is not empty %}{{weapon.weight}}{% endif %}</li>
+                    <li>Type d'Arme : {% if weapon.weaponType is not empty %}{{weapon.weaponType.name}}{% endif %}</li>
+                    <li>Catégorie d'Arme : {% if weapon.weaponCategory is not empty %}{{weapon.weaponCategory}}{% endif %}</li>
+                    <li>Nombre de mains nécessaires : {% if weapon.handsNumber is not empty %}{{weapon.handsNumber}}{% endif %}</li>
+                    <li>Dommages :
+                        <ul>
+                        {% for damageWeapon in weapon.damages %}
+                            <li>
+                            {{damageWeapon.size.name}} :
+                            {% for damage in damageWeapon.damages %}
+                                {% for diceEntity in damage.diceEntities %}
+                                    {{ diceEntity.diceNumber }}d{{diceEntity.diceType.dice}}
+                                {% else %}
+                                    diceEntity vide
+                                {% endfor %}
+                                {% for bonusNumber in damage.bonusNumbers %}
+                                    (Bonus : {{ bonusNumber.value }})
+                                {% else %}
+                                    bonusNumber vide
+                                {% endfor %}
+                            {% else %}
+                                diceForm vide
+                            {% endfor %}
+                            </li>
+                        {% else %}
+                            <li>Pas de dommages renseignés</li>
+                        {% endfor %}
+                        </ul>
+                    </li>
+                    <li>Critique : 
+                        {% for critical in weapon.criticals %}
+                            {{critical.rangeCriticalBegin}}-{{critical.rangeCriticalEnd}} : x{{critical.multiplier}}
+                        {% endfor %}
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

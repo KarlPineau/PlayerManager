@@ -1,0 +1,259 @@
+<?php
+
+namespace DnDRules\MonsterBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+/**
+ * Monster
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="DnDRules\MonsterBundle\Entity\MonsterRepository")
+ * 
+ * @UniqueEntity(fields="name", message="Un monstre semble déjà porter ce nom ...")
+ */
+class Monster
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = "1",
+     *      max = "45",
+     *      minMessage = "Votre nom doit faire au moins {{ limit }} caractères",
+     *      maxMessage = "Votre nom ne peut pas être plus long que {{ limit }} caractères"
+     * )
+     *
+     * @ORM\Column(name="name", type="string", length=45)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(name="slug", type="string", length=255, nullable=false, unique=true)
+     */
+    private $slug;
+    
+    /**
+     * @var string
+     * @Assert\Length(
+     *      max = "10000",
+     *      maxMessage = "Votre description ne doit pas dépasser {{ limit }} caractères."
+     * )
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PM\WelcomeBundle\Entity\DiceForm", mappedBy="monsterHpForm", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $hpForm;
+
+    /**
+     * @var integer
+     * @Assert\NotBlank()
+     *
+     * @ORM\Column(name="hpAverage", type="smallint", options={"default" = 0}, nullable=true)
+     */
+    private $hpAverage;
+
+    /**
+     * @var integer
+     * @Assert\NotBlank()
+     *
+     * @ORM\Column(name="grappleModifier", type="smallint", nullable=false, options={"default" = 0})
+     */
+    private $grappleModifier;
+
+    /**
+     * @var integer
+     * @Assert\NotBlank()
+     *
+     * @ORM\Column(name="ac", type="smallint", nullable=false, options={"default" = 0})
+     */
+    private $ac;
+
+    /**
+     * @var integer
+     * @Assert\NotBlank()
+     *
+     * @ORM\Column(name="ffAC", type="smallint", nullable=true, options={"default" = 0})
+     */
+    private $ffAC;
+
+    /**
+     * @var integer
+     * @Assert\NotBlank()
+     *
+     * @ORM\Column(name="touchAC", type="smallint", nullable=true, options={"default" = 0})
+     */
+    private $touchAC;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Range(
+     *      min = "1",
+     *      minMessage = "Votre monstre ne peut pas avoir une vitesse négative ou nulle."
+     * )
+     *
+     * @ORM\Column(name="speed", type="float", nullable=true)
+     */
+    private $speed;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Range(
+     *      min = "0",
+     *      minMessage = "Votre monstre ne peut pas avoir une taille négative."
+     * )
+     *
+     * @ORM\Column(name="spaceOccupied", type="float", nullable=true)
+     */
+    private $spaceOccupied;
+
+    /**
+     * @Assert\NotBlank()
+     * @Assert\Range(
+     *      min = "0",
+     *      minMessage = "Votre monstre ne peut pas avoir un espace d'influence négatif."
+     * )
+     *
+     * @ORM\Column(name="areaLying", type="float", nullable=true)
+     */
+    private $areaLying;
+
+    /**
+     * @var integer
+     * @Assert\NotBlank()
+     *
+     * @ORM\Column(name="initiative", type="smallint", nullable=false, options={"default" = 0})
+     */
+    private $initiative;
+
+    /**
+     * @var string
+     * @Assert\Length(
+     *      max = "10000",
+     *      maxMessage = "Votre Organisation Sociale ne doit pas dépasser {{ limit }} caractères."
+     * )
+     *
+     * @ORM\Column(name="socialOrganisation", type="text", nullable=true)
+     */
+    private $socialOrganisation;
+
+    /**
+     * @var integer
+     * @Assert\NotBlank()
+     *
+     * @ORM\Column(name="powerfullFactor", type="smallint", nullable=true, options={"default" = 0})
+     */
+    private $powerfullFactor;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="DnDRules\GiftBundle\Entity\Gift")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $gifts;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="DnDRules\LanguageBundle\Entity\Language")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $languages;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="DnDRules\AlignmentBundle\Entity\Alignment")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $alignment;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="DnDRules\MonsterBundle\Entity\Environment")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $environment;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DnDRules\MonsterBundle\Entity\SpeedSpecialInstance", mappedBy="monsterSpeedSpecialInstances", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $speedSpecialInstances;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DnDRules\MonsterBundle\Entity\MonsterSkillInstance", mappedBy="monsterSkillInstances", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $skillInstances;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DnDRules\MonsterBundle\Entity\MonsterAbilityInstance", mappedBy="monsterAbilityInstances", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $abilityInstances;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $createUser;
+
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="createDate", type="datetime", nullable=false)
+     */
+    protected $createDate;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $updateUser;
+
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="updateDate", type="datetime", nullable=true)
+     */
+    protected $updateDate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="updateComment", type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = "255",
+     *      maxMessage = "Le commentaire ne doit pas dépasser {{ limit }} caractères."
+     * )
+     */
+    protected $updateComment;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+}

@@ -1,0 +1,134 @@
+# -- Monstres -- #
+dndrules_monster_monster_home:
+    path:     /monstres
+    defaults: { _controller: DnDRulesMonsterBundle:Monster:index }
+
+dndrules_monster_monster_insert:
+    path:     /monstres/insertion
+    defaults: { _controller: DnDRulesMonsterBundle:Monster:register }
+    
+dndrules_monster_monster_view:
+    path:     /monstres/vue/{slug}
+    defaults: { _controller: DnDRulesMonsterBundle:Monster:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_monster_monster_edit:
+    path:     /monstres/editer/{slug}
+    defaults: { _controller: DnDRulesMonsterBundle:Monster:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_monster_monster_delete:
+    path:     /monstres/supprimer/{slug}
+    defaults: { _controller: DnDRulesMonsterBundle:Monster:delete }
+    requirements:
+        slug:  \S{0,255}
+        
+# -- Environnement -- #
+dndrules_monster_environment_home:
+    path:     /environnements
+    defaults: { _controller: DnDRulesMonsterBundle:Environment:index }
+
+dndrules_monster_environment_insert:
+    path:     /environnements/insertion
+    defaults: { _controller: DnDRulesMonsterBundle:Environment:register }
+    
+dndrules_monster_environment_view:
+    path:     /environnements/vue/{slug}
+    defaults: { _controller: DnDRulesMonsterBundle:Environment:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_monster_environment_edit:
+    path:     /environnements/editer/{slug}
+    defaults: { _controller: DnDRulesMonsterBundle:Environment:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_monster_environment_delete:
+    path:     /environnements/supprimer/{slug}
+    defaults: { _controller: DnDRulesMonsterBundle:Environment:delete }
+    requirements:
+        slug:  \S{0,255}
+        
+# -- MonsterType -- #
+dndrules_monster_monstertype_home:
+    path:     /monstre-types
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterType:index }
+
+dndrules_monster_monstertype_insert:
+    path:     /monstre-types/insertion
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterType:register }
+    
+dndrules_monster_monstertype_view:
+    path:     /monstre-types/vue/{slug}
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterType:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_monster_monstertype_edit:
+    path:     /monstre-types/editer/{slug}
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterType:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_monster_monstertype_delete:
+    path:     /monstre-types/supprimer/{slug}
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterType:delete }
+    requirements:
+        slug:  \S{0,255}
+        
+# -- MonsterSubType -- #
+dndrules_monster_monstersubtype_home:
+    path:     /monstre-sous-types
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterSubType:index }
+
+dndrules_monster_monstersubtype_insert:
+    path:     /monstre-sous-types/insertion
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterSubType:register }
+    
+dndrules_monster_monstersubtype_view:
+    path:     /monstre-sous-types/vue/{slug}
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterSubType:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_monster_monstersubtype_edit:
+    path:     /monstre-sous-types/editer/{slug}
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterSubType:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_monster_monstersubtype_delete:
+    path:     /monstre-sous-types/supprimer/{slug}
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterSubType:delete }
+    requirements:
+        slug:  \S{0,255}
+        
+# -- Déplacement en milieu spécial -- #
+dndrules_monster_speedspecial_home:
+    path:     /deplacements
+    defaults: { _controller: DnDRulesMonsterBundle:SpeedSpecial:index }
+
+dndrules_monster_speedspecial_insert:
+    path:     /deplacements/insertion
+    defaults: { _controller: DnDRulesMonsterBundle:SpeedSpecial:register }
+    
+dndrules_monster_speedspecial_view:
+    path:     /deplacements/vue/{slug}
+    defaults: { _controller: DnDRulesMonsterBundle:SpeedSpecial:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_monster_speedspecial_edit:
+    path:     /deplacements/editer/{slug}
+    defaults: { _controller: DnDRulesMonsterBundle:SpeedSpecial:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_monster_speedspecial_delete:
+    path:     /deplacements/supprimer/{slug}
+    defaults: { _controller: DnDRulesMonsterBundle:SpeedSpecial:delete }
+    requirements:
+        slug:  \S{0,255}

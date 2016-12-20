@@ -1,0 +1,5 @@
+dndinstance_weapon_weapon_instanceforcharacter:
+    path:     /instance/arme/ajouter/{characterSlug}
+    defaults: { _controller: DnDInstanceWeaponBundle:Weapon:instanceForCharacter }
+    requirements:
+        characterSlug:  \S{0,255}

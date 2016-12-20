@@ -1,0 +1,36 @@
+{# src/PM/ImportationBundle/Resources/views/Document/process.html.twig #}
+ 
+{% extends "PMImportationBundle:Document:layoutAdmin.html.twig" %}
+
+{% block title %}
+    Traitement - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    Traitement :
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Traitement</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <a href="{{path('pm_administration_home_index')}}" class="btn btn-success">Retour à l'accueil de l'administration</a>
+    </section>
+</div>
+{% endblock %}
+    
+{% block javascripts_block %}
+    {% javascripts  '@PMImportationBundle/Resources/public/js/*'  %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

@@ -1,0 +1,27 @@
+{# src/DnDRules/AbilityBundle/Resources/views/Ability/layoutAdmin.html.twig #}
+
+{% if is_granted('ROLE_ADMIN') %}{% set extends = "::admin.html.twig" %}
+{% else %}{% set extends = "::public.html.twig" %}{% endif %}
+{% extends extends %}
+
+{% block title %}
+    Caractéristiques - {{ parent() }}
+{% endblock %}
+
+{% block follow %}
+    <meta name="robots" content="noindex,nofollow" />
+{% endblock %}
+    
+{% block breadcrumb %}
+    {{ parent() }}
+    {% if app.request.get('_route') == 'dndrules_ability_administration_home' %}
+        <li class="active">Caractéristiques</li>
+    {% else %}
+        <li><a href="{{ path('dndrules_ability_administration_home') }}">Caractéristiques</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {% block PM_body %}
+    {% endblock %}
+{% endblock %}

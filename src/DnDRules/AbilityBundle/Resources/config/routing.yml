@@ -1,0 +1,26 @@
+# -- Ability -- #
+dndrules_ability_ability_home:
+    path:     /caractéristiques
+    defaults: { _controller: DnDRulesAbilityBundle:Ability:index }
+
+dndrules_ability_ability_insert:
+    path:     /caractéristiques/insertion
+    defaults: { _controller: DnDRulesAbilityBundle:Ability:register }
+    
+dndrules_ability_ability_view:
+    path:     /caractéristiques/vue/{slug}
+    defaults: { _controller: DnDRulesAbilityBundle:Ability:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_ability_ability_edit:
+    path:     /caractéristiques/editer/{slug}
+    defaults: { _controller: DnDRulesAbilityBundle:Ability:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_ability_ability_delete:
+    path:     /caractéristiques/supprimer/{slug}
+    defaults: { _controller: DnDRulesAbilityBundle:Ability:delete }
+    requirements:
+        slug:  \S{0,255}

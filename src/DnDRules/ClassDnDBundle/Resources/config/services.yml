@@ -1,0 +1,9 @@
+services:
+    dndrules_classdnd.classdndaction:
+        class: DnDRules\ClassDnDBundle\Service\classDnDAction
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]
+        
+    dndrules_classdnd.deleteclassdnd:
+        class: DnDRules\ClassDnDBundle\Service\deleteClassDnD
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]
+        

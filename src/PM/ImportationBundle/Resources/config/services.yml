@@ -1,0 +1,4 @@
+services:
+    pm_importation.documentaction:
+        class: PM\ImportationBundle\Service\documentAction
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]

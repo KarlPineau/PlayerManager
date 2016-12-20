@@ -1,0 +1,41 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/register.html.twig #}
+ 
+{% extends "DnDInstanceCharacterBundle:CharacterUsed:layout.html.twig" %}
+
+{% block title %}
+    Nouveau Personnage - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    Nouveau Personnage
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Nouveau Personnage</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-8">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="well">
+            {% include "DnDInstanceCharacterBundle:CharacterUsed:Register/register_content.html.twig" %}
+        </div>
+    </section>
+    <aside class="col-lg-4">
+        Ici, contrôle live des infos ?
+    </aside>
+</div>
+{% endblock %}
+    
+{% block javascripts_block %}
+    {% javascripts '@DnDInstanceCharacterBundle/Resources/public/js/registerCharacterUsed.js'  %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

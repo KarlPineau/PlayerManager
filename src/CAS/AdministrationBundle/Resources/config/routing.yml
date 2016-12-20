@@ -1,0 +1,16 @@
+cas_administration_user_index:
+    path:     /utilisateurs
+    defaults: { _controller: CASAdministrationBundle:User:index }
+
+cas_administration_user_view:
+    path:     /utilisateur/voir/{id}
+    defaults: { _controller: CASAdministrationBundle:User:view }
+    requirements:
+        id:  \d+
+
+cas_administration_user_remove:
+    path:     /utilisateur/supprimer/{id}
+    defaults: { _controller: CASAdministrationBundle:User:remove }
+    requirements:
+        id:  \d+
+

@@ -1,0 +1,68 @@
+<?php
+
+namespace PM\WelcomeBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * DiceForm
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="PM\WelcomeBundle\Entity\DiceFormRepository")
+ */
+class DiceForm
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PM\WelcomeBundle\Entity\DiceEntity", mappedBy="diceForm", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $diceEntities;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PM\WelcomeBundle\Entity\BonusNumber", mappedBy="diceForm", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $bonusNumbers;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="DnDRules\WeaponBundle\Entity\WeaponDamage", inversedBy="damages")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $weaponDamage;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="DnDRules\MonsterBundle\Entity\Monster", inversedBy="hpForm")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $monsterHpForm;
+
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="createDate", type="datetime", nullable=false)
+     */
+    protected $createDate;
+    
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+}

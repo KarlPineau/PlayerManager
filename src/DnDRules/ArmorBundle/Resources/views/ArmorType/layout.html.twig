@@ -1,0 +1,23 @@
+{# src/DnDRules/HomeBundle/Resources/views/ArmorType/layoutAdmin.html.twig #}
+ 
+{% if is_granted('ROLE_ADMIN') %}{% set extends = "::admin.html.twig" %}
+{% else %}{% set extends = "::public.html.twig" %}{% endif %}
+{% extends extends %}
+
+{% block title %}
+    Caractéristiques - {{ parent() }}
+{% endblock %}
+
+{% block follow %}
+    <meta name="robots" content="noindex,nofollow" />
+{% endblock %}
+    
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('dndrules_armortype_administration_home') }}">Armures</a></li>
+{% endblock %}
+
+{% block body %}
+    {% block PM_body %}
+    {% endblock %}
+{% endblock %}

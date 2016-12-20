@@ -1,0 +1,21 @@
+{# src/PM/HomeBundle/Resources/views/DiceType/layoutAdmin.html.twig #}
+ 
+{% extends "::admin.html.twig" %}
+
+{% block title %}
+    Dés - {{ parent() }}
+{% endblock %}
+
+{% block follow %}
+    <meta name="robots" content="noindex,nofollow" />
+{% endblock %}
+    
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('pm_dicetype_administration_home') }}">Dés</a></li>
+{% endblock %}
+
+{% block body %}
+    {% block PM_body %}
+    {% endblock %}
+{% endblock %}

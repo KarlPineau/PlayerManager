@@ -1,0 +1,3 @@
+pm_administration_home_index:
+    path:     /
+    defaults: { _controller: PMAdministrationBundle:Home:index }

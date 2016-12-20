@@ -1,0 +1,41 @@
+{# src/PM/AlignmentBundle/Resources/views/Alignment/register.html.twig #}
+ 
+{% extends "DnDRulesAlignmentBundle:Alignment:layout.html.twig" %}
+
+{% block title %}
+    Alignement - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    Alignement
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Insertion</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-8">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="well">
+            {% include "DnDRulesAlignmentBundle:Alignment:Register/register_content.html.twig" %}
+        </div>
+    </section>
+    <aside class="col-lg-4">
+        Ici, contrôle live des infos ?
+    </aside>
+</div>
+{% endblock %}
+    
+{% block javascripts_block %}
+    {% javascripts  '@DnDRulesAlignmentBundle/Resources/public/js/*'  %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

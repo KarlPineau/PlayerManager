@@ -1,0 +1,31 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/layoutAdmin.html.twig #}
+
+{% if is_granted('ROLE_ADMIN') %}{% set extends = "::admin.html.twig" %}
+{% else %}{% set extends = "::public.html.twig" %}{% endif %}
+{% extends extends %}
+
+{% block title %}
+    Personnages - {{ parent() }}
+{% endblock %}
+
+{% block follow %}
+    <meta name="robots" content="noindex,nofollow" />
+{% endblock %}
+    
+{% block breadcrumb %}
+    {{ parent() }}
+    {% if app.request.get('_route') == 'dndinstance_characterused_characterused_home' %}
+        <li class="active">Personnages</li>
+    {% else %}
+        <li><a href="{{ path('dndinstance_characterused_characterused_home') }}">Personnages</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {% block PM_body %}
+    {% endblock %}
+{% endblock %}
+
+{% block javascripts_block %}
+    {{ parent() }}
+{% endblock %}

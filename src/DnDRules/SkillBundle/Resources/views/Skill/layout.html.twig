@@ -1,0 +1,27 @@
+{# src/DnDRules/SkillBundle/Resources/views/Skill/layoutAdmin.html.twig #}
+ 
+{% if is_granted('ROLE_ADMIN') %}{% set extends = "::admin.html.twig" %}
+{% else %}{% set extends = "::public.html.twig" %}{% endif %}
+{% extends extends %}
+
+{% block title %}
+    Compétences - {{ parent() }}
+{% endblock %}
+
+{% block follow %}
+    <meta name="robots" content="noindex,nofollow" />
+{% endblock %}
+    
+{% block breadcrumb %}
+    {{ parent() }}
+    {% if app.request.get('_route') == 'dndrules_skill_skill_home' %}
+        <li class="active">Compétences</li>
+    {% else %}
+        <li><a href="{{ path('dndrules_skill_skill_home') }}">Compétences</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {% block PM_body %}
+    {% endblock %}
+{% endblock %}

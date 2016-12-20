@@ -1,0 +1,38 @@
+# -- ClassDnD -- #
+dndrules_classdnd_classdnd_home:
+    path:     /classes
+    defaults: { _controller: DnDRulesClassDnDBundle:ClassDnD:index }
+
+dndrules_classdnd_classdnd_insert:
+    path:     /classe/insertion
+    defaults: { _controller: DnDRulesClassDnDBundle:ClassDnD:register }
+
+dndrules_classdnd_classdnd_view:
+    path:     /classe/vue/{slug}
+    defaults: { _controller: DnDRulesClassDnDBundle:ClassDnD:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_classdnd_classdnd_edit_bab:
+    path:     /classe/editer/bab/{slug}
+    defaults: { _controller: DnDRulesClassDnDBundle:ClassDnD:editBAB }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_classdnd_classdnd_edit_st:
+    path:     /classe/editer/st/{slug}
+    defaults: { _controller: DnDRulesClassDnDBundle:ClassDnD:editST }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_classdnd_classdnd_edit:
+    path:     /classe/editer/{slug}
+    defaults: { _controller: DnDRulesClassDnDBundle:ClassDnD:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_classdnd_classdnd_delete:
+    path:     /classe/supprimer/{slug}
+    defaults: { _controller: DnDRulesClassDnDBundle:ClassDnD:delete }
+    requirements:
+        slug:  \S{0,255}

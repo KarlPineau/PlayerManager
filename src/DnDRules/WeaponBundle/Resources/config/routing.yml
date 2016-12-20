@@ -1,0 +1,53 @@
+# -- WeaponType -- #
+dndrules_weapon_weapontype_home:
+    path:     /armes/types
+    defaults: { _controller: DnDRulesWeaponBundle:WeaponType:index }
+
+dndrules_weapon_weapontype_insert:
+    path:     /armes/types/insertion
+    defaults: { _controller: DnDRulesWeaponBundle:WeaponType:register }
+    
+dndrules_weapon_weapontype_view:
+    path:     /armes/types/vue/{slug}
+    defaults: { _controller: DnDRulesWeaponBundle:WeaponType:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_weapon_weapontype_edit:
+    path:     /armes/types/editer/{slug}
+    defaults: { _controller: DnDRulesWeaponBundle:WeaponType:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_weapon_weapontype_delete:
+    path:     /armes/types/supprimer/{slug}
+    defaults: { _controller: DnDRulesWeaponBundle:WeaponType:delete }
+    requirements:
+        slug:  \S{0,255}
+
+# -- Weapon -- #
+dndrules_weapon_weapon_home:
+    path:     /armes
+    defaults: { _controller: DnDRulesWeaponBundle:Weapon:index }
+
+dndrules_weapon_weapon_insert:
+    path:     /armes/insertion
+    defaults: { _controller: DnDRulesWeaponBundle:Weapon:register }
+    
+dndrules_weapon_weapon_view:
+    path:     /armes/vue/{slug}
+    defaults: { _controller: DnDRulesWeaponBundle:Weapon:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_weapon_weapon_edit:
+    path:     /armes/editer/{slug}
+    defaults: { _controller: DnDRulesWeaponBundle:Weapon:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_weapon_weapon_delete:
+    path:     /armes/supprimer/{slug}
+    defaults: { _controller: DnDRulesWeaponBundle:Weapon:delete }
+    requirements:
+        slug:  \S{0,255}

@@ -1,0 +1,44 @@
+{% extends "DnDInstanceCharacterBundle:CharacterUsed:layout.html.twig" %}
+
+{% block title %}
+    {{ characterUsed.name }} - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    {{ characterUsed.name }}
+{% endblock %}
+
+{% if app.user == characterUsed.user or is_granted('ROLE_ADMIN') %}
+    {% set allowEdit = true %}
+{% else %}
+    {% set allowEdit = false %}
+{% endif %}
+
+{% block h1_extend %}
+    {% if allowEdit == true %}
+    <div class="btn-group">
+        <a class="btn btn-primary" href="{{ path('dndinstance_characterused_characterused_edit', {'slug': characterUsed.slug}) }}" >Modifier</a>
+        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li><a href="{{ path('dndinstance_characterused_characterused_edit_hpcurrent', {'slug': characterUsed.slug}) }}" >PV</a></li>
+            <li><a href="{{ path('dndinstance_characterused_characterused_edit_xppoints', {'slug': characterUsed.slug}) }}" >XP</a></li>
+            <li><a href="{{ path('dndinstance_characterused_characterused_edit_abilities', {'slug': characterUsed.slug}) }}" >Cara.</a></li>
+            <li><a href="{{ path('dndinstance_characterused_characterused_edit_skills', {'slug': characterUsed.slug}) }}" >Comp.</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a class="bg-danger main-JS-delete" href="{{ path('dndinstance_characterused_characterused_delete', {'slug': characterUsed.slug}) }}"><i class="fa fa-trash" aria-hidden="true"></i>Supprimer</a></li>
+        </ul>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">{{characterUsed.name}}</li>
+{% endblock %} 
+
+{% block PM_body %}
+    {% include 'DnDInstanceCharacterBundle:CharacterUsed:view/view_content.html.twig' %}
+{% endblock %}

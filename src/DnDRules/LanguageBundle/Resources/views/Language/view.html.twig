@@ -1,0 +1,40 @@
+{# src/DnDRules/LanguageBundle/Resources/views/Language/view.html.twig #}
+ 
+{% extends "DnDRulesLanguageBundle:Language:layout.html.twig" %}
+
+{% block title %}
+    {{ language.name }} - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    {{ language.name }} :
+{% endblock %}
+    
+{% block h1_extend %}
+    {% if is_granted('ROLE_ADMIN') %}
+    <a class="btn btn-lg btn-primary" href="{{ path('dndrules_language_language_edit', {'slug': language.slug}) }}" >Modifier</a>
+    <a class="btn btn-lg btn-danger main-JS-delete" href="{{ path('dndrules_language_language_delete', {'slug': language.slug}) }}" >Supprimer</a>
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">{{language.name}}</li>
+    <li class="active">Voir</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="row">
+            <p>Futur blabla</p>
+        </div>
+    </section>
+</div>
+{% endblock %}

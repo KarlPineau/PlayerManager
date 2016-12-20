@@ -1,0 +1,5 @@
+dndinstance_equipment_equipment_instanceforcharacter:
+    path:     /instance/equipement/ajouter/{characterSlug}
+    defaults: { _controller: DnDInstanceEquipmentBundle:Equipment:instanceForCharacter }
+    requirements:
+        characterSlug:  \S{0,255}

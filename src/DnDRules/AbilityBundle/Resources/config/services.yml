@@ -1,0 +1,4 @@
+services:
+    dndrules_ability.deleteability:
+        class: DnDRules\AbilityBundle\Service\deleteAbility
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]

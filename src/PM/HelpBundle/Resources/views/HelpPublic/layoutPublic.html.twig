@@ -1,0 +1,21 @@
+{# src/PM/HomeBundle/Resources/views/HelpPublic/layoutPublic.html.twig #}
+ 
+{% extends "::public.html.twig" %}
+
+{% block title %}
+    Aide - {{ parent() }}
+{% endblock %}
+
+{% block follow %}
+    <meta name="robots" content="noindex,nofollow" />
+{% endblock %}
+    
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('pm_help_public_home') }}">Donjons & Dragons</a></li>
+{% endblock %}
+
+{% block body %}
+    {% block PM_body %}
+    {% endblock %}
+{% endblock %}

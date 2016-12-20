@@ -1,0 +1,119 @@
+{# src/DnDRules/CharacterBundle/Resources/views/Race/register_content.html.twig #}
+
+<form class="form-horizontal" method="post" action="{{ path('dndrules_race_race_edit', {'slug': race.slug}) }}" {{ form_enctype(form) }} role="form">
+    {% if not form.vars.valid %}
+    <div class="alert alert-error">
+        <strong>Votre formulaire contient les erreurs suivantes :</strong>
+        {{ form_errors(form) }}
+        {{ form_errors(form.name) }}
+        {{ form_errors(form.description) }}
+        {{ form_errors(form.size) }}
+        {{ form_errors(form.speed) }}
+        {{ form_errors(form.skillModifier) }}
+        {{ form_errors(form.predilectionClass) }}
+        {{ form_errors(form.languages) }}
+        {{ form_errors(form.hpModifier) }}
+        {{ form_errors(form.abilities) }}
+        {{ form_errors(form.updateComment) }}
+    </div>
+    <br />
+    {% endif %}
+
+    <fieldset>
+        <legend>Race :</legend>
+
+        <div class="form-group">
+            {{ form_label(form.name, "Nom :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.name, {'attr': {'placeholder': 'Nom de votre Race', 'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+           <div class="col-md-3 control-label">
+                <span class="glyphicon glyphicon-question-sign" style="cursor: pointer;" data-content="La description de votre race sera utilisée comme texte descriptif pour les joueurs." data-toggle="popover" data-container="body" data-original-title="Description" ></span>
+                {{ form_label(form.description, "Description :", {'label_attr': {'class': 'control-label'}}) }}
+            </div>
+            <div class="col-md-9">
+                {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': '9'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+           <div class="col-md-3 control-label">
+                <span class="glyphicon glyphicon-question-sign" style="cursor: pointer;" data-content="La taille de votre race servira de dénominateur à certains calculs." data-toggle="popover" data-container="body" data-original-title="Taille" ></span>
+                {{ form_label(form.size, "Taille :", {'label_attr': {'class': 'control-label'}}) }}
+            </div>
+            <div class="col-md-9">
+                {{ form_widget(form.size, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+           <div class="col-md-3 control-label">
+                <span class="glyphicon glyphicon-question-sign" style="cursor: pointer;" data-content="La vitesse de votre race doit être inscrite sous la forme d'un dénominateur." data-toggle="popover" data-container="body" data-original-title="Vitesse" ></span>
+                {{ form_label(form.speed, "Vitesse :", {'label_attr': {'class': 'control-label'}}) }}
+            </div>
+            <div class="col-md-9">
+                {{ form_widget(form.speed, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+           <div class="col-md-3 control-label">
+                <span class="glyphicon glyphicon-question-sign" style="cursor: pointer;" data-content="Le Modificateur de Points de Vie de votre race doit être inscrit sous la forme d'un dénominateur." data-toggle="popover" data-container="body" data-original-title="Points de Vie" ></span>
+                {{ form_label(form.hpModifier, "Modificateur de PV :", {'label_attr': {'class': 'control-label'}}) }}
+            </div>
+            <div class="col-md-9">
+                {{ form_widget(form.hpModifier, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+           <div class="col-md-3 control-label">
+                <span class="glyphicon glyphicon-question-sign" style="cursor: pointer;" data-content="Le Modificateur de Points de Compétence de votre race doit être inscrit sous la forme d'un dénominateur." data-toggle="popover" data-container="body" data-original-title="Points de Compétence" ></span>
+                {{ form_label(form.skillModifier, "Modificateur de Points de Compétences :", {'label_attr': {'class': 'control-label'}}) }}
+            </div>
+            <div class="col-md-9">
+                {{ form_widget(form.skillModifier, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+           <div class="col-md-3 control-label">
+                <span class="glyphicon glyphicon-question-sign" style="cursor: pointer;" data-content="La Classe de Prédilection apporte des avantages aux joueurs (PV, attaques ...)" data-toggle="popover" data-container="body" data-original-title="Classe de Prédilection" ></span>
+                {{ form_label(form.predilectionClass, "Classe de Prédilection :", {'label_attr': {'class': 'control-label'}}) }}
+            </div>
+            <div class="col-md-9">
+                {{ form_widget(form.predilectionClass, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+           <div class="col-md-3 control-label">
+                {{ form_label(form.languages, "Langues parlées :", {'label_attr': {'class': 'control-label'}}) }}
+            </div>
+            <div class="col-md-9">
+                {{ form_widget(form.languages, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+    </fieldset>
+            
+    <fieldset>
+        <legend>Modificateurs de Caractéristiques :</legend>
+
+        <div class="form-group">
+            {{ form_row(form.abilities) }}
+        </div>
+    </fieldset>
+        <hr />
+    <div class="form-group">
+        {{ form_label(form.updateComment, "Commentaire :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+        <div class="col-md-9">
+            {{ form_widget(form.updateComment, {'attr': {'placeholder': 'A propos de l\'édition', 'class': 'form-control'}}) }}
+        </div>
+    </div>
+        <br />
+    {{ form_rest(form) }}
+    <div class="text-center"><input type="submit" class="btn btn-default" /></div>
+</form>

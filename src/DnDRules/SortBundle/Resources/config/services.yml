@@ -1,0 +1,16 @@
+services:
+    dndrules_sort.sortaction:
+        class: DnDRules\SortBundle\Service\sortAction
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]
+
+    dndrules_sort.composanteaction:
+        class: DnDRules\SortBundle\Service\composanteAction
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]
+
+    dndrules_sort.sortschoolaction:
+        class: DnDRules\SortBundle\Service\sortSchoolAction
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]
+
+    dndrules_sort.domainaction:
+        class: DnDRules\SortBundle\Service\domainAction
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]

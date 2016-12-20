@@ -1,0 +1,54 @@
+{# src/DnDRules/SortBundle/Resources/views/SortSchool/view.html.twig #}
+ 
+{% extends "DnDRulesSortBundle:SortSchool:layout.html.twig" %}
+
+{% block title %}
+    {{ sortschool.name }} - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    {{ sortschool.name }} :
+{% endblock %}
+    
+{% block h1_extend %}
+    {% if is_granted('ROLE_ADMIN') %}
+    <a class="btn btn-lg btn-primary" href="{{ path('dndrules_sort_sortschool_edit', {'slug': sortschool.slug}) }}" >Modifier</a>
+    <a class="btn btn-lg btn-danger main-JS-delete" href="{{ path('dndrules_sort_sortschool_delete', {'slug': sortschool.slug}) }}" >Supprimer</a>
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">{{sortschool.name}}</li>
+    <li class="active">Voir</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="row">
+            <div class="col-md-6">
+                {% if sortschool.description is not empty %}
+                    <div class="well">
+                        {{ sortschool.description|raw }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-warning" role="alert">Aucune description fournie pour cette sortschool.</div>
+                {% endif %}
+            </div>
+            <div class="col-md-6">
+                <h2>Informations :</h2>
+                <ul>
+                    <li>Liste des branches : {{sortschool.plugged}}</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,241 @@
+<?php
+
+namespace PM\CharacterBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * CharacterUsed
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="PM\CharacterBundle\Entity\CharacterUsedRepository")
+ */
+class CharacterUsed
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = "1",
+     *      max = "45",
+     *      minMessage = "Votre nom doit faire au moins {{ limit }} caractères.",
+     *      maxMessage = "Votre nom ne doit pas dépasser {{ limit }} caractères."
+     * )
+     *
+     * @ORM\Column(name="name", type="string", length=45)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
+     * @Gedmo\Slug(fields={"name", "createDate"})
+     * @ORM\Column(name="slug", type="string", length=255, nullable=false, unique=true)
+     */
+    private $slug;
+    
+    /**
+     * @var string
+     * @Assert\Length(
+     *      max = "10000",
+     *      maxMessage = "Votre histoire ne doit pas dépasser {{ limit }} caractères."
+     * )
+     *
+     * @ORM\Column(name="story", type="text", nullable=true)
+     */
+    private $story;
+
+    /**
+     * @var integer
+     * @Assert\Range(
+     *      min = "1",
+     *      minMessage = "Votre personnage ne peut pas avoir un âge négatif ou nul."
+     * )
+     * 
+     * @ORM\Column(name="age", type="smallint", nullable=true)
+     */
+    private $age;
+
+    /**
+     * @var string
+     * @Assert\Choice(choices = {"Homme", "Femme"}, message = "Choisissez un genre valide.")
+     *
+     * @ORM\Column(name="gender", type="string", length=10, nullable=true)
+     */
+    private $gender;
+
+    /**
+     * @var integer
+     * @Assert\Range(
+     *      min = "1",
+     *      minMessage = "Votre personnage ne peut pas avoir une taille négative ou nulle."
+     * )
+     *
+     * @ORM\Column(name="height", type="smallint", nullable=true)
+     */
+    private $height;
+
+    /**
+     * @var integer
+     * @Assert\Range(
+     *      min = "1",
+     *      minMessage = "Votre personnage ne peut pas avoir un poids négatif ou nul."
+     * )
+     *
+     * @ORM\Column(name="weight", type="smallint", nullable=true)
+     */
+    private $weight;
+
+    /**
+     * @var integer
+     * @Assert\NotBlank()
+     * @Assert\Range(
+     *      min = "0",
+     *      minMessage = "Votre personnage ne peut pas avoir un nombre de PV maximum négatif."
+     * )
+     *
+     * @ORM\Column(name="hpMax", type="smallint", options={"default" = 0}, nullable=false)
+     */
+    private $hpMax;
+
+    /**
+     * @var integer
+     * @Assert\NotBlank()
+     *
+     * @ORM\Column(name="hpCurrent", type="smallint", options={"default" = 0}, nullable=false)
+     */
+    private $hpCurrent;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PM\CharacterBundle\Entity\Alignment")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $alignment;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="PM\GiftBundle\Entity\Gift")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $gifts;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PM\CharacterBundle\Entity\ClassDnDInstance", mappedBy="characterUsed")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $classDnDInstances;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PM\CharacterBundle\Entity\CharacterSkill", mappedBy="characterUsed")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $skills;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="PM\CharacterBundle\Entity\Language")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $languages;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PM\CharacterBundle\Entity\Race")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $race;
+
+    /**
+     * @ORM\OneToOne(targetEntity="PM\CharacterBundle\Entity\CharacterWealth", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $wealth;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PM\WeaponBundle\Entity\WeaponInstance", mappedBy="characterUsed", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $weapons;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PM\ArmorBundle\Entity\ArmorInstance", mappedBy="characterUsed", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $armors;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PM\EquipmentBundle\Entity\EquipmentInstance", mappedBy="characterUsed", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $equipments;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PM\SortBundle\Entity\SortInstance", mappedBy="characterUsed", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $sorts;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    protected $createUser;
+
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="createDate", type="datetime", nullable=false)
+     */
+    protected $createDate;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $updateUser;
+
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="updateDate", type="datetime", nullable=true)
+     */
+    protected $updateDate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="updateComment", type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = "255",
+     *      maxMessage = "Le commentaire ne doit pas dépasser {{ limit }} caractères."
+     * )
+     */
+    protected $updateComment;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+}

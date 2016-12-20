@@ -1,0 +1,36 @@
+{# src/PM/HelpBundle/Resources/views/HelpText/index.html.twig #}
+ 
+{% extends "PMHelpBundle:HelpText:layoutAdmin.html.twig" %}
+
+{% block title %}
+    Accueil - {{ parent() }}
+{% endblock %} 
+    
+{% block h1 %}
+    Gestion des Textes d'Aide :
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Accueil</li>
+{% endblock %}    
+    
+{% block PM_body %}
+<div class="row">
+    <section class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert col-lg-7 alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="well">
+            <h2>Gestion des Textes d'Aide</h2>
+            <ul>
+                <li><a href="{{ path('pm_helptext_administration_insert') }}">Ajouter un texte d'Aide</a></li>
+                <li><a href="{{ path('pm_helptext_administration_list') }}">Liste des Textes d'aide</a></li>
+            </ul>
+        </div>
+    </section>
+</div>
+{% endblock %}

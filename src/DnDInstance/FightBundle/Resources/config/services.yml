@@ -1,0 +1,7 @@
+services:
+    dndinstance_fight.fight:
+        class: DnDInstance\FightBundle\Service\fightGenerate
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context", "@dndinstance_character.characteruseddnd"]
+    dndinstance_fight.fightaction:
+        class: DnDInstance\FightBundle\Service\fightAction
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]

@@ -1,0 +1,12 @@
+<ul>
+{% for monsterInstance in monsterInstances %}
+    <li>
+        <a href="{{path('dndrules_monster_monster_view', {'slug': monsterInstance.monster.slug})}}" target="_blank">{{monsterInstance.name}}</a> :
+        {{monsterInstance.hpCurrent}}/{{monsterInstance.hpMax}}
+        <a href="{{path('dndinstance_monster_monster_edit', {'slug': monsterInstance.slug})}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+        <a href="{{path('dndinstance_monster_monster_delete', {'slug': monsterInstance.slug})}}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+    </li>
+{% else %}
+    <li>Pas de monstres pour cette partie</li>
+{% endfor %}
+</ul>

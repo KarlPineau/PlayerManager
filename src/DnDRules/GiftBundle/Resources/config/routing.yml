@@ -1,0 +1,26 @@
+# -- Gift -- #
+dndrules_gift_gift_home:
+    path:     /dons
+    defaults: { _controller: DnDRulesGiftBundle:Gift:index }
+
+dndrules_gift_gift_insert:
+    path:     /don/insertion
+    defaults: { _controller: DnDRulesGiftBundle:Gift:register }
+    
+dndrules_gift_gift_view:
+    path:     /don/vue/{slug}
+    defaults: { _controller: DnDRulesGiftBundle:Gift:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_gift_gift_edit:
+    path:     /don/editer/{slug}
+    defaults: { _controller: DnDRulesGiftBundle:Gift:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_gift_gift_delete:
+    path:     /don/supprimer/{slug}
+    defaults: { _controller: DnDRulesGiftBundle:Gift:delete }
+    requirements:
+        slug:  \S{0,255}

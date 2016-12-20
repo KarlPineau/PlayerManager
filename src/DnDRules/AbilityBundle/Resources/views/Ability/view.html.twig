@@ -1,0 +1,41 @@
+{# src/DnDRules/AbilityBundle/Resources/views/Ability/view.html.twig #}
+ 
+{% extends "DnDRulesAbilityBundle:Ability:layout.html.twig" %}
+
+{% block title %}
+    {{ ability.name }} - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    {{ ability.name }} :
+{% endblock %}
+    
+{% block h1_extend %}
+    {% if is_granted('ROLE_ADMIN') %}
+        <a class="btn btn-primary" href="{{ path('dndrules_ability_ability_edit', {'slug': ability.slug}) }}" >Modifier</a>
+        <a class="btn btn-danger main-JS-delete" href="{{ path('dndrules_ability_ability_delete', {'slug': ability.slug}) }}" >Supprimer</a>
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">{{ability.name}}</li>
+    <li class="active">Voir</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <h2>{{ ability.name }}</h2>
+        <div class="well">
+            {{ ability.description|raw }}
+        </div>
+    </section>
+</div>
+{% endblock %}

@@ -1,0 +1,43 @@
+{# src/DnDRules/SizeBundle/Resources/views/Size/view.html.twig #}
+ 
+{% extends "DnDRulesSizeBundle:Size:layout.html.twig" %}
+
+{% block title %}
+    {{ size.name }} - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    {{ size.name }} :
+{% endblock %}
+    
+{% block h1_extend %}
+    {% if is_granted('ROLE_ADMIN') %}
+    <a class="btn btn-lg btn-primary" href="{{ path('dndrules_size_size_edit', {'slug': size.slug}) }}" >Modifier</a>
+    <a class="btn btn-lg btn-danger main-JS-delete" href="{{ path('dndrules_size_size_delete', {'slug': size.slug}) }}" >Supprimer</a>
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">{{size.name}}</li>
+    <li class="active">Voir</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="row">
+            <ul>
+                <li>Modificateur de taille : {{size.modifier}}</li>
+                <li>Initial : {{size.initial}}</li>
+            </ul>
+        </div>
+    </section>
+</div>
+{% endblock %}

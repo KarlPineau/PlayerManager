@@ -1,0 +1,26 @@
+# -- Alignment -- #
+dndrules_alignment_alignment_home:
+    path:     /alignements
+    defaults: { _controller: DnDRulesAlignmentBundle:Alignment:index }
+
+dndrules_alignment_alignment_insert:
+    path:     /alignement/insertion
+    defaults: { _controller: DnDRulesAlignmentBundle:Alignment:register }
+
+dndrules_alignment_alignment_view:
+    path:     /alignement/vue/{slug}
+    defaults: { _controller: DnDRulesAlignmentBundle:Alignment:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_alignment_alignment_edit:
+    path:     /alignement/editer/{slug}
+    defaults: { _controller: DnDRulesAlignmentBundle:Alignment:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_alignment_alignment_delete:
+    path:     /alignement/supprimer/{slug}
+    defaults: { _controller: DnDRulesAlignmentBundle:Alignment:delete }
+    requirements:
+        slug:  \S{0,255}

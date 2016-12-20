@@ -1,0 +1,106 @@
+<?php
+
+namespace DnDRules\ClassDnDBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+
+/**
+ * ClassDnDLevel
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="DnDRules\ClassDnDBundle\Entity\ClassDnDLevelRepository")
+ */
+class ClassDnDLevel
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="DnDRules\ClassDnDBundle\Entity\ClassDnD", inversedBy="levels")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $classDnD;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="DnDRules\LevelBundle\Entity\Level")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $level;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DnDRules\ClassDnDBundle\Entity\ClassST", mappedBy="classDnDLevelST", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $classST;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="DnDRules\ClassDnDBundle\Entity\ClassBAB", mappedBy="classDnDLevelBABs", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $classBABs;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="DnDRules\ClassDnDBundle\Entity\ClassDnDSort", mappedBy="classDnDLevelSorts", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $classSorts;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $createUser;
+
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="createDate", type="datetime", nullable=false)
+     */
+    protected $createDate;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $updateUser;
+
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="updateDate", type="datetime", nullable=true)
+     */
+    protected $updateDate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="updateComment", type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = "255",
+     *      maxMessage = "Le commentaire ne doit pas dépasser {{ limit }} caractères."
+     * )
+     */
+    protected $updateComment;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+}

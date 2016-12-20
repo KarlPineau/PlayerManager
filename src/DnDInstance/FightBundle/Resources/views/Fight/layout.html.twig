@@ -1,0 +1,29 @@
+{% if is_granted("ROLE_ADMIN") %}
+    {% set extends = "::admin.html.twig" %}
+{% else %}
+    {% set extends = "::public.html.twig" %}
+{% endif %}
+{% extends extends %}
+
+
+{% block title %}
+    Instance de Monstre - {{ parent() }}
+{% endblock %}
+
+{% block follow %}
+    <meta name="robots" content="noindex,nofollow" />
+{% endblock %}
+    
+{% block breadcrumb %}
+    {{ parent() }}
+    {% if app.request.get('_route') == 'dndinstance_fight_fight_home' %}
+        <li class="active">Combats</li>
+    {% else %}
+        <li><a href="{{path('dndinstance_fight_fight_home')}}">Combats</a></li>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {% block PM_body %}
+    {% endblock %}
+{% endblock %}

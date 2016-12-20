@@ -1,0 +1,57 @@
+{# src/DnDRules/ClassDnDBundle/Resources/views/ClassDnD/register_content.html.twig #}
+
+<form class="form-horizontal" method="post" action="{{ path('dndrules_classdnd_classdnd_edit', {'slug': classDnD.slug}) }}" {{ form_enctype(form) }} role="form">
+    {% if not form.vars.valid %}
+    <div class="alert alert-error">
+        <strong>Votre formulaire contient les erreurs suivantes :</strong>
+        {{ form_errors(form) }}
+        {{ form_errors(form.name) }}
+        {{ form_errors(form.description) }}
+        {{ form_errors(form.skills) }}
+        {{ form_errors(form.levels) }}
+        {{ form_errors(form.updateComment) }}
+    </div>
+    <br />
+    {% endif %}
+
+    <fieldset>
+        <legend>Classe :</legend>
+
+        <div class="form-group">
+            {{ form_label(form.name, "Nom :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.name, {'attr': {'placeholder': 'Nom de votre classe', 'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-3 control-label">
+                <span class="glyphicon glyphicon-question-sign" style="cursor: pointer;" data-content="La description de votre classe sera utilisée comme texte descriptif de ce dernier sur sa page publique, accessible à tous." data-toggle="popover" data-container="body" data-original-title="Description" ></span>
+                {{ form_label(form.description, "Description :", {'label_attr': {'class': 'control-label'}}) }}
+            </div>
+            <div class="col-md-9">
+                {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': '9'}}) }}
+            </div>
+        </div>
+            
+        <div class="form-group">
+            {{ form_label(form.skills, "Compétences de classe :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.skills, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+        <div>
+            {{ form_row(form.levels) }}
+        </div>
+    </fieldset>
+        <hr />
+    <div class="form-group">
+        {{ form_label(form.updateComment, "Commentaire :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+        <div class="col-md-9">
+            {{ form_widget(form.updateComment, {'attr': {'placeholder': 'A propos de l\'édition', 'class': 'form-control'}}) }}
+        </div>
+    </div>
+        <br />
+    {{ form_rest(form) }}
+    <div class="text-center"><input type="submit" class="btn btn-default" /></div>
+</form>

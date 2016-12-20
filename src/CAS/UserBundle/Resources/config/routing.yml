@@ -1,0 +1,3 @@
+cas_user_remove_index:
+    path:     /suppression
+    defaults: { _controller: CASUserBundle:Remove:index }

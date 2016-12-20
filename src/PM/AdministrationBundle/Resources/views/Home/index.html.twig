@@ -1,0 +1,112 @@
+{# src/PM/HomeBundle/Resources/views/Administration/index.html.twig #}
+ 
+{% extends "::admin.html.twig" %}
+ 
+{% block title %}
+    {{ parent() }}
+{% endblock %} 
+
+{% block breadcrumb %}
+    {{ parent() }}
+{% endblock %}
+
+{% block h1 %}
+    Administration
+{% endblock %}
+
+{% block PM_body %}
+    <div class="row">
+        <div class="col-md-6">
+            <div class="well">
+                <h2>Utilisateurs :</h2>
+                <ul class="">
+                    {#<li><a href="{{path('pm_user_administration_register')}}">Nouvel Utilisateur</a></li>
+                    <li><a href="{{path('pm_user_administration_list')}}">Liste des Utilisateurs</a></li>#}
+                </ul>
+            </div>
+            <div class="well">
+                <h2>Parties :</h2>
+                <ul>
+                    <li><a href="{{path('game_game_game_home')}}">Gestion des Parties</a></li>
+                    <li><a href="{{path('dndinstance_characterused_characterused_home')}}">Gestion des Personnages</a></li>
+                </ul>
+            </div>
+            <div class="well">
+                <h2>Documents :</h2>
+                <ul>
+                    <li><a href="{{path('pm_document_administration_home')}}">Gestion des Documents</a></li>
+                </ul>
+            </div>
+            <div class="well">
+                <h2>Système :</h2>
+                <ul>
+                    <li><a href="{{path('pm_helptext_administration_home')}}">Gestion du centre d'aide</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="well">
+                <h2>Règles :</h2>
+                
+                <h3>Personnages :</h3>
+                <ul>
+                    <li><a href="{{path('dndrules_ability_ability_home')}}">Gestion des Caractéristiques</a></li>
+                    <li><a href="{{path('dndrules_alignment_alignment_home')}}">Gestion des Alignements</a></li>
+                    <li><a href="{{path('dndrules_classdnd_classdnd_home')}}">Gestion des Classes</a></li>
+                    <li><a href="{{path('dndrules_race_race_home')}}">Gestion des Races</a></li>
+                    <li><a href="{{path('dndrules_language_language_home')}}">Gestion des Langues</a></li>
+                    <li><a href="{{path('dndrules_skill_skill_home')}}">Gestion des Compétences</a></li>
+                    <li><a href="{{path('dndrules_size_size_home')}}">Gestion des Tailles</a></li>
+                    <li><a href="{{path('dndrules_level_level_home')}}">Gestion des Niveaux</a></li>
+                </ul>
+               
+                <h3>Monstres :</h3>
+                <ul>
+                    <li><a href="{{path('dndrules_monster_monster_home')}}">Gestion des Monstres</a></li>
+                    <li><a href="{{path('dndrules_monster_environment_home')}}">Gestion des Environnements</a></li>
+                    <li><a href="{{path('dndrules_monster_monstertype_home')}}">Gestion des Types de monstre</a></li>
+                    <li><a href="{{path('dndrules_monster_monstersubtype_home')}}">Gestion des Sous-Types de monstre</a></li>
+                    <li><a href="{{path('dndrules_monster_speedspecial_home')}}">Gestion des Modes de déplacement</a></li>
+                </ul>
+            
+                <h3>Sorts :</h3>  
+                <ul>
+                    <li><a href="{{path('dndrules_sort_sort_home')}}">Gestion des Sorts</a></li>
+                    <li><a href="{{path('dndrules_sort_sortschool_home')}}">Gestion des Ecoles</a></li>
+                    <li><a href="{{path('dndrules_sort_composante_home')}}">Gestion des Composantes</a></li>
+                    <li><a href="{{path('dndrules_sort_domain_home')}}">Gestion des Domaines</a></li>
+                </ul>
+                
+                <h3>Dons :</h3>
+                <ul>
+                    <li><a href="{{path('dndrules_gift_gift_home')}}">Gestion des Dons</a></li>
+                </ul>
+            
+                <h3>Armes :</h3>  
+                <ul>
+                    <li><a href="{{path('dndrules_weapon_weapon_home')}}">Gestion des Armes</a></li>
+                    <li><a href="{{path('dndrules_weapon_weapontype_home')}}">Gestion des Types d'Arme</a></li>
+                </ul>
+            
+                <h3>Armures :</h3>  
+                <ul>
+                    <li><a href="{{path('dndrules_armor_armor_home')}}">Gestion des Armures</a></li>
+                    <li><a href="{{path('dndrules_armor_armortype_home')}}">Gestion des Types d'Armures</a></li>
+                </ul>
+            
+                <h3>Equipements :</h3>  
+                <ul>
+                    <li><a href="{{path('dndrules_equipment_equipment_home')}}">Gestion des Equipements</a></li>
+                </ul>
+            
+                <h3>Dés :</h3>  
+                <ul>
+                    <li><a href="{{path('pm_dicetype_administration_home')}}">Gestion des Dés</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+    
+{% block javascripts_block %}
+{% endblock %}

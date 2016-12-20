@@ -1,0 +1,54 @@
+# -- Armor -- #
+dndrules_armor_armor_home:
+    path:     /armures
+    defaults: { _controller: DnDRulesArmorBundle:Armor:index }
+
+dndrules_armor_armor_insert:
+    path:     /armure/insertion
+    defaults: { _controller: DnDRulesArmorBundle:Armor:register }
+
+dndrules_armor_armor_view:
+    path:     /armure/vue/{slug}
+    defaults: { _controller: DnDRulesArmorBundle:Armor:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_armor_armor_edit:
+    path:     /armure/editer/{slug}
+    defaults: { _controller: DnDRulesArmorBundle:Armor:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_armor_armor_delete:
+    path:     /armure/supprimer/{slug}
+    defaults: { _controller: DnDRulesArmorBundle:Armor:delete }
+    requirements:
+        slug:  \S{0,255}
+
+        
+# -- ArmorType -- #
+dndrules_armor_armortype_home:
+    path:     /armures/type
+    defaults: { _controller: DnDRulesArmorBundle:ArmorType:index }
+
+dndrules_armor_armortype_insert:
+    path:     /armures/type/insertion
+    defaults: { _controller: DnDRulesArmorBundle:ArmorType:register }
+
+dndrules_armor_armortype_view:
+    path:     /armures/type/vue/{slug}
+    defaults: { _controller: DnDRulesArmorBundle:ArmorType:view }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_armor_armortype_edit:
+    path:     /armures/type/editer/{slug}
+    defaults: { _controller: DnDRulesArmorBundle:ArmorType:edit }
+    requirements:
+        slug:  \S{0,255}
+    
+dndrules_armor_armortype_delete:
+    path:     /armures/type/supprimer/{slug}
+    defaults: { _controller: DnDRulesArmorBundle:ArmorType:delete }
+    requirements:
+        slug:  \S{0,255}

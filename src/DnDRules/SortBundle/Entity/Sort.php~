@@ -1,0 +1,774 @@
+<?php
+
+namespace PM\SortBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+
+/**
+ * Sort
+ *
+ * @ORM\Table()
+ * @ORM\Entity(repositoryClass="PM\SortBundle\Entity\SortRepository")
+ * 
+ * @UniqueEntity(fields="name", message="Un sort semble déjà porter ce nom ...")
+ */
+class Sort
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     * @Assert\NotBlank()
+     * @Assert\Length(
+     *      min = "1",
+     *      max = "45",
+     *      minMessage = "Le champ 'Nom' doit faire au moins {{ limit }} caractères.",
+     *      maxMessage = "Le champ 'Nom' ne doit pas dépasser {{ limit }} caractères."
+     * )
+     *
+     * @ORM\Column(name="name", type="string", length=255)
+     */
+    private $name;
+    
+    /**
+     * @var string
+     *
+     * @Gedmo\Slug(fields={"name"})
+     * @ORM\Column(name="slug", type="string", length=255, nullable=false, unique=true)
+     */
+    private $slug;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="PM\SortBundle\Entity\SortClassDnD", mappedBy="sort", cascade={"persist", "remove"})
+     */
+    private $classes;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="PM\SortBundle\Entity\SortDomain", mappedBy="sort", cascade={"persist", "remove"})
+     */
+    private $domains;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="PM\SortBundle\Entity\Composante", cascade={"persist"})
+     * @ORM\JoinColumn(nullable=true)
+    */
+    protected $composantes;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="PM\SortBundle\Entity\SortSchool")
+     * @ORM\JoinColumn(nullable=true)
+    */
+    protected $sortSchool;
+
+    /**
+     * @var string
+     * Temps d'incantation
+     * @Assert\Length(
+     *      max = "250",
+     *      maxMessage = "Le champ 'Branche dEcole' ne peut pas dépassé {{ limit }} caractères."
+     * )
+     *
+     * @ORM\Column(name="sortSchoolPlugged", type="string", length=255, nullable=true)
+     */
+    private $sortSchoolPlugged;
+
+    /**
+     * @var string
+     * Temps d'incantation
+     * @Assert\Length(
+     *      max = "250",
+     *      maxMessage = "Le champ 'Registre dEcole' ne peut pas dépassé {{ limit }} caractères."
+     * )
+     *
+     * @ORM\Column(name="sortSchoolRegistre", type="string", length=255, nullable=true)
+     */
+    private $sortSchoolRegistre;
+
+    /**
+     * @var string
+     * Temps d'incantation
+     * @Assert\Length(
+     *      max = "250",
+     *      maxMessage = "Le champ 'Temps d'incantation' ne peut pas dépassé {{ limit }} caractères."
+     * )
+     *
+     * @ORM\Column(name="castTime", type="string", length=255, nullable=true)
+     */
+    private $castTime;
+
+    /**
+     * @var string
+     * Portée
+     * @Assert\Length(
+     *      max = "250",
+     *      maxMessage = "Le champ 'Portée' ne peut pas dépassé {{ limit }} caractères."
+     * )
+     *
+     * @ORM\Column(name="scope", type="string", length=255, nullable=true)
+     */
+    private $scope;
+
+    /**
+     * @var string
+     * Cible
+     * @Assert\Length(
+     *      max = "250",
+     *      maxMessage = "Le champ 'Portée' ne peut pas dépassé {{ limit }} caractères."
+     * )
+     *
+     * @ORM\Column(name="target", type="string", length=255, nullable=true)
+     */
+    private $target;
+
+    /**
+     * @var string
+     * Effet
+     * @Assert\Length(
+     *      max = "10000",
+     *      maxMessage = "Le champ 'Effet' ne peut pas dépassé {{ limit }} caractères."
+     * )
+     *
+     * @ORM\Column(name="effect", type="text", nullable=true)
+     */
+    private $effect;
+
+    /**
+     * @var string@var string
+     * ZoneEffet
+     * @Assert\Length(
+     *      max = "250",
+     *      maxMessage = "Le champ 'Zone dEffet' ne peut pas dépassé {{ limit }} caractères."
+     * )
+     *
+     * @ORM\Column(name="effectzone", type="string", length=255, nullable=true)
+     */
+    private $effectzone;
+
+    /**
+     * @var string
+     * Durée
+     * @Assert\Length(
+     *      max = "250",
+     *      maxMessage = "Le champ 'Durée' ne peut pas dépassé {{ limit }} caractères."
+     * )
+     *
+     * @ORM\Column(name="period", type="string", length=255, nullable=true)
+     */
+    private $period;
+
+    /**
+     * @var string
+     * Jets de sauvegarde
+     * @Assert\Length(
+     *      max = "250",
+     *      maxMessage = "Le champ 'Jets de sauvegarde' ne peut pas dépassé {{ limit }} caractères."
+     * )
+     *
+     * @ORM\Column(name="jds", type="string", length=255, nullable=true)
+     */
+    private $jds;
+
+    /**
+     * @var string
+     * Résistance à la magie
+     * @Assert\Length(
+     *      max = "250",
+     *      maxMessage = "Le champ 'Résistance à la magie' ne peut pas dépassé {{ limit }} caractères."
+     * )
+     *
+     * @ORM\Column(name="magicResistance", type="string", length=255, nullable=true)
+     */
+    private $magicResistance;
+
+    /**
+     * @var string
+     * @Assert\Length(
+     *      max = "50000",
+     *      maxMessage = "Le champ 'Description' ne peut pas dépassé {{ limit }} caractères."
+     * )
+     *
+     * @ORM\Column(name="description", type="text", nullable=true)
+     */
+    private $description;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+    * @ORM\JoinColumn(nullable=true)
+    */
+    protected $createUser;
+
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="create")
+     * @ORM\Column(name="createDate", type="datetime", nullable=false)
+     */
+    protected $createDate;
+
+    /**
+    * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+    * @ORM\JoinColumn(nullable=true)
+    */
+    protected $updateUser;
+
+    /**
+     * @var \DateTime
+     *
+     * @Gedmo\Timestampable(on="update")
+     * @ORM\Column(name="updateDate", type="datetime", nullable=true)
+     */
+    protected $updateDate;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="updateComment", type="string", length=255, nullable=true)
+     * @Assert\Length(
+     *      max = "255",
+     *      maxMessage = "Le commentaire ne doit pas dépasser {{ limit }} caractères."
+     * )
+     */
+    protected $updateComment;
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->classes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->domains = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->composantes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return Sort
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     * @return Sort
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string 
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set castTime
+     *
+     * @param string $castTime
+     * @return Sort
+     */
+    public function setCastTime($castTime)
+    {
+        $this->castTime = $castTime;
+
+        return $this;
+    }
+
+    /**
+     * Get castTime
+     *
+     * @return string 
+     */
+    public function getCastTime()
+    {
+        return $this->castTime;
+    }
+
+    /**
+     * Set scope
+     *
+     * @param string $scope
+     * @return Sort
+     */
+    public function setScope($scope)
+    {
+        $this->scope = $scope;
+
+        return $this;
+    }
+
+    /**
+     * Get scope
+     *
+     * @return string 
+     */
+    public function getScope()
+    {
+        return $this->scope;
+    }
+
+    /**
+     * Set effect
+     *
+     * @param string $effect
+     * @return Sort
+     */
+    public function setEffect($effect)
+    {
+        $this->effect = $effect;
+
+        return $this;
+    }
+
+    /**
+     * Get effect
+     *
+     * @return string 
+     */
+    public function getEffect()
+    {
+        return $this->effect;
+    }
+
+    /**
+     * Set period
+     *
+     * @param string $period
+     * @return Sort
+     */
+    public function setPeriod($period)
+    {
+        $this->period = $period;
+
+        return $this;
+    }
+
+    /**
+     * Get period
+     *
+     * @return string 
+     */
+    public function getPeriod()
+    {
+        return $this->period;
+    }
+
+    /**
+     * Set jds
+     *
+     * @param string $jds
+     * @return Sort
+     */
+    public function setJds($jds)
+    {
+        $this->jds = $jds;
+
+        return $this;
+    }
+
+    /**
+     * Get jds
+     *
+     * @return string 
+     */
+    public function getJds()
+    {
+        return $this->jds;
+    }
+
+    /**
+     * Set magicResistance
+     *
+     * @param string $magicResistance
+     * @return Sort
+     */
+    public function setMagicResistance($magicResistance)
+    {
+        $this->magicResistance = $magicResistance;
+
+        return $this;
+    }
+
+    /**
+     * Get magicResistance
+     *
+     * @return string 
+     */
+    public function getMagicResistance()
+    {
+        return $this->magicResistance;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Sort
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set createDate
+     *
+     * @param \DateTime $createDate
+     * @return Sort
+     */
+    public function setCreateDate($createDate)
+    {
+        $this->createDate = $createDate;
+
+        return $this;
+    }
+
+    /**
+     * Get createDate
+     *
+     * @return \DateTime 
+     */
+    public function getCreateDate()
+    {
+        return $this->createDate;
+    }
+
+    /**
+     * Set updateDate
+     *
+     * @param \DateTime $updateDate
+     * @return Sort
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+
+        return $this;
+    }
+
+    /**
+     * Get updateDate
+     *
+     * @return \DateTime 
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * Set updateComment
+     *
+     * @param string $updateComment
+     * @return Sort
+     */
+    public function setUpdateComment($updateComment)
+    {
+        $this->updateComment = $updateComment;
+
+        return $this;
+    }
+
+    /**
+     * Get updateComment
+     *
+     * @return string 
+     */
+    public function getUpdateComment()
+    {
+        return $this->updateComment;
+    }
+
+    /**
+     * Add classes
+     *
+     * @param \PM\SortBundle\Entity\SortClassDnD $classes
+     * @return Sort
+     */
+    public function addClass(\PM\SortBundle\Entity\SortClassDnD $classes)
+    {
+        $this->classes[] = $classes;
+
+        return $this;
+    }
+
+    /**
+     * Remove classes
+     *
+     * @param \PM\SortBundle\Entity\SortClassDnD $classes
+     */
+    public function removeClass(\PM\SortBundle\Entity\SortClassDnD $classes)
+    {
+        $this->classes->removeElement($classes);
+    }
+
+    /**
+     * Get classes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getClasses()
+    {
+        return $this->classes;
+    }
+
+    /**
+     * Add domains
+     *
+     * @param \PM\SortBundle\Entity\SortDomain $domains
+     * @return Sort
+     */
+    public function addDomain(\PM\SortBundle\Entity\SortDomain $domains)
+    {
+        $this->domains[] = $domains;
+
+        return $this;
+    }
+
+    /**
+     * Remove domains
+     *
+     * @param \PM\SortBundle\Entity\SortDomain $domains
+     */
+    public function removeDomain(\PM\SortBundle\Entity\SortDomain $domains)
+    {
+        $this->domains->removeElement($domains);
+    }
+
+    /**
+     * Get domains
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDomains()
+    {
+        return $this->domains;
+    }
+
+    /**
+     * Add composantes
+     *
+     * @param \PM\SortBundle\Entity\Composante $composantes
+     * @return Sort
+     */
+    public function addComposante(\PM\SortBundle\Entity\Composante $composantes)
+    {
+        $this->composantes[] = $composantes;
+
+        return $this;
+    }
+
+    /**
+     * Remove composantes
+     *
+     * @param \PM\SortBundle\Entity\Composante $composantes
+     */
+    public function removeComposante(\PM\SortBundle\Entity\Composante $composantes)
+    {
+        $this->composantes->removeElement($composantes);
+    }
+
+    /**
+     * Get composantes
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getComposantes()
+    {
+        return $this->composantes;
+    }
+
+    /**
+     * Set sortSchool
+     *
+     * @param \PM\SortBundle\Entity\SortSchool $sortSchool
+     * @return Sort
+     */
+    public function setSortSchool(\PM\SortBundle\Entity\SortSchool $sortSchool = null)
+    {
+        $this->sortSchool = $sortSchool;
+
+        return $this;
+    }
+
+    /**
+     * Get sortSchool
+     *
+     * @return \PM\SortBundle\Entity\SortSchool 
+     */
+    public function getSortSchool()
+    {
+        return $this->sortSchool;
+    }
+
+    /**
+     * Set createUser
+     *
+     * @param \PM\UserBundle\Entity\User $createUser
+     * @return Sort
+     */
+    public function setCreateUser(\PM\UserBundle\Entity\User $createUser = null)
+    {
+        $this->createUser = $createUser;
+
+        return $this;
+    }
+
+    /**
+     * Get createUser
+     *
+     * @return \PM\UserBundle\Entity\User 
+     */
+    public function getCreateUser()
+    {
+        return $this->createUser;
+    }
+
+    /**
+     * Set updateUser
+     *
+     * @param \PM\UserBundle\Entity\User $updateUser
+     * @return Sort
+     */
+    public function setUpdateUser(\PM\UserBundle\Entity\User $updateUser = null)
+    {
+        $this->updateUser = $updateUser;
+
+        return $this;
+    }
+
+    /**
+     * Get updateUser
+     *
+     * @return \PM\UserBundle\Entity\User 
+     */
+    public function getUpdateUser()
+    {
+        return $this->updateUser;
+    }
+
+    /**
+     * Set sortSchoolPlugged
+     *
+     * @param string $sortSchoolPlugged
+     * @return Sort
+     */
+    public function setSortSchoolPlugged($sortSchoolPlugged)
+    {
+        $this->sortSchoolPlugged = $sortSchoolPlugged;
+
+        return $this;
+    }
+
+    /**
+     * Get sortSchoolPlugged
+     *
+     * @return string 
+     */
+    public function getSortSchoolPlugged()
+    {
+        return $this->sortSchoolPlugged;
+    }
+
+    /**
+     * Set sortSchoolRegistre
+     *
+     * @param string $sortSchoolRegistre
+     * @return Sort
+     */
+    public function setSortSchoolRegistre($sortSchoolRegistre)
+    {
+        $this->sortSchoolRegistre = $sortSchoolRegistre;
+
+        return $this;
+    }
+
+    /**
+     * Get sortSchoolRegistre
+     *
+     * @return string 
+     */
+    public function getSortSchoolRegistre()
+    {
+        return $this->sortSchoolRegistre;
+    }
+
+    /**
+     * Set target
+     *
+     * @param string $target
+     * @return Sort
+     */
+    public function setTarget($target)
+    {
+        $this->target = $target;
+
+        return $this;
+    }
+
+    /**
+     * Get target
+     *
+     * @return string 
+     */
+    public function getTarget()
+    {
+        return $this->target;
+    }
+}

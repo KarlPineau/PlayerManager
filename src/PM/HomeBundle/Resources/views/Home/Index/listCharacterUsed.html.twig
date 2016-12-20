@@ -1,0 +1,27 @@
+<div>
+    {% if listCharactersUsed|length > 0 %}<div class="pull-right"><a class="btn btn-primary" href="{{ path('dndinstance_characterused_characterused_insert') }}"><i class="fa fa-plus" aria-hidden="true"></i></a></div>{% endif %}
+    <h2>Mes personnages ({{ listCharactersUsed|length }})</h2>
+</div>
+
+
+{% if listCharactersUsed|length == 1 %}
+    {% set col = '12' %}
+{% elseif listCharactersUsed|length >= 2 %}
+    {% set col = '6' %}
+{% endif %}
+
+{% for characterused in listCharactersUsed %}
+    {% if loop.first == true %}<div class="row">{% endif %}
+    {% if (loop.index-1)%3 == 0 %}</div><div class="row">{% endif %}
+
+    <div class="col-md-{{ col }}">
+        <div class="well">
+            <h3 class="">{{ characterused.name }}</h3>
+            <div class="text-right"><a href="{{ path('dndinstance_characterused_characterused_view', { 'slug' : characterused.slug} ) }}">Fiche descriptive</a></div>
+            {% if is_granted("ROLE_ADMIN") %}<a class="btn btn-danger main-JS-delete" href="{{ path('dndinstance_characterused_characterused_delete', { 'slug' : characterused.slug} ) }}"><i class="fa fa-trash" aria-hidden="true"></i></a>{% endif %}
+        </div>
+    </div>
+    {% if loop.last == true %}</div>{% endif %}
+{% else %}
+    <div class="alert alert-info text-center" role="alert"><a href="{{ path('dndinstance_characterused_characterused_insert') }}"><i class="fa fa-plus" aria-hidden="true"></i> Nouveau personnage</a></div>
+{% endfor %}

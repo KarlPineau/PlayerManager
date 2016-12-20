@@ -1,0 +1,39 @@
+{# src/DnDRules/LanguageBundle/Resources/views/Language/register.html.twig #}
+ 
+{% extends "DnDRulesLanguageBundle:Language:layout.html.twig" %}
+
+{% block title %}
+    Edition - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    Edition :
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('dndrules_language_language_view', {'slug': language.slug}) }}">{{language.name}}</a></li>
+    <li class="active">Edition</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="well">
+            {% include "DnDRulesLanguageBundle:Language:Edit/edit_content.html.twig" %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+    
+{% block javascripts_block %}
+    {% javascripts  '@DnDRulesLanguageBundle/Resources/public/js/*'  %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

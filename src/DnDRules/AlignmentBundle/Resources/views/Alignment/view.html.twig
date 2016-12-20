@@ -1,0 +1,44 @@
+{# src/DnDRules/AlignmentBundle/Resources/views/Alignment/view.html.twig #}
+ 
+{% extends "DnDRulesAlignmentBundle:Alignment:layout.html.twig" %}
+
+{% block title %}
+    {{ alignment.name }} - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    {{ alignment.name }} :
+{% endblock %}
+    
+{% block h1_extend %}
+    {% if is_granted('ROLE_ADMIN') %}
+    <a class="btn btn-lg btn-primary" href="{{ path('dndrules_alignment_alignment_edit', {'slug': alignment.slug}) }}" >Modifier</a>
+    <a class="btn btn-lg btn-danger main-JS-delete" href="{{ path('dndrules_alignment_alignment_delete', {'slug': alignment.slug}) }}" >Supprimer</a>
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">{{alignment.name}}</li>
+    <li class="active">Voir</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        {% if alignment.description is not empty %}
+            <div class="well">
+                {{ alignment.description|raw }}
+            </div>
+        {% else %}
+            <div class="alert alert-warning" role="alert">Aucune description fournie pour cet alignement.</div>
+        {% endif %}
+    </section>
+</div>
+{% endblock %}

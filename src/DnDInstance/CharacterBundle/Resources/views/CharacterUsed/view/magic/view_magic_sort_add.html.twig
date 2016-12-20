@@ -1,0 +1,5 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/view_gifts.html.twig #}
+<div class="well">
+    <h4>Nouveau sort :</h4>
+    {{ render(controller('DnDInstanceSortBundle:Sort:instanceForCharacter', {'characterSlug': characterUsed.slug})) }}
+</div>

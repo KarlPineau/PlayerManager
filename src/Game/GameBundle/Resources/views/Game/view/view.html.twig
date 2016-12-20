@@ -1,0 +1,70 @@
+{# src/Game/GameBundle/Resources/views/Game/view.html.twig #}
+ 
+{% extends "GameGameBundle:Game:layout.html.twig" %}
+
+{% block title %}
+    {{ game.name }} - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    {{ game.name }} :
+{% endblock %}
+    
+{% block h1_extend %}
+    {% if is_granted('ROLE_ADMIN') %}
+    <div class="btn-group">
+        <a class="btn btn-primary" href="{{ path('game_game_game_edit', {'slug': game.slug}) }}" >Modifier</a>
+        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <span class="caret"></span>
+            <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <ul class="dropdown-menu dropdown-menu-right">
+            <li><a class="bg-danger main-JS-delete" href="{{ path('game_game_game_delete', {'slug': game.slug}) }}" ><i class="fa fa-trash" aria-hidden="true"></i> Supprimer</a></li>
+        </ul>
+    </div>
+    {% endif %}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">{{game.name}}</li>
+    <li class="active">Voir</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div role="tabpanel">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist" id="UserTab3">
+                <li role="presentation" class="active"><a href="#game-infos" aria-controls="game-infos" role="tab" data-toggle="tab">Infos</a></li>
+                <li role="presentation"><a href="#game-players" aria-controls="game-players" role="tab" data-toggle="tab">Joueurs</a></li>
+                <li role="presentation"><a href="#game-monsters" aria-controls="game-monsters" role="tab" data-toggle="tab">Monstres</a></li>
+                <li role="presentation"><a href="#game-fights" aria-controls="game-fights" role="tab" data-toggle="tab">Combats</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="game-infos">
+                    {% include "GameGameBundle:Game:view/view_infos.html.twig" %}
+                </div>
+                <div role="tabpanel" class="tab-pane" id="game-players">
+                    {% include "GameGameBundle:Game:view/view_players.html.twig" %}
+                </div>
+                <div role="tabpanel" class="tab-pane" id="game-monsters">
+                    {% include "GameGameBundle:Game:view/view_monsters.html.twig" %}
+                </div>
+                <div role="tabpanel" class="tab-pane" id="game-fights">
+                    {% include "GameGameBundle:Game:view/view_fights.html.twig" %}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock %}

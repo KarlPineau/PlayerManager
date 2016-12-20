@@ -1,0 +1,43 @@
+<h2>Mes parties ({{ listGames|length }})</h2>
+{% if listGames|length == 1 %}
+    {% set col = '12' %}
+{% elseif listGames|length >= 2 %}
+    {% set col = '6' %}
+{% endif %}
+
+{% for game in listGames %}
+    {% if loop.first == true %}<div class="row">{% endif %}
+    {% if (loop.index-1)%3 == 0 %}</div><div class="row">{% endif %}
+
+    {% set character = game_game_gameaction.setCharacter(game, app.user) %}
+    <div class="col-md-{{ col }}">
+        <div class="well">
+            <h3 class="">{{ game.name }}</h3>
+            <br />
+            {% if game_game_gameaction.isPlayer(game, app.user) == true %}
+                <dl class="dl-horizontal">
+                    <dt>Mon <abbr title="Personnage Joueur" >P.J.</abbr> :</dt>
+                    <dd><a href="{{path('dndinstance_characterused_characterused_view', {'slug': character.slug})}}">{{character.name}}</a></dd>
+                    <dt>Niveau :</dt>
+                    <dd>{{dndinstance_character_characteruseddnd.getGlobalLevel(character)}}</dd>
+                </dl>
+                <!-- Ici, nécessite de prendre en compte : En ligne / Hors ligne / Rejoindre / Inactive -->
+                {% if game.active == false %}
+                    <div class="alert alert-danger" role="alert">Partie inactive.</div>
+                {% else %}
+                    <div class="text-center"><a role="button" class="btn btn-success btn-lg" href="{{path('game_game_game_view', {'slug': game.slug})}}">Rejoindre</a></div>
+                {% endif %}
+            {% elseif game_game_gameaction.isMJ(game, app.user) == true %}
+                {% if game.active == false %}
+                    <div class="alert alert-danger" role="alert">Partie inactive.</div>
+                {% endif %}
+                <div class="text-center"><strong>M.J.</strong></div>
+                <br />
+                <div class="text-center"><a class="btn btn-danger btn-lg" href="{{path('game_game_game_view', {'slug': game.slug})}}">Lancer</a></div>
+            {% endif %}
+        </div>
+    </div>
+    {% if loop.last == true %}</div>{% endif %}
+{% else %}
+    <div class="alert alert-warning" role="alert">Oups ... Vous ne semblez participer à aucune partie.</div>
+{% endfor %}

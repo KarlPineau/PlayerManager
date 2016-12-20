@@ -1,0 +1,22 @@
+{# src/DnDInstance/FightBundle/Resources/views/Fight/listForGame.html.twig #}
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+{% for fight in fights %}
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="heading-{{game.slug}}-{{fight.id}}">
+            <div class="pull-right"><a href="{{path('dndinstance_fight_fight_delete', {'id': fight.id})}}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a></div>
+            <h5 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse-{{game.slug}}-{{fight.id}}" aria-expanded="false" aria-controls="collapse-{{game.slug}}-{{fight.id}}">
+                {{fight.id}} :
+                </a>
+            </h5>
+        </div>
+        <div id="collapse-{{game.slug}}-{{fight.id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-{{game.slug}}-{{fight.id}}">
+            <div class="panel-body">
+                {% include "DnDInstanceFightBundle:Fight:listForGame_content.html.twig" %}
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="alert alert-danger">Pas de combats pour cette partie</div>
+{% endfor %}
+</div>

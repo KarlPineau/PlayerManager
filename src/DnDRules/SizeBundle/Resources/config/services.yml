@@ -1,0 +1,4 @@
+services:
+    dndrules_size.deletesize:
+        class: DnDRules\SizeBundle\Service\deleteSize
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]

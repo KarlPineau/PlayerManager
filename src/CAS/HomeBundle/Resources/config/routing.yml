@@ -1,0 +1,3 @@
+cas_home_testmail_index:
+    path:     /mailtest
+    defaults: { _controller: CASHomeBundle:TestMail:index }

@@ -1,0 +1,24 @@
+services:
+    dndinstance_character.characteruseddnd:
+        class: DnDInstance\CharacterBundle\Service\characterUsedDnD
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context", "@dndinstance_character.characterusedability"]
+        
+    dndinstance_character.characterusedability:
+        class: DnDInstance\CharacterBundle\Service\characterUsedAbility
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]
+        
+    dndinstance_character.characterusedskill:
+        class: DnDInstance\CharacterBundle\Service\characterUsedSkill
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context", "@dndinstance_character.characterusedability"]
+        
+    dndinstance_character.characterusedst:
+        class: DnDInstance\CharacterBundle\Service\characterUsedST
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context", "@dndinstance_character.characterusedability"]
+        
+    dndinstance_character.characterusedaction:
+        class: DnDInstance\CharacterBundle\Service\characterUsedAction
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]
+        
+    dndinstance_character.characterusedxppoints:
+        class: DnDInstance\CharacterBundle\Service\characterUsedXpPoints
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]

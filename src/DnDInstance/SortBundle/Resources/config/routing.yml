@@ -1,0 +1,5 @@
+dndinstance_sort_sort_instanceforcharacter:
+    path:     /instance/sort/ajouter/{characterSlug}
+    defaults: { _controller: DnDInstanceSortBundle:Sort:instanceForCharacter }
+    requirements:
+        characterSlug:  \S{0,255}
