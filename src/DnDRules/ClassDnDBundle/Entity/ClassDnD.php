@@ -72,6 +72,12 @@ class ClassDnD
     private $skills;
 
     /**
+     * @ORM\ManyToOne(targetEntity="PM\HomeBundle\Entity\DiceType")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $diceHealth;
+
+    /**
      * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -376,5 +382,28 @@ class ClassDnD
     public function getUpdateUser()
     {
         return $this->updateUser;
+    }
+
+    /**
+     * Set diceHealth
+     *
+     * @param \PM\HomeBundle\Entity\DiceType $diceHealth
+     * @return ClassDnD
+     */
+    public function setDiceHealth(\PM\HomeBundle\Entity\DiceType $diceHealth = null)
+    {
+        $this->diceHealth = $diceHealth;
+
+        return $this;
+    }
+
+    /**
+     * Get diceHealth
+     *
+     * @return \PM\HomeBundle\Entity\DiceType 
+     */
+    public function getDiceHealth()
+    {
+        return $this->diceHealth;
     }
 }

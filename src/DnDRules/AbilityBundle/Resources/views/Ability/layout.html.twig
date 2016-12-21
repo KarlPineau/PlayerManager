@@ -14,10 +14,10 @@
     
 {% block breadcrumb %}
     {{ parent() }}
-    {% if app.request.get('_route') == 'dndrules_ability_administration_home' %}
+    {% if app.request.get('_route') == 'dndrules_ability_ability_home' %}
         <li class="active">Caractéristiques</li>
     {% else %}
-        <li><a href="{{ path('dndrules_ability_administration_home') }}">Caractéristiques</a></li>
+        <li><a href="{{ path('dndrules_ability_ability_home') }}">Caractéristiques</a></li>
     {% endif %}
 {% endblock %}
 

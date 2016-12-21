@@ -15,7 +15,7 @@ class XpPointsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('increase', 'integer', array('required' => true))
+            ->add('increaseAdd', 'integer', array('required' => true, 'mapped' => false))
         ;
     }
     

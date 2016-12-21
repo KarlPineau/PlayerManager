@@ -1,12 +1,12 @@
 <?php
 
-namespace DnDRules\ClassDnDBundle\Form;
+namespace DnDInstance\CharacterBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ClassSTType extends AbstractType
+class CharacterWealthType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,9 +15,9 @@ class ClassSTType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fortitude',  'integer',  array('required' => true))
-            ->add('reflex',     'integer',  array('required' => true))
-            ->add('will',       'integer',  array('required' => true))
+            ->add('poAdd', 'integer', array('required' => true, 'mapped' => false))
+            ->add('paAdd', 'integer', array('required' => true, 'mapped' => false))
+            ->add('pcAdd', 'integer', array('required' => true, 'mapped' => false))
         ;
     }
     
@@ -27,7 +27,7 @@ class ClassSTType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'DnDRules\ClassDnDBundle\Entity\ClassST'
+            'data_class' => 'DnDInstance\CharacterBundle\Entity\CharacterWealth'
         ));
     }
 
@@ -36,6 +36,6 @@ class ClassSTType extends AbstractType
      */
     public function getName()
     {
-        return 'dndrules_classdndbundle_classst';
+        return 'dndinstance_characterbundle_characterwealth';
     }
 }

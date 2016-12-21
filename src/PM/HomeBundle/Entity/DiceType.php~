@@ -1,6 +1,6 @@
 <?php
 
-namespace PM\WelcomeBundle\Entity;
+namespace PM\HomeBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * DiceType
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="PM\WelcomeBundle\Entity\DiceTypeRepository")
+ * @ORM\Entity(repositoryClass="PM\HomeBundle\Entity\DiceTypeRepository")
  */
 class DiceType
 {
@@ -31,7 +31,7 @@ class DiceType
     private $dice;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $createUser;
@@ -45,7 +45,7 @@ class DiceType
     protected $createDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=true)
      */
     protected $updateUser;
@@ -152,10 +152,10 @@ class DiceType
     /**
      * Set createUser
      *
-     * @param \PM\UserBundle\Entity\User $createUser
+     * @param \CAS\UserBundle\Entity\User $createUser
      * @return DiceType
      */
-    public function setCreateUser(\PM\UserBundle\Entity\User $createUser)
+    public function setCreateUser(\CAS\UserBundle\Entity\User $createUser)
     {
         $this->createUser = $createUser;
 
@@ -165,7 +165,7 @@ class DiceType
     /**
      * Get createUser
      *
-     * @return \PM\UserBundle\Entity\User 
+     * @return \CAS\UserBundle\Entity\User
      */
     public function getCreateUser()
     {
@@ -175,10 +175,10 @@ class DiceType
     /**
      * Set updateUser
      *
-     * @param \PM\UserBundle\Entity\User $updateUser
+     * @param \CAS\UserBundle\Entity\User $updateUser
      * @return DiceType
      */
-    public function setUpdateUser(\PM\UserBundle\Entity\User $updateUser = null)
+    public function setUpdateUser(\CAS\UserBundle\Entity\User $updateUser = null)
     {
         $this->updateUser = $updateUser;
 
@@ -188,7 +188,7 @@ class DiceType
     /**
      * Get updateUser
      *
-     * @return \PM\UserBundle\Entity\User 
+     * @return \CAS\UserBundle\Entity\User
      */
     public function getUpdateUser()
     {

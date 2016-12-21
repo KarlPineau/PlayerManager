@@ -1,12 +1,12 @@
 <?php
 
-namespace DnDRules\ClassDnDBundle\Form;
+namespace DnDRules\ClassDnDBundle\Form\ST;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ClassDnDSortType extends AbstractType
+class ClassDnDLevelForSTType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,15 +15,16 @@ class ClassDnDSortType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('sortLevel',          'entity',   array('class' => 'DnDRulesLevelBundle:Level',
+            ->add('level',              'entity',   array('class' => 'DnDRulesLevelBundle:Level',
                                                           'property'    => 'level',
                                                           'expanded' => false,
                                                           'multiple' => false,
-                                                          'required' => false,
+                                                          'required' => true,
                                                           'empty_value' => 'Niveau',
                                                           'empty_data'  => null))
-            ->add('maximumUsedSorts',   'number',   array('required' => false))
-            ->add('maximumKnownSorts',  'number',   array('required' => false))
+            ->add('classST',            'collection',array('type' => new ClassSTType(),
+                                                            'allow_add'    => true,
+                                                            'allow_delete' => true))
         ;
     }
     
@@ -33,7 +34,7 @@ class ClassDnDSortType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'DnDRules\ClassDnDBundle\Entity\ClassDnDSort'
+            'data_class' => 'DnDRules\ClassDnDBundle\Entity\ClassDnDLevel'
         ));
     }
 
@@ -42,6 +43,6 @@ class ClassDnDSortType extends AbstractType
      */
     public function getName()
     {
-        return 'dndrules_classdndbundle_classdndsort';
+        return 'dndrules_classdndbundle_classdndlevel';
     }
 }

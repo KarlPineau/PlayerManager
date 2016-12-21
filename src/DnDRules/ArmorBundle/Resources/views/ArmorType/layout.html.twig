@@ -14,7 +14,12 @@
     
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('dndrules_armortype_administration_home') }}">Armures</a></li>
+    <li><a href="{{ path('dndrules_armor_armor_home') }}">Armures</a></li>
+    {% if app.request.get('_route') == 'dndrules_armor_armortype_home' %}
+        <li class="active">Types d'armures</li>
+    {% else %}
+        <li><a href="{{ path('dndrules_armor_armortype_home') }}">Types d'armures</a></li>
+    {% endif %}
 {% endblock %}
 
 {% block body %}

@@ -36,6 +36,12 @@ dndinstance_characterused_characterused_edit_hpcurrent:
     defaults: { _controller: DnDInstanceCharacterBundle:CharacterHp:editHpCurrent }
     requirements:
         slug:  \S{0,255}
+
+dndinstance_characterused_characterused_edit_hpmax:
+    path:     /personnage/edition/point-de-vie-max/{slug}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterHp:editHpMax }
+    requirements:
+        slug:  \S{0,255}
     
 dndinstance_characterused_characterused_view:
     path:     /personnage/vue/{slug}/{inline}/{profile}
@@ -60,6 +66,12 @@ dndinstance_characterused_characterused_delete:
 dndinstance_characterused_characterused_edit_xppoints:
     path:     /personnage/edition/points-experience/{slug}
     defaults: { _controller: DnDInstanceCharacterBundle:XpPoints:editXpPoints }
+    requirements:
+        slug:  \S{0,255}
+
+dndinstance_characterused_characterused_edit_wealth:
+    path:     /personnage/edition/richesse/{slug}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterWealth:editWealth }
     requirements:
         slug:  \S{0,255}
 

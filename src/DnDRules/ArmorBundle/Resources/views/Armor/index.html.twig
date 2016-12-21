@@ -32,17 +32,19 @@
 
         <table class="table table-striped" style="width: 100%">
             <tr>
-                <th style="max-width: 30px;">#</th>
-                <th style="text-align: left;">Nom</th>
+                <th>#</th>
+                <th>Nom</th>
+                <th>Type</th>
             </tr>
             {% for armor in listArmors %}
                 <tr>
-                    <td style="text-align: left;">{{ loop.index }}</td>
-                    <td style="text-align: left;"><a href="{{ path('dndrules_armor_armor_view', { 'slug' : armor.slug} ) }}">{{ armor.name }}</a></td>
+                    <td>{{ loop.index }}</td>
+                    <td><a href="{{ path('dndrules_armor_armor_view', { 'slug' : armor.slug} ) }}">{{ armor.name }}</a></td>
+                    <td><a href="{{ path('dndrules_armor_armortype_view', { 'slug' : armor.type.slug} ) }}">{{ armor.type.name }}</a></td>
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="5" style="text-align: center; font-weight: bold;">Aucun Armure connu.</td>
+                    <th colspan="5" class="text-center">Aucun Armure connu.</th>
                 </tr>
             {% endfor %}
         </table>

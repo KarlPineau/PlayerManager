@@ -13,11 +13,6 @@
     
 {% block breadcrumb %}
     {{ parent() }}
-    {% if app.request.get('_route') == 'dndinstance_monster_monster_home' %}
-        <li class="active">Monstres</li>
-    {% else %}
-        <li><a href="{{path('dndinstance_monster_monster_home')}}">Monstres</a></li>
-    {% endif %}
 {% endblock %}
 
 {% block body %}

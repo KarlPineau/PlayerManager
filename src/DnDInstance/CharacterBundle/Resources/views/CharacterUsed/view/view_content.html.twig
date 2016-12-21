@@ -21,17 +21,31 @@
                     <small><a href="{{path('cas_administration_user_view', { 'id' : characterUsed.user.id})}}" target="_blank">{{characterUsed.user.username}}</a></small>
                 </div>
                 <div class="col-md-3">
-                    Race : <a href="{{path('dndrules_race_race_view', {'slug': characterUsed.race.slug})}}" target="_blank">{{characterUsed.race.name}}</a><br />
+                    <dl class="dl-horizontal"><dt>Race :</dt><dd><a href="{{path('dndrules_race_race_view', {'slug': characterUsed.race.slug})}}" target="_blank">{{characterUsed.race.name}}</a></dd></dl>
                 </div>
                 <div class="col-md-3">
                     {% for instance in characterUsed.classDnDInstances %}
-                        Classe : <a href="{{path('dndrules_classdnd_classdnd_view', {'slug': instance.classDnD.slug})}}" target="_blank">{{instance.classDnD.name}}</a><br />
-                        Niveau : {{instance.level.level}} {% if dndinstance_character_characteruseddnd.isNewLevel(characterUsed) %}<a href="{{ path('dndinstance_characterused_characterused_edit_upgradelevel', {'slug': characterUsed.slug}) }}"><strong>Upgrade disponible !</strong></a>{% endif %}<br />
+                    <dl class="dl-horizontal"><dt>Classe :</dt><dd><a href="{{path('dndrules_classdnd_classdnd_view', {'slug': instance.classDnD.slug})}}" target="_blank">{{instance.classDnD.name}}</a></dd></dl>
+                    <dl class="dl-horizontal"><dt>Niveau :</dt><dd>{{instance.level.level}}</dd></dl>
                     {% endfor %}
-                    Exp. : {{xpPoints.increase}}/{{xpForLevelUp}}XP
+                    <dl class="dl-horizontal">
+                        <dt>{% if allowEdit == true %}<a href="{{ path('dndinstance_characterused_characterused_edit_xppoints', {'slug': characterUsed.slug}) }}" title="Modifier votre niveau d'expérience">{% endif %}Exp. :{% if allowEdit == true %}</a>{% endif %}</dt>
+                        <dd>{{xpPoints.increase|number_format(0, ',', '.')}}/{{xpForLevelUp|number_format(0, ',', '.')}}XP</dd>
+                    </dl>
+                    {% if dndinstance_character_characteruseddnd.isNewLevel(characterUsed) %}<div class="text-center"><a href="{{ path('dndinstance_characterused_characterused_edit_upgradelevel', {'slug': characterUsed.slug}) }}"><strong>Upgrade disponible !</strong></a></div>{% endif %}
                 </div>
                 <div class="col-md-3">
-                    PV : {{characterUsed.hpCurrent}}/{{characterUsed.hpMax}}
+                    <dl class="dl-horizontal">
+                        <dt>{% if allowEdit == true %}<a href="{{ path('dndinstance_characterused_characterused_edit_hpcurrent', {'slug': characterUsed.slug}) }}" title="Modifier votre nombre de points de vie">{% endif %}PV :{% if allowEdit == true %}</a>{% endif %}</dt>
+                        <dd><span class="{% if characterUsed.hpCurrent <= 0 %}text-danger{% elseif characterUsed.hpCurrent > 0 and characterUsed.hpCurrent <= 5 %}text-warning{% endif %}">{{characterUsed.hpCurrent}}</span>/{{characterUsed.hpMax}}</dd></dl>
+                    <dl class="dl-horizontal">
+                        <dt>{% if allowEdit == true %}<a href="{{ path('dndinstance_characterused_characterused_edit_wealth', {'slug': characterUsed.slug}) }}" title="Modifier votre richesse">{% endif %}Richesse :{% if allowEdit == true %}</a>{% endif %}</dt>
+                        <dd>
+                            {{ characterUsed.wealth.po|number_format(0, ',', '.') }} PO<br />
+                            {{ characterUsed.wealth.pa|number_format(0, ',', '.') }} PA<br />
+                            {{ characterUsed.wealth.pc|number_format(0, ',', '.') }} PC
+                        </dd>
+                    </dl>
                 </div>
             </div>
         </div>

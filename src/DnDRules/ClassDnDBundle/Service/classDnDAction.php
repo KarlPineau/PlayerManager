@@ -2,6 +2,7 @@
 
 namespace DnDRules\ClassDnDBundle\Service;
 
+use DnDRules\ClassDnDBundle\Entity\ClassDnDLevel;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\SecurityContext;
 
@@ -37,5 +38,21 @@ class classDnDAction
             array_push($sorts, $levelArray);
         }
         return $sorts;
+    }
+
+    public function generateLevel($classDnD) {
+        $count = 0;
+        foreach($this->em->getRepository('DnDRulesLevelBundle:Level')->findAll() as $level) {
+            if($this->em->getRepository('DnDRulesClassDnDBundle:ClassDnDLevel')->findOneBy(array('classDnD' => $classDnD, 'level' => $level)) == null) {
+                $classDnDLevel = new ClassDnDLevel();
+                $classDnDLevel->setClassDnD($classDnD);
+                $classDnDLevel->setLevel($level);
+                $this->em->persist($classDnDLevel);
+                $count++;
+            }
+        }
+
+        $this->em->flush();
+        return $count;
     }
 }

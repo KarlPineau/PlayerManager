@@ -17,43 +17,6 @@ class remove
 
     public function remove($user)
     {
-        /* LISTE DES ENTITES A SUPPRIMER / UPDATER :
-         * -> CAS/User/Log : UPDATE
-         * -> CAS/User/Favorite : REMOVE
-         * -> CAS/User/UserPreferences : Remove
-         * -> CLICHES/PersonalPlace/PrivatePlayer : UPDATE
-         * -> CLICHES/PersonalPlace/PrivatePlayerSession : UPDATE
-         * -> CLICHES/Player/PlayerSession : UPDATE
-         * -> CLICHES/Player/PlayerSuggest : UPDATE
-         * -> DATA/Data/Artwork : UPDATE
-         * -> DATA/Data/Building : UPDATE
-         * -> DATA/Data/Entity : UPDATE
-         * -> DATA/Data/Pad : UPDATE
-         * -> DATA/Data/SameAs : UPDATE
-         * -> DATA/Data/SemanticEnrichment : UPDATE
-         * -> DATA/Data/Source : UPDATE
-         * -> DATA/Data/SourceClick : UPDATE
-         * -> DATA/Data/SujetAsIconography : UPDATE
-         * -> DATA/Data/TimeEntity : UPDATE
-         * -> DATA/Data/UnrelevantField : UPDATE
-         * -> DATA/Duplicate/Unmatch : UPDATE
-         * -> DATA/Image/Image : UPDATE
-         * -> DATA/Image/View : UPDATE
-         * -> DATA/Import/EntityImportSession : UPDATE
-         * -> DATA/Public/Reporting : UPDATE
-         * -> DATA/Public/Visit : UPDATE
-         * -> DATA/Search/SearchLog : UPDATE
-         * -> DATA/Teaching/Teaching: UPDATE
-         * -> DATA/Teaching/TeachingTest : UPDATE
-         * -> DATA/Teaching/TeachingTestVote : UPDATE
-         * -> DATA/Teaching/University : UPDATE
-         * -> TB/Model/TestedGame: UPDATE
-         * -> TB/Model/TestedItem : UPDATE
-         * -> TB/Model/TestedItemResult : UPDATE
-         * -> TB/Model/TestedSession : UPDATE
-         * -> TOOLS/Ner/NameEntityRecognition : UPDATE
-         */
-
         foreach($this->em->getRepository('CASUserBundle:Log')->findBy(array('user' => $user)) as $item) {$item->setUser(null); $this->em->persist($item);}
         foreach($this->em->getRepository('CASUserBundle:Favorite')->findBy(array('user' => $user)) as $item) {$this->em->remove($item);}
         foreach($this->em->getRepository('CASUserBundle:UserPreferences')->findBy(array('user' => $user)) as $item) {$this->em->remove($item);}

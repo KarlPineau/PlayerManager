@@ -12,36 +12,54 @@
     </div>
     <div class="col-md-6">
         <h2>Informations :</h2>
-        <ul>
-            <li>Partie active : {% if game.active == true %}Oui{% else %}Non{% endif %}</li>
-            <li>Import de personnage : {% if game.importChara == true %}Oui{% else %}Non{% endif %}</li>
-            <li>Niveau minimum : {{game.lvlMin}}</li>
-            <li>Niveau maximum : {{game.lvlMax}}</li>
-            <li>Facteur de richesse : {{game.wealthFactor}}</li>
-            <li>Races :</li>
-            <ul>
-                {% for race in game.openRaces %}
-                    <li><a href="{{path('dndrules_race_race_view', {'slug' : race.slug})}}">{{race.name}}</a></li>
-                {% else %}
-                    <li>Aucune race ouverte ...</li>
-                {% endfor %}
+        <div role="tabpanel">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist" id="game-infos-sub">
+                <li role="presentation" class="active"><a href="#game-infos-sub-general" aria-controls="game-infos" role="tab" data-toggle="tab">Général</a></li>
+                <li role="presentation"><a href="#game-infos-sub-races" aria-controls="game-players" role="tab" data-toggle="tab">Races</a></li>
+                <li role="presentation"><a href="#game-infos-sub-classes" aria-controls="game-monsters" role="tab" data-toggle="tab">Classes</a></li>
+                <li role="presentation"><a href="#game-infos-sub-mj" aria-controls="game-fights" role="tab" data-toggle="tab">MJs</a></li>
             </ul>
-            <li>Classes :</li>
-            <ul>
-                {% for class in game.openClasses %}
-                    <li><a href="{{path('dndrules_classdnd_classdnd_view', {'slug' : class.slug})}}">{{class.name}}</a></li>
-                {% else %}
-                    <li>Aucune classe ouverte ...</li>
-                {% endfor %}
-            </ul>
-            <li>Maitres du Jeu :</li>
-            <ul>
-                {% for user in game.gameMasters %}
-                    <li><a href="{{path('cas_administration_user_view', {'id' : user.id})}}">{{user.username}}</a></li>
-                {% else %}
-                    <li>Aucun Maitre du Jeu connu ...</li>
-                {% endfor %}
-            </ul>
-        </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="game-infos-sub-general">
+                    <ul>
+                        <li>Partie active : {% if game.active == true %}Oui{% else %}Non{% endif %}</li>
+                        <li>Import de personnage : {% if game.importChara == true %}Oui{% else %}Non{% endif %}</li>
+                        <li>Niveau minimum : {{game.lvlMin}}</li>
+                        <li>Niveau maximum : {{game.lvlMax}}</li>
+                        <li>Facteur de richesse : {{game.wealthFactor}}</li>
+                    </ul>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="game-infos-sub-races">
+                   <ul>
+                       {% for race in game.openRaces %}
+                           <li><a href="{{path('dndrules_race_race_view', {'slug' : race.slug})}}">{{race.name}}</a></li>
+                       {% else %}
+                           <li>Aucune race ouverte ...</li>
+                       {% endfor %}
+                   </ul>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="game-infos-sub-classes">
+                    <ul>
+                        {% for class in game.openClasses %}
+                            <li><a href="{{path('dndrules_classdnd_classdnd_view', {'slug' : class.slug})}}">{{class.name}}</a></li>
+                        {% else %}
+                            <li>Aucune classe ouverte ...</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="game-infos-sub-mj">
+                    <ul>
+                        {% for user in game.gameMasters %}
+                            <li><a href="{{path('cas_administration_user_view', {'id' : user.id})}}">{{user.username}}</a></li>
+                        {% else %}
+                            <li>Aucun Maitre du Jeu connu ...</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

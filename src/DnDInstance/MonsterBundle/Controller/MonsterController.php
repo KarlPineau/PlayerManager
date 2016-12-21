@@ -65,7 +65,7 @@ class MonsterController extends Controller
                 }
             }
         
-        return $this->render('DnDInstanceMonsterBundle:MonsterInstance:edit.html.twig', array(
+        return $this->render('DnDInstanceMonsterBundle:Monster:Edit/edit.html.twig', array(
                                 'monsterInstance' => $monsterInstance,
                                 'form' => $form->createView(),
                             ));
@@ -78,7 +78,7 @@ class MonsterController extends Controller
         
         $slugGame = $monsterInstance->getGame()->getSlug();
         
-        $serviceMonsterInstanceAction = $this->container->get('dndinstance_monsterinstance.monsterinstance');
+        $serviceMonsterInstanceAction = $this->container->get('dndinstance_monster.monster');
         $serviceMonsterInstanceAction->deleteMonsterInstance($monsterInstance);
              
         $this->get('session')->getFlashBag()->add('notice', 'Le monstre a bien été supprimé.' );

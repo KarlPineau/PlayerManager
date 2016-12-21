@@ -1,12 +1,12 @@
 <?php
 
-namespace DnDRules\ClassDnDBundle\Form;
+namespace DnDRules\ClassDnDBundle\Form\ST;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ClassBABType extends AbstractType
+class ClassSTType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,8 +15,9 @@ class ClassBABType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('attackNb',   'integer',  array('required' => true))
-            ->add('value',      'integer',  array('required' => true))
+            ->add('fortitude',  'integer',  array('required' => false, 'empty_data' => 0))
+            ->add('reflex',     'integer',  array('required' => false, 'empty_data' => 0))
+            ->add('will',       'integer',  array('required' => false, 'empty_data' => 0))
         ;
     }
     
@@ -26,7 +27,7 @@ class ClassBABType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'DnDRules\ClassDnDBundle\Entity\ClassBAB'
+            'data_class' => 'DnDRules\ClassDnDBundle\Entity\ClassST'
         ));
     }
 
@@ -35,6 +36,6 @@ class ClassBABType extends AbstractType
      */
     public function getName()
     {
-        return 'dndrules_classdndbundle_classbab';
+        return 'dndrules_classdndbundle_classst';
     }
 }

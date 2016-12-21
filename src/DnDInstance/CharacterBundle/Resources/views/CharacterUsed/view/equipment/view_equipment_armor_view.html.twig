@@ -1,8 +1,10 @@
 {# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/view_gifts.html.twig #}
-<ul>
+<div class="list-group">
 {% for armorInstance in characterUsed.armors %}
-    <li><a href="{{path('dndrules_armor_armor_view', {'slug': armorInstance.armor.slug})}}" target="_blank">{{armorInstance.armor.name}}</a></li>
+    <div class="list-group-item">
+        <a href="{{path('dndrules_armor_armor_view', {'slug': armorInstance.armor.slug})}}" target="_blank">{{armorInstance.armor.name}}</a>
+    </div>
 {% else %}
-    <li>Aucune armure pour le moment.</li>
+    <div class="list-group-item list-group-item-warning">Aucune armure pour le moment.</div>
 {% endfor %}
-</ul>
+</div>

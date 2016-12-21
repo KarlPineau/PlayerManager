@@ -1,0 +1,47 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/register_skills.html.twig #}
+ 
+{% extends "DnDInstanceCharacterBundle:CharacterUsed:layout.html.twig" %}
+
+{% block title %}
+    Points de Vie Maximum - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    Points de Vie Maximum
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('dndinstance_characterused_characterused_view', {'slug': characterUsed.slug}) }}">{{characterUsed.name}}</a></li>
+    <li class="active">Points de Vie</li>
+{% endblock %}
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        <div class="panel panel-info">
+            <div class="panel-heading">Calculer vos P.V.</div>
+            <div class="panel-body">
+                {% if dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).diceHealth != null %}
+                    <p>Votre nombre maximum de point de vie est actuellement de {{ characterUsed.hpMax }}PV. Votre classe
+                        {{ dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).name }} vous donne droit à un dé
+                        {{ dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).diceHealth.dice }} de vie par niveau.<br />
+                        Lancez un dé {{ dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).diceHealth.dice }} et saisissez sa valeur.</p>
+                {% else %}
+                    <p>Oups ... Le dé de vie de votre classe n'est pas défini. Demandez à votre MJ préféré :).</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="well">
+            {% include "DnDInstanceCharacterBundle:CharacterUsed:hp/edit_hpMax_content.html.twig" %}
+        </div>
+    </section>
+</div>
+{% endblock %}

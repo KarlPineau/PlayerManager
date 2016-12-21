@@ -28,7 +28,7 @@ class RemoveController extends Controller
 
                 $message = \Swift_Message::newInstance()
                     ->setSubject('Au revoir !')
-                    ->setFrom('cliches@histoiredelart.fr')
+                    ->setFrom('player-manager@karl-pineau.fr')
                     ->setTo($email)
                     ->setBody($this->renderView('CASUserBundle:Remove:mail.html.twig'),'text/html')
                 ;

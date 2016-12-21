@@ -1,4 +1,4 @@
-{% extends "DnDInstanceFightBundle:FightCharacterUsed:layoutAdmin.html.twig" %}
+{% extends "DnDInstanceFightBundle:FightCharacterUsed:layout.html.twig" %}
 
 {% block title %}
     Edition - {{ parent() }}
@@ -10,7 +10,9 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li class="active">Edition</li>
+    <li><a href="{{ path('game_game_game_view', {'slug': game.slug}) }}">{{ game.name }}</a></li>
+    <li><a href="{{ path('dndinstance_characterused_characterused_view', {'slug': fightCharacterUsed.characterUsed.slug}) }}">{{ fightCharacterUsed.characterUsed.name }}</a></li>
+    <li class="active">Initiative</li>
 {% endblock %} 
 
 {% block PM_body %}

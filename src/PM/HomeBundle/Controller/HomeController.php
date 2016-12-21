@@ -13,13 +13,13 @@ class HomeController extends Controller
         $listCharactersUsed = $repositoryCharacterUsed->findByUser($this->getUser());
 
         $repositoryGame = $em->getRepository('GameGameBundle:Game');
-        $listGamesPlayer = $repositoryGame->findMyGamesByCharacter($this->getUser());
+        //$listGamesPlayer = $repositoryGame->findMyGamesByCharacter($this->getUser());
         $listGamesMaster = $repositoryGame->findMyGamesByGameMaster($this->getUser());
 
-        $listGames = array_merge($listGamesPlayer, $listGamesMaster);
+        //$listGames = array_merge($listGamesPlayer, $listGamesMaster);
 
         return $this->render('PMHomeBundle:Home:index.html.twig', array(
-            'listGames' => $listGames,
+            'listGames' => $listGamesMaster,
             'listCharactersUsed' => $listCharactersUsed,
         ));
     }

@@ -7,12 +7,11 @@
     {% block fos_user_content %}
         <div class="form-signin">
             <div>
-                <div class="pull-right"><img src="{{ asset('images/logo.png') }}" style="max-height: 40px;"/></div>
                 <h2 class="form-signin-heading">Mot de passe oublié ?</h2>
             </div>
             <br />
             <p class="alert alert-info">
-                {{ 'resetting.check_email'|trans({'%email%': email}) }}
+                {{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime})|nl2br }}
             </p>
             <br />
             <p class="text-center"><a href="{{ path('pm_home_home_index') }}">Retour</a></p>

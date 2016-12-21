@@ -7,7 +7,7 @@
 {% endblock %}
     
 {% block h1 %}
-    Edition :
+    Edition
 {% endblock %}
 
 {% block breadcrumb %}
@@ -24,16 +24,12 @@
                 {{ flashMessage }}
             </div>
         {% endfor %}
-        
-        <div class="well">
-            {% include "DnDRulesClassDnDBundle:ClassDnD:Edit/edit_content.html.twig" %}
+
+        <div class="col-sm-12">
+            <div class="well">
+                {% include "DnDRulesClassDnDBundle:ClassDnD:Edit/edit_content.html.twig" %}
+            </div>
         </div>
     </section>
 </div>
-{% endblock %}
-    
-{% block javascripts_block %}
-    {% javascripts  '@DnDRulesClassDnDBundle/Resources/public/js/*'  %}
-        <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
 {% endblock %}

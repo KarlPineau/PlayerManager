@@ -12,15 +12,14 @@
     
 {% block h1_extend %}
     {% if is_granted('ROLE_ADMIN') %}
-    <a class="btn btn-lg btn-primary" href="{{ path('dndrules_armortype_administration_edit', {'slug': armortype.slug}) }}" >Modifier</a>
-    <a class="btn btn-lg btn-danger main-JS-delete" href="{{ path('dndrules_armortype_administration_delete', {'slug': armortype.slug}) }}" >Supprimer</a>
+    <a class="btn btn-primary" href="{{ path('dndrules_armor_armortype_edit', {'slug': armortype.slug}) }}" >Modifier</a>
+    <a class="btn btn-danger main-JS-delete" href="{{ path('dndrules_armor_armortype_delete', {'slug': armortype.slug}) }}" >Supprimer</a>
     {% endif %}
 {% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
     <li class="active">{{armortype.name}}</li>
-    <li class="active">Voir</li>
 {% endblock %} 
 
 {% block PM_body %}

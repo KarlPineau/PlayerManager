@@ -28,7 +28,6 @@
 {% block breadcrumb %}
     {{ parent() }}
     <li class="active">{{game.name}}</li>
-    <li class="active">Voir</li>
 {% endblock %} 
 
 {% block PM_body %}
@@ -42,7 +41,7 @@
         
         <div role="tabpanel">
             <!-- Nav tabs -->
-            <ul class="nav nav-tabs" role="tablist" id="UserTab3">
+            <ul class="nav nav-tabs" role="tablist" id="gameView">
                 <li role="presentation" class="active"><a href="#game-infos" aria-controls="game-infos" role="tab" data-toggle="tab">Infos</a></li>
                 <li role="presentation"><a href="#game-players" aria-controls="game-players" role="tab" data-toggle="tab">Joueurs</a></li>
                 <li role="presentation"><a href="#game-monsters" aria-controls="game-monsters" role="tab" data-toggle="tab">Monstres</a></li>

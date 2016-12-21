@@ -24,6 +24,12 @@ dndrules_classdnd_classdnd_edit_st:
     defaults: { _controller: DnDRulesClassDnDBundle:ClassDnD:editST }
     requirements:
         slug:  \S{0,255}
+
+dndrules_classdnd_classdnd_edit_sort:
+    path:     /classe/editer/sort/{slug}
+    defaults: { _controller: DnDRulesClassDnDBundle:ClassDnD:editSort }
+    requirements:
+        slug:  \S{0,255}
     
 dndrules_classdnd_classdnd_edit:
     path:     /classe/editer/{slug}
@@ -34,5 +40,11 @@ dndrules_classdnd_classdnd_edit:
 dndrules_classdnd_classdnd_delete:
     path:     /classe/supprimer/{slug}
     defaults: { _controller: DnDRulesClassDnDBundle:ClassDnD:delete }
+    requirements:
+        slug:  \S{0,255}
+
+dndrules_classdnd_classdnd_generateLevel:
+    path:     /classe/generateLevel/{slug}
+    defaults: { _controller: DnDRulesClassDnDBundle:ClassDnD:generateLevel }
     requirements:
         slug:  \S{0,255}

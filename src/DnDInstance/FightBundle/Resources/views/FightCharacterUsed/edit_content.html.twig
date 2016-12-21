@@ -1,6 +1,6 @@
 {# src/DnDInstance/CharacterBundle/Resources/views/Language/register_content.html.twig #}
 
-<form class="form-horizontal" method="post" action="{{ path('dndinstance_fightcharacterused_administration_edit', {'id': fightCharacterUsed.id, 'game_slug': game_slug}) }}" {{ form_enctype(form) }} role="form">
+<form class="form-horizontal" method="post" action="{{ path('dndinstance_fight_fightcharacterused_edit', {'id': fightCharacterUsed.id, 'game_slug': game.slug}) }}" {{ form_enctype(form) }} role="form">
     {% if not form.vars.valid %}
     <div class="alert alert-error">
         <strong>Votre formulaire contient les erreurs suivantes :</strong>

@@ -12,7 +12,14 @@
             <th><a href="{{path('dndrules_skill_skill_view', {'slug': skill.skill.slug})}}" target="_blank">{{skill.skill.name}}</a></th>
             <td>{{ dndinstance_character_characterusedskill.getCharacterSkillModifier(skill) }}</td>
             <td>{{ dndinstance_character_characterusedskill.getCharacterSkillModifier(skill, true)|raw }}</td>
-            <td>{{ dndinstance_character_characterusedskill.getMaxRanksForSkill(skill) }}</td>
+            <td class="text-right">
+                {% if skill.ranks > dndinstance_character_characterusedskill.getMaxRanksForSkill(skill) %}
+                    <div class="pull-left text-warning">
+                        <i class="fa fa-exclamation-triangle" aria-hidden="true" data-toggle="popover" title="Degré dépassé" data-content="Le degré de maitrise maximum est dépassé pour cette caractéristique." title="Le degré de maitrise maximum est dépassé pour cette caractéristique."></i>
+                    </div>
+                {% endif %}
+                {{ dndinstance_character_characterusedskill.getMaxRanksForSkill(skill) }}
+            </td>
         </tr>
     {% endfor %}
 </table>

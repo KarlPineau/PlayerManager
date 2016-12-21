@@ -7,20 +7,19 @@
 {% endblock %}
     
 {% block h1 %}
-    {{ race.name }} :
+    {{ race.name }}
 {% endblock %}
     
 {% block h1_extend %}
     {% if is_granted('ROLE_ADMIN') %}
-    <a class="btn btn-lg btn-primary" href="{{ path('dndrules_race_race_edit', {'slug': race.slug}) }}" >Modifier</a>
-    <a class="btn btn-lg btn-danger main-JS-delete" href="{{ path('dndrules_race_race_delete', {'slug': race.slug}) }}" >Supprimer</a>
+        <a class="btn btn-primary" href="{{ path('dndrules_race_race_edit', {'slug': race.slug}) }}" >Modifier</a>
+        <a class="btn btn-danger main-JS-delete" href="{{ path('dndrules_race_race_delete', {'slug': race.slug}) }}" >Supprimer</a>
     {% endif %}
 {% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
     <li class="active">{{race.name}}</li>
-    <li class="active">Voir</li>
 {% endblock %} 
 
 {% block PM_body %}

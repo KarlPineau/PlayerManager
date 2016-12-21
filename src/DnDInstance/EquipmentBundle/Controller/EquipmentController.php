@@ -28,7 +28,7 @@ class EquipmentController extends Controller
                     $em->flush();
                     
                     $this->get('session')->getFlashBag()->add('notice', 'Félicitations, l\'armure a bien été ajoutée au personnage.');
-                    return $this->redirect($this->generateUrl('dndrules_characterused_characterused_view', array('slug' => $characterSlug)));
+                    return $this->redirect($this->generateUrl('dndinstance_characterused_characterused_view', array('slug' => $characterSlug)));
                 }
             }
         return $this->render('DnDInstanceEquipmentBundle:Equipment:register_content.html.twig', array(

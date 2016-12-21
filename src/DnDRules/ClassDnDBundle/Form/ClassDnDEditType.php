@@ -15,10 +15,6 @@ class ClassDnDEditType extends ClassDnDRegisterType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         parent::buildForm($builder, $options);
-        
-        $builder
-            ->add('updateComment',    'text',   array('required' => false))
-        ;
     }
     
     /**

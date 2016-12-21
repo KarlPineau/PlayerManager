@@ -15,7 +15,7 @@ class CharacterUsedHpCurrentEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('hpCurrent',          'integer',  array(  'required' => true))
+            ->add('hpCurrentAdd',          'integer',  array('required' => true, 'mapped' => false))
         ;
     }
     

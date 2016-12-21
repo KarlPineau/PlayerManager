@@ -12,8 +12,8 @@
     
 {% block h1_extend %}
     {% if is_granted('ROLE_ADMIN') %}
-    <a class="btn btn-lg btn-primary" href="{{ path('dndrules_armor_armor_edit', {'slug': armor.slug}) }}" >Modifier</a>
-    <a class="btn btn-lg btn-danger main-JS-delete" href="{{ path('dndrules_armor_armor_delete', {'slug': armor.slug}) }}" >Supprimer</a>
+    <a class="btn btn-primary" href="{{ path('dndrules_armor_armor_edit', {'slug': armor.slug}) }}" >Modifier</a>
+    <a class="btn btn-danger main-JS-delete" href="{{ path('dndrules_armor_armor_delete', {'slug': armor.slug}) }}" >Supprimer</a>
     {% endif %}
 {% endblock %}
 
@@ -44,17 +44,62 @@
             </div>
             <div class="col-md-6">
                 <h2>Informations :</h2>
-                <ul>
-                    <li>Prix : {% if armor.price is not empty %}{{armor.price}}{% endif %}</li>
-                    <li>Type : {% if armor.type is not empty %}{{armor.type.name}}{% endif %}</li>
-                    <li>Bonus d'Armure : {% if armor.bonus is not empty %}{{armor.bonus}}{% endif %}</li>
-                    <li>Bonus de dextérité maximal : {% if armor.dexterityBonus is not empty %}{{armor.dexterityBonus}}{% endif %}</li>
-                    <li>Malus d'armure aux tests : {% if armor.testMalus is not empty %}{{armor.testMalus}}{% endif %}</li>
-                    <li>Risque d'échec des sorts profanes : {% if armor.failRisks is not empty %}{{armor.failRisks}}%{% endif %}</li>
-                    <li>Vitesse de déplacement (M) : {% if armor.speedM is not empty %}{{armor.speedM}}{% endif %}</li>
-                    <li>Vitesse de déplacement (P) : {% if armor.speedP is not empty %}{{armor.speedP}}{% endif %}</li>
-                    <li>Poids : {% if armor.weight is not empty %}{{armor.weight}}{% endif %}</li>
-                </ul>
+                <div class="list-group">
+                    <dl class="list-group-item dl-horizontal">
+                        <dt class="list-group-item-heading">Bonus d'Armure</dt>
+                        <dd class="list-group-item-text">
+                            {% if armor.bonus is not empty %}{{armor.bonus}}{% endif %}
+                        </dd>
+                    </dl>
+                    <dl class="list-group-item dl-horizontal">
+                        <dt class="list-group-item-heading" title="Bonus de dextérité maximal">Bonus de dextérité maximal</dt>
+                        <dd class="list-group-item-text">
+                            {% if armor.dexterityBonus is not empty %}{{armor.dexterityBonus}}{% endif %}
+                        </dd>
+                    </dl>
+                    <dl class="list-group-item dl-horizontal">
+                        <dt class="list-group-item-heading" title="Malus d'armure aux tests">Malus d'armure aux tests</dt>
+                        <dd class="list-group-item-text">
+                            {% if armor.testMalus is not empty %}{{armor.testMalus}}{% endif %}
+                        </dd>
+                    </dl>
+                    <dl class="list-group-item dl-horizontal">
+                        <dt class="list-group-item-heading" title="Risque d'échec des sorts profanes">Risque d'échec des sorts profanes</dt>
+                        <dd class="list-group-item-text">
+                            {% if armor.failRisks is not empty %}{{armor.failRisks}}%{% endif %}
+                        </dd>
+                    </dl>
+                    <dl class="list-group-item dl-horizontal">
+                        <dt class="list-group-item-heading" title="Vitesse de déplacement (M)">Vitesse de déplacement (M)</dt>
+                        <dd class="list-group-item-text">
+                            {% if armor.speedM is not empty %}{{armor.speedM}}{% endif %}
+                        </dd>
+                    </dl>
+                    <dl class="list-group-item dl-horizontal">
+                        <dt class="list-group-item-heading" title="Vitesse de déplacement (P)">Vitesse de déplacement (P)</dt>
+                        <dd class="list-group-item-text">
+                            {% if armor.speedP is not empty %}{{armor.speedP}}{% endif %}
+                        </dd>
+                    </dl>
+                    <dl class="list-group-item dl-horizontal">
+                        <dt class="list-group-item-heading">Type</dt>
+                        <dd class="list-group-item-text">
+                            {% if armor.type is not empty %}<a href="{{ path('dndrules_armor_armortype_view', {'slug': armor.type.slug}) }}">{{armor.type.name}}</a>{% endif %}
+                        </dd>
+                    </dl>
+                    <dl class="list-group-item dl-horizontal">
+                        <dt class="list-group-item-heading">Prix</dt>
+                        <dd class="list-group-item-text">
+                            {% if armor.price is not empty %}{{armor.price}}{% endif %}
+                        </dd>
+                    </dl>
+                    <dl class="list-group-item dl-horizontal">
+                        <dt class="list-group-item-heading">Poids</dt>
+                        <dd class="list-group-item-text">
+                            {% if armor.weight is not empty %}{{armor.weight}}{% endif %}
+                        </dd>
+                    </dl>
+                </div>
             </div>
         </div>
     </section>

@@ -39,7 +39,7 @@ class characterUsedAction
             $this->em->remove($skill);
         }
         
-        $repositoryClassDnDInstance = $this->em->getRepository('DnDRulesClassDnDBundle:ClassDnDInstance');
+        $repositoryClassDnDInstance = $this->em->getRepository('DnDInstanceClassDnDBundle:ClassDnDInstance');
         $instances = $repositoryClassDnDInstance->findBy(array('characterUsedDnDInstance' => $characterUsed));
         foreach ($instances as $instance) {
             $this->em->remove($instance);

@@ -27,8 +27,8 @@ class SortController extends Controller
                     $em->persist($sortInstance);
                     $em->flush();
                     
-                    $this->get('session')->getFlashBag()->add('notice', 'Félicitations, l\'sort a bien été ajoutée au personnage.');
-                    return $this->redirect($this->generateUrl('dndrules_characterused_characterused_view', array('slug' => $characterSlug)));
+                    $this->get('session')->getFlashBag()->add('notice', 'Félicitations, le sort a bien été ajoutée au personnage.');
+                    return $this->redirect($this->generateUrl('dndinstance_characterused_characterused_view', array('slug' => $characterSlug)));
                 }
             }
         return $this->render('DnDInstanceSortBundle:Sort:register_content.html.twig', array(

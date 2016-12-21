@@ -64,10 +64,18 @@ class characterUsedSkill
                 }
             }
         }
-        
+
+        $maxRanks = null;
         if($match == true) {$maxRanks = $matchClassDnDInstance->getLevel()->getClassSkillModifier();}
         elseif($match == false) {$maxRanks = $matchClassDnDInstance->getLevel()->getofClassSkillModifier();}
         
         return $maxRanks;
+    }
+
+    public function getCharacterSkillRank($characterSkill) {
+        // Retourne le degré de maitrise pour une compétence
+        if ($characterSkill === null) {throw $this->createNotFoundException('Liaison de Compétence inexistante.');}
+
+        return $characterSkill->getRanks();
     }
 }

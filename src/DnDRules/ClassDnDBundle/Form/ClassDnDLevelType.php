@@ -2,6 +2,9 @@
 
 namespace DnDRules\ClassDnDBundle\Form;
 
+use DnDRules\ClassDnDBundle\Form\BAB\ClassBABType;
+use DnDRules\ClassDnDBundle\Form\Sort\ClassDnDSortType;
+use DnDRules\ClassDnDBundle\Form\ST\ClassSTType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;

@@ -8,6 +8,7 @@
         {{ form_errors(form.name) }}
         {{ form_errors(form.description) }}
         {{ form_errors(form.skills) }}
+        {{ form_errors(form.diceHealth) }}
     </div>
     <br />
     {% endif %}
@@ -36,6 +37,13 @@
             {{ form_label(form.skills, "Compétences de classe :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
             <div class="col-md-9">
                 {{ form_widget(form.skills, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.diceHealth, "Dé de vie :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.diceHealth, {'attr': {'class': 'form-control'}}) }}
             </div>
         </div>
     </fieldset>

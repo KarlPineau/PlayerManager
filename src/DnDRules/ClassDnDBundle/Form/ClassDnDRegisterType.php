@@ -24,9 +24,13 @@ class ClassDnDRegisterType extends AbstractType
                                                       'required' => false,
                                                       'empty_value' => 'Compétences de Classe',
                                                       'empty_data'  => null))
-            ->add('levels',         'collection',array('type' => new ClassDnDLevelType(),
-                                                      'allow_add'    => true,
-                                                      'allow_delete' => true))
+            ->add('diceHealth',     'entity',   array('class' => 'PMHomeBundle:DiceType',
+                                                    'property'    => 'dice',
+                                                    'expanded' => false,
+                                                    'multiple' => false,
+                                                    'required' => false,
+                                                    'empty_value' => 'Dé de vie',
+                                                    'empty_data'  => null))
         ;
     }
     

@@ -46,8 +46,19 @@ class monsterGenerate
     
     public function deleteMonsterInstance($monsterInstance)
     {
-        /* A supprimer avec un personnage :
-         */
+
+        $fightMonsterInstances = $this->em->getRepository('DnDInstanceFightBundle:FightMonsterInstance')->findBy(array('monsterInstance' => $monsterInstance));
+        foreach($fightMonsterInstances as $fightMonsterInstance) {
+            foreach($this->em->getRepository('DnDInstanceFightBundle:Fight')->findAll() as $fight) {
+                foreach($fight->getFightMonsterInstances() as $fightFightMonsterInstance) {
+                    if($fightFightMonsterInstance == $fightMonsterInstance) {
+                        $fight->removeFightMonsterInstance($fightMonsterInstance);
+                        $this->em->persist($fight);
+                    }
+                }
+            }
+            $this->em->remove($fightMonsterInstance);
+        }
         
         $this->em->remove($monsterInstance);
         $this->em->flush();

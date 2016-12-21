@@ -48,7 +48,7 @@ class GameController extends Controller
         $game = $em->getRepository('GameGameBundle:Game')->findOneBySlug($slug);
         if ($game === null) {throw $this->createNotFoundException('Game : [slug='.$slug.'] inexistant.');}
         
-        return $this->render('GameGameBundle:Game:View/view.html.twig', array(
+        return $this->render('GameGameBundle:Game:view/view.html.twig', array(
                                 'game' => $game,
                             ));
     }

@@ -1,9 +1,11 @@
 {# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/view_gifts.html.twig #}
 <h4>Mes sorts :</h4>
-<ul>
+<div class="list-group">
 {% for sortInstance in characterUsed.sorts %}
-    <li><a href="{{path('dndrules_sort_sort_view', {'slug': sortInstance.sort.slug})}}" target="_blank">{{sortInstance.sort.name}}</a></li>
+    <div class="list-group-item">
+        <a href="{{path('dndrules_sort_sort_view', {'slug': sortInstance.sort.slug})}}" target="_blank">{{sortInstance.sort.name}}</a>
+    </div>
 {% else %}
-    <li>Aucun sort maitrisé pour le moment.</li>
+    <div class="list-group-item list-group-item-warning">Aucun sort pour le moment.</div>
 {% endfor %}
-</ul>
+</div>

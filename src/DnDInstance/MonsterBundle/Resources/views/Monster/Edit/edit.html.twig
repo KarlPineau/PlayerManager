@@ -1,4 +1,4 @@
-{% extends "DnDInstanceMonsterBundle:MonsterInstance:layout.html.twig" %}
+{% extends "DnDInstanceMonsterBundle:Monster:layout.html.twig" %}
 
 {% block title %}
     Edition - {{ parent() }}
@@ -10,6 +10,7 @@
 
 {% block breadcrumb %}
     {{ parent() }}
+    <li><a href="{{ path('game_game_game_view', {'slug': monsterInstance.game.slug}) }}">{{ monsterInstance.game.name }}</a></li>
     <li>{{monsterInstance.name}}</li>
     <li class="active">Edition</li>
 {% endblock %} 

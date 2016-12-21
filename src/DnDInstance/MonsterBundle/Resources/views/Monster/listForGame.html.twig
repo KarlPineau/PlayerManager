@@ -1,12 +1,28 @@
-<ul>
-{% for monsterInstance in monsterInstances %}
-    <li>
-        <a href="{{path('dndrules_monster_monster_view', {'slug': monsterInstance.monster.slug})}}" target="_blank">{{monsterInstance.name}}</a> :
-        {{monsterInstance.hpCurrent}}/{{monsterInstance.hpMax}}
-        <a href="{{path('dndinstance_monster_monster_edit', {'slug': monsterInstance.slug})}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
-        <a href="{{path('dndinstance_monster_monster_delete', {'slug': monsterInstance.slug})}}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
-    </li>
-{% else %}
-    <li>Pas de monstres pour cette partie</li>
-{% endfor %}
-</ul>
+<table class="table table-bordered table-striped">
+    <caption>Liste des monstres actuellement en jeu</caption>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Type</th>
+            <th>Nom</th>
+            <th>PV</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for monsterInstance in monsterInstances %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td><a href="{{path('dndrules_monster_monster_view', {'slug': monsterInstance.monster.slug})}}" target="_blank">{{ monsterInstance.monster.name }}</a></td>
+            <td>{{monsterInstance.name}}</td>
+            <td>{{monsterInstance.hpCurrent}}/{{monsterInstance.hpMax}}</td>
+            <td>
+                <a href="{{path('dndinstance_monster_monster_edit', {'slug': monsterInstance.slug})}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a>
+                <a class="text-warning main-JS-delete" href="{{path('dndinstance_monster_monster_delete', {'slug': monsterInstance.slug})}}"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span></a>
+            </td>
+        </tr>
+    {% else %}
+        <tr><th colspan="5">Pas de monstres pour cette partie</th></tr>
+    {% endfor %}
+    </tbody>
+</table>

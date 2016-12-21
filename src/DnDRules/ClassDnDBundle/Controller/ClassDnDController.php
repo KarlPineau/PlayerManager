@@ -2,6 +2,10 @@
 
 namespace DnDRules\ClassDnDBundle\Controller;
 
+use DnDRules\ClassDnDBundle\Entity\ClassDnDLevel;
+use DnDRules\ClassDnDBundle\Form\BAB\ClassDnDForBABType;
+use DnDRules\ClassDnDBundle\Form\Sort\ClassDnDForSortType;
+use DnDRules\ClassDnDBundle\Form\ST\ClassDnDForSTType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use DnDRules\ClassDnDBundle\Entity\ClassDnD;
@@ -20,26 +24,23 @@ class ClassDnDController extends Controller
         ));
     }
     
-    public function registerAction()
+    public function registerAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Page inexistante.');}
         $classDnD = new ClassDnD;
         
         $form = $this->createForm(new ClassDnDRegisterType, $classDnD);
-        $request = $this->get('request');
-            if ($request->getMethod() == 'POST') {
-                $form->bind($request);
-                
-                if ($form->isValid()) {
-                    $classDnD->setCreateUser($this->getUser());
-                    $em->persist($classDnD);
-                    $em->flush();
-                    
-                    $this->get('session')->getFlashBag()->add('notice', 'Félicitations, la classe a bien été créée.' );
-                    return $this->redirect($this->generateUrl('dndrules_classdnd_classdnd_view', array('slug' => $classDnD->getSlug())));
-                }
-            }
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $classDnD->setCreateUser($this->getUser());
+            $em->persist($classDnD);
+            $em->flush();
+            $this->get('dndrules_classdnd.classdndaction')->generateLevel($classDnD);
+
+            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, la classe a bien été créée.' );
+            return $this->redirect($this->generateUrl('dndrules_classdnd_classdnd_view', array('slug' => $classDnD->getSlug())));
+        }
         return $this->render('DnDRulesClassDnDBundle:ClassDnD:Register/register.html.twig', array(
                                 'form' => $form->createView(),
                             ));
@@ -56,8 +57,8 @@ class ClassDnDController extends Controller
         $classDnD = $repositoryClassDnD->findOneBySlug($slug);
         if ($classDnD === null) {throw $this->createNotFoundException('Classe : [slug='.$slug.'] inexistante.');}
         
-        $classDnDLevels = $repositoryClassDnDLevel->findBy(array('classDnD' => $classDnD),
-                                                           array('level' => 'asc'));
+        $classDnDLevels = $repositoryClassDnDLevel->getByClassDnD($classDnD);
+                    //findBy(array('classDnD' => $classDnD), array('level' => 'asc'));
         
         $levels = $repositoryLevel->findAll();
         $allSorts = array();
@@ -76,57 +77,22 @@ class ClassDnDController extends Controller
                             ));
     }
     
-    public function editAction($slug)
+    public function editAction($slug, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $classDnD = $em->getRepository('DnDRulesClassDnDBundle:ClassDnD')->findOneBySlug($slug);
-
         if ($classDnD === null or !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Classe : [slug='.$slug.'] inexistante.');}
         
         $form = $this->createForm(new ClassDnDEditType, $classDnD);
-        $request = $this->get('request');
-            if ($request->getMethod() == 'POST') {
-                $form->bind($request);
-                
-                if ($form->isValid()) {
-                    $classDnD->setUpdateUser($this->getUser());
-                    // -- Gestion de la classe
-                    $classDnDLevels = $classDnD->getLevels();
-                    foreach ($classDnDLevels as $classDnDLevel) {
-                        $classDnDLevel->setCreateUser($this->getUser());
-                        $classDnDLevel->setClassDnD($classDnD);
-                        
-                        // -- Gestion des ST
-                        $classSTs = $classDnDLevel->getClassST();
-                        foreach ($classSTs as $classST) {
-                            $classST->setCreateUser($this->getUser());
-                            $classST->setClassDnDLevelST($classDnDLevel);
-                            $em->persist($classST);
-                        }
-                        // -- Gestion des BAB
-                        $classBABs = $classDnDLevel->getClassBABs();
-                        foreach ($classBABs as $classBAB) {
-                            $classBAB->setCreateUser($this->getUser());
-                            $classBAB->setClassDnDLevelBABs($classDnDLevel);
-                            $em->persist($classBAB);
-                        }
-                        // -- Gestion des Sorts
-                        $classSorts = $classDnDLevel->getClassSorts();
-                        foreach ($classSorts as $classSort) {
-                            $classSort->setCreateUser($this->getUser());
-                            $classSort->setClassDnDLevelSorts($classDnDLevel);
-                            $em->persist($classSort);
-                        }
-                        
-                        $em->persist($classDnDLevel);
-                    }
-                    $em->persist($classDnD);
-                    $em->flush();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $classDnD->setUpdateUser($this->getUser());
+            $em->persist($classDnD);
+            $em->flush();
 
-                    $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre classe a bien été éditée.' );
-                    return $this->redirect($this->generateUrl('dndrules_classdnd_classdnd_view', array('slug' => $classDnD->getSlug())));
-                }
-            }
+            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre classe a bien été éditée.' );
+            return $this->redirect($this->generateUrl('dndrules_classdnd_classdnd_view', array('slug' => $classDnD->getSlug())));
+        }
         
         return $this->render('DnDRulesClassDnDBundle:ClassDnD:Edit/edit.html.twig', array(
                                 'classDnD' => $classDnD,
@@ -139,31 +105,28 @@ class ClassDnDController extends Controller
         $em = $this->getDoctrine()->getManager();
         $classDnD = $em->getRepository('DnDRulesClassDnDBundle:ClassDnD')->findOneBySlug($slug);
         if ($classDnD === null or !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Classe : [slug='.$slug.'] inexistante.');}
-        
-        $classDnD->setUpdateUser($this->getUser());
-        $classDnD->setUpdateComment('Edition des BABs de la classe');
- 
-        // -- Génération du formulaire
-        $form = $this->createFormBuilder()
-            ->add('babs', 'collection', array('type' => new ClassBABType(),
-                                              'allow_add'    => true,
-                                              'allow_delete' => true))
-            ->getForm();
+
+        $form = $this->createForm(new ClassDnDForBABType(), $classDnD);
         $form->handleRequest($request);
-        if ($form->isValid()) {
-            $data = $form->getData();
-            foreach ($data['babs'] as $bab) {
-                $bab->setCreateUser($this->getUser());
-                $em->persist($bab);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $classDnD->setUpdateUser($this->getUser());
+
+            foreach($classDnD->getLevels() as $classDnDLevel) {
+                foreach($classDnDLevel->getClassBABs() as $classBAB) {
+                    $classBAB->setClassDnDLevelBABs($classDnDLevel);
+                    $em->persist($classBAB);
+                }
+                $em->persist($classDnDLevel);
             }
+
             $em->persist($classDnD);
             $em->flush();
-                    
-            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, la classe a bien été mise à jour.' );
+
+            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre classe a bien été éditée.' );
             return $this->redirect($this->generateUrl('dndrules_classdnd_classdnd_view', array('slug' => $classDnD->getSlug())));
         }
-        
-        return $this->render('DnDRulesClassDnDBundle:ClassDnD:editBAB.html.twig', array(
+
+        return $this->render('DnDRulesClassDnDBundle:ClassDnD:BAB/edit.html.twig', array(
                                 'classDnD' => $classDnD,
                                 'form' => $form->createView(),
                             ));
@@ -174,34 +137,62 @@ class ClassDnDController extends Controller
         $em = $this->getDoctrine()->getManager();
         $classDnD = $em->getRepository('DnDRulesClassDnDBundle:ClassDnD')->findOneBySlug($slug);
         if ($classDnD === null or !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Classe : [slug='.$slug.'] inexistante.');}
-        
-        $classDnD->setUpdateUser($this->getUser());
-        $classDnD->setUpdateComment('Edition des STs de la classe');
- 
-        // -- Génération du formulaire
-        $form = $this->createFormBuilder()
-            ->add('sts', 'collection',  array('type' => new ClassSTType(),
-                                              'allow_add'    => true,
-                                              'allow_delete' => true))
-            ->getForm();
+
+        $form = $this->createForm(new ClassDnDForSTType(), $classDnD);
         $form->handleRequest($request);
-        if ($form->isValid()) {
-            $data = $form->getData();
-            foreach ($data['sts'] as $st) {
-                $st->setCreateUser($this->getUser());
-                $em->persist($st);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $classDnD->setUpdateUser($this->getUser());
+
+            foreach($classDnD->getLevels() as $classDnDLevel) {
+                foreach($classDnDLevel->getClassST() as $classST) {
+                    $classST->setClassDnDLevelST($classDnDLevel);
+                    $em->persist($classST);
+                }
+                $em->persist($classDnDLevel);
+            }
+
+            $em->persist($classDnD);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre classe a bien été éditée.' );
+            return $this->redirect($this->generateUrl('dndrules_classdnd_classdnd_view', array('slug' => $classDnD->getSlug())));
+        }
+
+        return $this->render('DnDRulesClassDnDBundle:ClassDnD:ST/edit.html.twig', array(
+            'classDnD' => $classDnD,
+            'form' => $form->createView(),
+        ));
+    }
+
+    public function editSortAction($slug, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $classDnD = $em->getRepository('DnDRulesClassDnDBundle:ClassDnD')->findOneBySlug($slug);
+        if ($classDnD === null or !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Classe : [slug='.$slug.'] inexistante.');}
+
+        $form = $this->createForm(new ClassDnDForSortType(), $classDnD);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $classDnD->setUpdateUser($this->getUser());
+
+            foreach($classDnD->getLevels() as $classDnDLevel) {
+                foreach($classDnDLevel->getClassSorts() as $classSort) {
+                    $classSort->setClassDnDLevelSorts($classDnDLevel);
+                    $em->persist($classSort);
+                }
+                $em->persist($classDnDLevel);
             }
             $em->persist($classDnD);
             $em->flush();
-                    
-            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, la classe a bien été mise à jour.' );
+
+            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre classe a bien été éditée.' );
             return $this->redirect($this->generateUrl('dndrules_classdnd_classdnd_view', array('slug' => $classDnD->getSlug())));
         }
-        
-        return $this->render('DnDRulesClassDnDBundle:ClassDnD:editST.html.twig', array(
-                                'classDnD' => $classDnD,
-                                'form' => $form->createView(),
-                            ));
+
+        return $this->render('DnDRulesClassDnDBundle:ClassDnD:Sort/edit.html.twig', array(
+            'classDnD' => $classDnD,
+            'form' => $form->createView(),
+        ));
     }
     
     public function deleteAction($slug)
@@ -214,5 +205,16 @@ class ClassDnDController extends Controller
              
         $this->get('session')->getFlashBag()->add('notice', 'Votre classe a bien été supprimée.' );
         return $this->redirectToRoute('dndrules_classdnd_classdnd_home');
+    }
+
+    public function generateLevelAction($slug)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $classDnD = $em->getRepository('DnDRulesClassDnDBundle:ClassDnD')->findOneBySlug($slug);
+        if ($classDnD === null) {throw $this->createNotFoundException('Classe : [slug='.$slug.'] inexistante.');}
+
+        $count = $this->get('dndrules_classdnd.classdndaction')->generateLevel($classDnD);
+        $this->get('session')->getFlashBag()->add('notice', $count.' niveaux ont été générés' );
+        return $this->redirect($this->generateUrl('dndrules_classdnd_classdnd_view', array('slug' => $classDnD->getSlug())));
     }
 }

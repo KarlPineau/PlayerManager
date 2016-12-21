@@ -3,22 +3,42 @@
     <div class="col-md-6">
         <h2>Informations sur le Personnage</h2>
 
-        <ul>
-            <li>Age : {% if characterUsed.age is not empty %}{{characterUsed.age}}{% else %}Aucun âge{% endif %}</li>
-            <li>Sexe : {% if characterUsed.gender is not empty %}{{characterUsed.gender}}{% else %}Aucun genre{% endif %}</li>
-            <li>Taille : {% if characterUsed.height is not empty %}{{characterUsed.height}}{% else %}Aucune taille{% endif %}</li>
-            <li>Poids : {% if characterUsed.weight is not empty %}{{characterUsed.weight}}{% else %}Aucun poids{% endif %}</li>
-            <li>Alignement : {% if characterUsed.alignment is not empty %}{{characterUsed.alignment.name}}{% else %}Aucun alignement{% endif %}</li>
-            <li>Richesse : {{characterUsed.wealth.po}}</li>
-            <li>Langues parlées :</li>
-            <ul>
-                {% for langue in characterUsed.languages %}
-                    <li><a href="{{path('dndrules_language_language_view', {'slug': langue.slug})}}">{{langue.name}}</a></li>
-                {% else %}
-                    <li>Aucune langue parlée</li>
-                {% endfor %}
-            </ul>
-        </ul>
+        <div class="list-group">
+            <dl class="list-group-item dl-horizontal">
+                <dt class="list-group-item-heading">Âge</dt>
+                <dd class="list-group-item-text">
+                    {% if characterUsed.age is not empty %}{{characterUsed.age}}{% else %}Aucun âge{% endif %}
+                </dd>
+            </dl>
+            <dl class="list-group-item dl-horizontal">
+                <dt class="list-group-item-heading">Sexe</dt>
+                <dd class="list-group-item-text">{% if characterUsed.gender is not empty %}{{characterUsed.gender}}{% else %}Aucun genre{% endif %}</dd>
+            </dl>
+            <dl class="list-group-item dl-horizontal">
+                <dt class="list-group-item-heading">Taille</dt>
+                <dd class="list-group-item-text">{% if characterUsed.height is not empty %}{{characterUsed.height}}{% else %}Aucune taille{% endif %}</dd>
+            </dl>
+            <dl class="list-group-item dl-horizontal">
+                <dt class="list-group-item-heading">Poids</dt>
+                <dd class="list-group-item-text">{% if characterUsed.weight is not empty %}{{characterUsed.weight}}{% else %}Aucun poids{% endif %}</dd>
+            </dl>
+            <dl class="list-group-item dl-horizontal">
+                <dt class="list-group-item-heading">Alignement</dt>
+                <dd class="list-group-item-text">{% if characterUsed.alignment is not empty %}<a href="{{path('dndrules_alignment_alignment_view', {'slug': characterUsed.alignment.slug})}}">{{characterUsed.alignment.name}}</a>{% else %}Aucun alignement{% endif %}</dd>
+            </dl>
+            <dl class="list-group-item dl-horizontal">
+                <dt class="list-group-item-heading">Langues parlées</dt>
+                <dd class="list-group-item-text">
+                    <ul>
+                        {% for langue in characterUsed.languages %}
+                            <li><a href="{{path('dndrules_language_language_view', {'slug': langue.slug})}}">{{langue.name}}</a></li>
+                        {% else %}
+                            <li>Aucune langue parlée</li>
+                        {% endfor %}
+                    </ul>
+                </dt>
+            </dl>
+        </div>
     </div>
     <div class="col-md-6">
         <h2>Histoire</h2>

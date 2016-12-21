@@ -1,0 +1,24 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/register_content.html.twig #}
+
+<form class="form-horizontal" method="post" {{ form_enctype(form) }} role="form">
+    {% if not form.vars.valid %}
+    <div class="alert alert-error">
+        <strong>Votre formulaire contient les erreurs suivantes :</strong>
+        {{ form_errors(form.hpMaxAdd) }}
+    </div>
+    <br />
+    {% endif %}
+
+    <fieldset>
+        <legend>Points de Vie de {{characterUsed.name}} :</legend>
+
+        <div class="form-group">
+            {{ form_label(form.hpMaxAdd, "Valeur du dé :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-3">
+                {{ form_widget(form.hpMaxAdd, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+    </fieldset>
+    {{ form_rest(form) }}
+    <div class="text-center"><input type="submit" class="btn btn-default" /></div>
+</form>

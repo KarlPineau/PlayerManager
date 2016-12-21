@@ -12,4 +12,16 @@ use Doctrine\ORM\EntityRepository;
  */
 class ClassDnDLevelRepository extends EntityRepository
 {
+    public function getByClassDnD($classDnD)
+    {
+        $query = $this->createQueryBuilder('cl')
+                      ->innerJoin('cl.level', 'l')
+                      ->where('cl.classDnD = :classDnD')
+                      ->setParameter('classDnD', $classDnD)
+                      ->orderBy('l.level', 'ASC')
+                      ->getQuery()
+                      ->getResult();
+
+        return $query;
+    }
 }
