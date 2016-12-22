@@ -12,8 +12,8 @@
     
 {% block h1_extend %}
     {% if is_granted('ROLE_ADMIN') %}
-    <a class="btn btn-lg btn-primary" href="{{ path('dndrules_level_level_edit', {'level': level.level}) }}" >Modifier</a>
-    <a class="btn btn-lg btn-danger main-JS-delete" href="{{ path('dndrules_level_level_delete', {'level': level.level}) }}" >Supprimer</a>
+    <a class="btn btn-primary" href="{{ path('dndrules_level_level_edit', {'level': level.level}) }}" >Modifier</a>
+    <a class="btn btn-danger main-JS-delete" href="{{ path('dndrules_level_level_delete', {'level': level.level}) }}" >Supprimer</a>
     {% endif %}
 {% endblock %}
 
@@ -32,14 +32,13 @@
             </div>
         {% endfor %}
         
-        <div class="row">
-            <ul>
-                <li>Points d'Expériences nécessaires : {{level.xpPoints}}</li>
-                <li>Points de Compétences maximum par compétence de classe : {{level.classSkillModifier}}</li>
-                <li>Points de Compétences maximum par compétence hors classe : {{level.ofClassSkillModifier}}</li>
-                <li>Aquisition d'un don : {% if level.gift == true %}Oui{% else %}Non{% endif %}</li>
-                <li>Aquisition d'un point de caractéristique : {% if level.abilityUp == true %}Oui{% else %}Non{% endif %}</li>
-            </ul>
+        <h2>Informations</h2>
+        <div class="list-group">
+            <dl class="list-group-item dl-horizontal"><dt title="Points d'Expériences nécessaires">Points d'Expériences nécessaires</dt><dd>{{level.xpPoints|number_format(0, ',', '.')}}</dd></dl>
+            <dl class="list-group-item dl-horizontal"><dt title="Points de Compétences maximum par compétence de classe">Points de Compétences maximum par compétence de classe</dt><dd>{{level.classSkillModifier}}</dd></dl>
+            <dl class="list-group-item dl-horizontal"><dt title="Points de Compétences maximum par compétence hors classe">Points de Compétences maximum par compétence hors classe</dt><dd>{{level.ofClassSkillModifier}}</dd></dl>
+            <dl class="list-group-item dl-horizontal"><dt title="Aquisition d'un don">Aquisition d'un don</dt><dd>{% if level.gift == true %}Oui{% else %}Non{% endif %}</dd></dl>
+            <dl class="list-group-item dl-horizontal"><dt title="Aquisition d'un point de caractéristique">Aquisition d'un point de caractéristique</dt><dd>{% if level.abilityUp == true %}Oui{% else %}Non{% endif %}</dd></dl>
         </div>
     </section>
 </div>

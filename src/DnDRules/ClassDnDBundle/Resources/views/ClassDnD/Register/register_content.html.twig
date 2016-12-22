@@ -9,6 +9,8 @@
         {{ form_errors(form.description) }}
         {{ form_errors(form.skills) }}
         {{ form_errors(form.diceHealth) }}
+        {{ form_errors(form.pointsSkillByLevel) }}
+        {{ form_errors(form.pointsSkillFirstLevel) }}
     </div>
     <br />
     {% endif %}
@@ -44,6 +46,20 @@
             {{ form_label(form.diceHealth, "Dé de vie :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
             <div class="col-md-9">
                 {{ form_widget(form.diceHealth, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.pointsSkillByLevel, "Points de compétence par niveau :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.pointsSkillByLevel, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.pointsSkillFirstLevel, "Points de compétence au niveau 1 :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-9">
+                {{ form_widget(form.pointsSkillFirstLevel, {'attr': {'class': 'form-control'}}) }}
             </div>
         </div>
     </fieldset>

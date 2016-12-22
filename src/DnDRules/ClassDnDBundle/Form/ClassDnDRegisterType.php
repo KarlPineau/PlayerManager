@@ -31,6 +31,8 @@ class ClassDnDRegisterType extends AbstractType
                                                     'required' => false,
                                                     'empty_value' => 'Dé de vie',
                                                     'empty_data'  => null))
+            ->add('pointsSkillByLevel',   'integer', array('required' => false))
+            ->add('pointsSkillFirstLevel','integer', array('required' => false))
         ;
     }
     

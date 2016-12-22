@@ -94,7 +94,7 @@ class CharacterUsedController extends Controller
                     
                     $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre personnage a bien été créé.' );
                     //Renvoie vers la page de gestion des Caractéristiques :
-                    return $this->redirect($this->generateUrl('dndinstance_characterused_characterused_insert_abilities', array('slug' => $characterUsed->getSlug())));
+                    return $this->redirect($this->generateUrl('dndinstance_characterused_characterused_edit_abilities', array('slug' => $characterUsed->getSlug(), 'context' => 'register')));
                 }
             }
         return $this->render('DnDInstanceCharacterBundle:CharacterUsed:Register/register.html.twig', array(
@@ -102,60 +102,33 @@ class CharacterUsedController extends Controller
                             ));
     }
     
-    public function viewAction($slug, $inline=false, $profile)
+    public function viewAction($slug)
     {
+        if(isset($_GET['context']) and !empty($_GET['context'])) {$context = $_GET['context'];} else {$context = 'block';}
+        if(isset($_GET['profile']) and !empty($_GET['profile'])) {$profile = $_GET['profile'];} else {$profile = 'full';}
+        if(isset($_GET['newLevel']) and !empty($_GET['newLevel'])) {$newLevel = $_GET['newLevel'];} else {$newLevel = false;}
+
         $em = $this->getDoctrine()->getManager();
         $characterUsed = $em->getRepository('DnDInstanceCharacterBundle:CharacterUsed')->findOneBySlug($slug);
         if($characterUsed === null) {throw $this->createNotFoundException('Personnage : [slug='.$slug.'] inexistant.');}
-        
-        $serviceCharacterUsedDnD = $this->get('dndinstance_character.characteruseddnd');
-        $serviceCharacterUsedAbility = $this->get('dndinstance_character.characterusedability');
-        $serviceCharacterUsedST = $this->get('dndinstance_character.characterusedst');
-        $serviceClassDnDAction = $this->get('dndrules_classdnd.classdndaction');
-        $serviceCharacterUsedXpPoints = $this->get('dndinstance_character.characterusedxppoints');
-        //Ability :
-        $abilities = $serviceCharacterUsedAbility->getAbilities($characterUsed);
-        $babs = $serviceCharacterUsedDnD->getBAB($characterUsed);
-        $grappleModifiers = $serviceCharacterUsedDnD->getGrappleModifier($characterUsed);
-        $ac = $serviceCharacterUsedDnD->getAC($characterUsed);
-        $touchAC = $serviceCharacterUsedDnD->getTouchAC($characterUsed);
-        $fFAC = $serviceCharacterUsedDnD->getFFAC($characterUsed);
-        $fortitude = $serviceCharacterUsedST->getFortitude($characterUsed);
-        $reflex = $serviceCharacterUsedST->getRefLex($characterUsed);
-        $will = $serviceCharacterUsedST->getWill($characterUsed);
-        $speed = $serviceCharacterUsedDnD->getSpeed($characterUsed);
-        $initiative = $serviceCharacterUsedDnD->getInitiativeModifier($characterUsed);
-        $xpForLevelUp = $serviceCharacterUsedDnD->getXpPointsForLevelUp($characterUsed);
-        $xpPoints = $serviceCharacterUsedXpPoints->getXpPoints($characterUsed);
+
         $sortsByClasses = array();
         foreach ($characterUsed->getClassDnDInstances() as $classDnDInstance) {
             $sortsByClass = array();
-            $sortsByLevel = $serviceClassDnDAction->getSorts($classDnDInstance->getClassDnD());
+            $sortsByLevel = $this->get('dndrules_classdnd.classdndaction')->getSorts($classDnDInstance->getClassDnD());
             array_push($sortsByClass, $classDnDInstance->getClassDnD());
             array_push($sortsByClass, $sortsByLevel);
             array_push($sortsByClasses, $sortsByClass);
         }
 
-        if($inline == true) {$fileRender = 'DnDInstanceCharacterBundle:CharacterUsed:view/view_content.html.twig';}
+        if($context == 'inline') {$fileRender = 'DnDInstanceCharacterBundle:CharacterUsed:view/view_content.html.twig';}
         else {$fileRender = 'DnDInstanceCharacterBundle:CharacterUsed:view.html.twig';}
         
         return $this->render($fileRender, array(
                                 'characterUsed' => $characterUsed,
-                                'abilities' => $abilities,
-                                'babs' => $babs,
-                                'grappleModifiers' => $grappleModifiers,
-                                'ac' => $ac,
-                                'touchAC' => $touchAC,
-                                'fFAC' => $fFAC,
-                                'fortitude' => $fortitude,
-                                'reflex' => $reflex,
-                                'will' => $will,
-                                'speed' => $speed,
-                                'initiative' => $initiative,
-                                'xpForLevelUp' => $xpForLevelUp,
                                 'sortsByClasses' => $sortsByClasses,
-                                'xpPoints' => $xpPoints,
-                                'profile' => $profile
+                                'profile' => $profile,
+                                'newLevel' => $newLevel
                             ));
     }
     
@@ -219,6 +192,6 @@ class CharacterUsedController extends Controller
             $this->get('session')->getFlashBag()->add('notice', 'Vous gagnez un niveau ! Vous êtes niveau '.$level->getLevel() );
         }
 
-        return $this->redirectToRoute('dndinstance_characterused_characterused_view', array('slug' => $characterUsed->getSlug()));
+        return $this->redirectToRoute('dndinstance_characterused_characterused_view', array('slug' => $characterUsed->getSlug(), 'newLevel' => true));
     }
 }

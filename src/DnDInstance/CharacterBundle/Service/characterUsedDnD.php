@@ -26,9 +26,7 @@ class characterUsedDnD
         //Si 1 classe -> récupère la classe et le niveau et regarde la concordance BBA sur la table de la classe -> retourne un array (cas où il y a plusieurs attaques)
         //Si plusieurs classes POUR PLUS TARD : A VERIFIER -> compare les différentes classes et les différents niveaux de BBA par classe pour sélectionner le meilleur.
 
-        if ($characterUsed === null) {
-          throw $this->createNotFoundException('Personnage inexistant.');
-        }
+        if ($characterUsed === null) {throw $this->createNotFoundException('Personnage inexistant.');}
         
         $classDnDInstances = $characterUsed->getClassDnDInstances();
         //ATTENTION ! La boucle ci-dessous ne marche que s'il n'y a qu'une ClassDnDInstance par CharacterUsed !

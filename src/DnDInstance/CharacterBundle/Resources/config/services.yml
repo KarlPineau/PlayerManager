@@ -9,7 +9,7 @@ services:
         
     dndinstance_character.characterusedskill:
         class: DnDInstance\CharacterBundle\Service\characterUsedSkill
-        arguments: [ "@doctrine.orm.entity_manager", "@security.context", "@dndinstance_character.characterusedability"]
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context", "@dndinstance_character.characterusedability", "@dndinstance_character.characterusedclassdnd"]
         
     dndinstance_character.characterusedst:
         class: DnDInstance\CharacterBundle\Service\characterUsedST

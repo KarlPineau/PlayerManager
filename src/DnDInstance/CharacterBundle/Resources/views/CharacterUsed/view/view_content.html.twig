@@ -5,6 +5,20 @@
     {% set allowEdit = false %}
 {% endif %}
 
+{% set abilities = dndinstance_character_characterusedability.getAbilities(characterUsed) %}
+{% set babs = dndinstance_character_characteruseddnd.getBAB(characterUsed) %}
+{% set grappleModifiers = dndinstance_character_characteruseddnd.getGrappleModifier(characterUsed) %}
+{% set ac = dndinstance_character_characteruseddnd.getAC(characterUsed) %}
+{% set touchAC = dndinstance_character_characteruseddnd.getTouchAC(characterUsed) %}
+{% set fFAC = dndinstance_character_characteruseddnd.getFFAC(characterUsed) %}
+{% set fortitude = dndinstance_character_characterusedst.getFortitude(characterUsed) %}
+{% set reflex = dndinstance_character_characterusedst.getRefLex(characterUsed) %}
+{% set will = dndinstance_character_characterusedst.getWill(characterUsed) %}
+{% set speed = dndinstance_character_characteruseddnd.getSpeed(characterUsed) %}
+{% set initiative = dndinstance_character_characteruseddnd.getInitiativeModifier(characterUsed) %}
+{% set xpForLevelUp = dndinstance_character_characteruseddnd.getXpPointsForLevelUp(characterUsed) %}
+{% set xpPoints = dndinstance_character_characterusedxppoints.getXpPoints(characterUsed) %}
+
 <div class="row">
     <section id="content" class="col-lg-12">
         {% for flashMessage in app.session.flashbag.get('notice') %}

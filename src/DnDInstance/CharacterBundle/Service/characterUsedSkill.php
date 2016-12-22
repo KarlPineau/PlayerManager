@@ -10,12 +10,14 @@ class characterUsedSkill
     protected $em;
     protected $security;
     protected $characterusedability;
+    protected $characterusedclassdnd;
 
-    public function __construct(EntityManager $EntityManager, SecurityContext $security_context, CharacterUsedAbility $characterusedability)
+    public function __construct(EntityManager $EntityManager, SecurityContext $security_context, CharacterUsedAbility $characterusedability, characterUsedClassDnD $characterUsedClassDnD)
     {
         $this->em = $EntityManager;
         $this->security = $security_context;
         $this->characterusedability = $characterusedability;
+        $this->characterusedclassdnd = $characterUsedClassDnD;
     }
     
     public function getCharacterSkillModifier($characterSkill, $detail=false) {
@@ -77,5 +79,24 @@ class characterUsedSkill
         if ($characterSkill === null) {throw $this->createNotFoundException('Liaison de Compétence inexistante.');}
 
         return $characterSkill->getRanks();
+    }
+
+    public function getTotalCountPointCurrent($characterUsed) {
+        $count = 0;
+
+        foreach($this->em->getRepository('DnDInstanceCharacterBundle:CharacterSkill')->findBy(array('characterUsedSkills' => $characterUsed)) as $characterSkill) {
+            $count += $characterSkill->getRanks();
+        }
+
+        return $count;
+    }
+
+    public function getTotalCountPointMax($characterUsed) {
+        $modInt = $this->characterusedability->getIntelligenceModifier($characterUsed);
+        $pointForLevel1 = $this->characterusedclassdnd->getMainClassDnD($characterUsed)->getPointsSkillFirstLevel();
+        $pointByLevel = $this->characterusedclassdnd->getMainClassDnD($characterUsed)->getPointsSkillByLevel();
+        $level = $this->characterusedclassdnd->getMainLevel($characterUsed);
+
+        return (($pointForLevel1+$modInt)*4)+(($pointByLevel+$modInt)*($level-1));
     }
 }

@@ -36,4 +36,22 @@ class characterUsedClassDnD
 
         return $return;
     }
+
+    public function getMainLevel($characterUsed) {
+        $return = null;
+        foreach($characterUsed->getClassDnDInstances() as $classDnDInstance) {
+            $return = $classDnDInstance->getLevel()->getLevel();
+        }
+
+        return $return;
+    }
+
+    public function getMainLevelInstance($characterUsed) {
+        $return = null;
+        foreach($characterUsed->getClassDnDInstances() as $classDnDInstance) {
+            $return = $classDnDInstance->getLevel();
+        }
+
+        return $return;
+    }
 }

@@ -30,7 +30,41 @@
         </div>
     </section>
     <aside class="col-lg-4">
-        Ici, contrôle live des infos ?
+        <div class="well">
+            <h3>Répartir vos points de compétence</h3>
+
+            <p>Les compétences vous permettent de spécifier les domaines d'expertise de votre personnage.</p>
+
+            {% if context == 'register' %}
+            <p>Au niveau 1, vous pouvez attribuer {{ dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).pointsSkillFirstLevel }}
+                (pour la classe {{ dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).name }}) +
+            {{ dndinstance_character_characterusedability.getIntelligenceModifier(characterUsed) }} (<abbr title="modificateur d'intelligence">mod. Int.</abbr>),
+            x 4 points de compétence.</p>
+            <p>Pour votre personnage, cela donne :</p>
+            <p class="text-center text-info"><strong>({{ dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).pointsSkillFirstLevel }}+{{ dndinstance_character_characterusedability.getIntelligenceModifier(characterUsed) }})x4 =
+                    {{ (dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).pointsSkillFirstLevel+dndinstance_character_characterusedability.getIntelligenceModifier(characterUsed))*4 }} points</strong>
+            </p>
+            {% elseif context == 'edit' %}
+                <p>Vous avez attribué {{ dndinstance_character_characterusedskill.getTotalCountPointCurrent(characterUsed) }} sur
+                        {{ dndinstance_character_characterusedskill.getTotalCountPointMax(characterUsed) }} points.</p>
+
+                <p class="text-center text-info">Il vous reste <strong>{{ dndinstance_character_characterusedskill.getTotalCountPointMax(characterUsed)-dndinstance_character_characterusedskill.getTotalCountPointCurrent(characterUsed) }}
+                        points</strong> à attributer.</p>
+            {% endif %}
+
+            <hr />
+            <p>Distinguez :</p>
+            <ul>
+                <li>les compétences de classe (1 point attribué = 1 point d'expertise)</li>
+                <li>les compétences hors classe (1 point attribué = 0.5 point d'expertise)</li>
+            </ul>
+            <p>Les compétences de classe d'un {{ dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).name }} sont :</p>
+            <ul>
+                {% for skill in dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).skills %}
+                    <li>{{ skill.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
     </aside>
 </div>
 {% endblock %}

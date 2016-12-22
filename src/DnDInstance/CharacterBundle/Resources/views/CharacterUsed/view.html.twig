@@ -27,7 +27,7 @@
             <li><a href="{{ path('dndinstance_characterused_characterused_edit_abilities', {'slug': characterUsed.slug}) }}" >Cara.</a></li>
             <li><a href="{{ path('dndinstance_characterused_characterused_edit_skills', {'slug': characterUsed.slug}) }}" >Comp.</a></li>
             <li role="separator" class="divider"></li>
-            <li><a class="bg-danger main-JS-delete" href="{{ path('dndinstance_characterused_characterused_delete', {'slug': characterUsed.slug}) }}"><i class="fa fa-trash" aria-hidden="true"></i>Supprimer</a></li>
+            <li><a class="bg-danger main-JS-delete" href="{{ path('dndinstance_characterused_characterused_delete', {'slug': characterUsed.slug}) }}"><i class="fa fa-trash" aria-hidden="true"></i> Supprimer</a></li>
         </ul>
     </div>
     {% endif %}
@@ -40,4 +40,22 @@
 
 {% block PM_body %}
     {% include 'DnDInstanceCharacterBundle:CharacterUsed:view/view_content.html.twig' %}
+
+    {% if newLevel == true %}
+        {% include 'DnDInstanceCharacterBundle:CharacterUsed:view/view_newLevel.html.twig' %}
+    {% endif %}
+{% endblock %}
+
+{% block javascripts_block %}
+    {# javascripts  '@DnDInstanceCharacterBundle/Resources/public/js/characterUsedAddSkill.js'  %}
+    <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts #}
+
+    {% if newLevel == true %}
+        <script>
+            $(document).ready(function() {
+                $('#newLevelModal').modal('show');
+            });
+        </script>
+    {% endif %}
 {% endblock %}

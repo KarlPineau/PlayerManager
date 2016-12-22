@@ -11,7 +11,7 @@
     <div class="tab-content">
         {% for character in game.characters %}
         <div role="tabpanel" class="tab-pane {% if loop.index == 1 %}active{%endif%}" id="{{character.slug}}">
-            {{ render(controller('DnDInstanceCharacterBundle:CharacterUsed:view', {'slug': character.slug, 'inline' : true, 'profile': 'short'})) }}
+            {{ render(controller('DnDInstanceCharacterBundle:CharacterUsed:view', {'slug': character.slug, 'context' : 'inline', 'profile': 'short'})) }}
         </div>
         {% endfor %}
     </div>
