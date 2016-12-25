@@ -12,10 +12,9 @@ class CharacterAbilityController extends Controller
         if(isset($_GET['context']) and !empty($_GET['context'])) {$context = $_GET['context'];} else {$context = 'edit';}
 
         // -- Récupération du personnage et de ses caractéristiques :
-        $manager = $this->getDoctrine()
-                        ->getManager();
-        $repositoryCharacterUsed = $manager->getRepository('DnDInstanceCharacterBundle:CharacterUsed');
-        $repositoryAbility = $manager->getRepository('DnDInstanceCharacterBundle:CharacterAbility');
+        $em = $this->getDoctrine()->getManager();
+        $repositoryCharacterUsed = $em->getRepository('DnDInstanceCharacterBundle:CharacterUsed');
+        $repositoryAbility = $em->getRepository('DnDInstanceCharacterBundle:CharacterAbility');
  
         $characterUsed = $repositoryCharacterUsed->findOneBySlug($slug);
         $abilities = $repositoryAbility->findBy(array('characterUsed' => $characterUsed),

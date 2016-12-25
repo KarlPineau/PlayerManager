@@ -33,7 +33,7 @@
                 {% endif %}
                 <div class="text-center"><strong>M.J.</strong></div>
                 <br />
-                <div class="text-center"><a class="btn btn-danger btn-lg" href="{{path('game_game_game_view', {'slug': game.slug})}}">Lancer</a></div>
+                <div class="text-center"><a class="btn btn-danger btn-lg" href="{{path('game_game_game_view', {'slug': game.slug, 'context': 'inline', 'profile': 'short'})}}">Lancer</a></div>
             {% endif %}
         </div>
     </div>

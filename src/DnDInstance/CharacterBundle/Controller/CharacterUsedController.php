@@ -10,6 +10,7 @@ use DnDInstance\CharacterBundle\Entity\CharacterAbility;
 use DnDInstance\CharacterBundle\Form\CharacterUsedRegisterType;
 use DnDInstance\CharacterBundle\Form\CharacterUsedEditType;
 use DnDInstance\CharacterBundle\Entity\XpPoints;
+use Symfony\Component\HttpFoundation\Request;
 
 class CharacterUsedController extends Controller
 {
@@ -21,7 +22,7 @@ class CharacterUsedController extends Controller
         ));
     }
     
-    public function registerAction()
+    public function registerAction(Request $request)
     {   
         $em = $this->getDoctrine()->getManager();
         // -- Gestion de la richesse du personnage :
@@ -61,42 +62,37 @@ class CharacterUsedController extends Controller
         );
  
         // -- Validation du formulaire :
-        $request = $this->get('request');
-            if ($request->getMethod() == 'POST') {
-                $form->bind($request);
-                
-                if ($form->isValid()) {
-                    // -- Gestion de la classe
-                    $classDnDInstances = $characterUsed->getClassDnDInstances();
-                    foreach ($classDnDInstances as $classDnDInstance) {
-                        $classDnDInstance->setCreateUser($this->getUser());
-                        $classDnDInstance->setCharacterUsedDnDInstance($characterUsed);
-                        $em->persist($classDnDInstance);
-                    }
-                    // -- On crée un CharacterSkill pour chaque Skill
-                    $repositorySkill = $em->getRepository('DnDRulesSkillBundle:Skill');
-                    $skills = $repositorySkill->findAll();
-                    foreach ($skills as $skill) {
-                        $characterSkill = new CharacterSkill;
-                        $characterSkill->setCreateUser($this->getUser());
-                        $characterSkill->setCharacterUsedSkills($characterUsed);
-                        $characterSkill->setSkill($skill);
-                        $characterSkill->setRanks(0);
-                        $em->persist($characterSkill);
-                    }
-                    // -- Autres paramètres :
-                    $em->persist($characterUsed);
-                    $em->persist($characterWealth);
-                    $em->persist($xpPoints);
-                    $em->persist($strength); $em->persist($dexterity); $em->persist($constitution); $em->persist($intelligence); $em->persist($wisdom); $em->persist($charisma);
-                    
-                    $em->flush();
-                    
-                    $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre personnage a bien été créé.' );
-                    //Renvoie vers la page de gestion des Caractéristiques :
-                    return $this->redirect($this->generateUrl('dndinstance_characterused_characterused_edit_abilities', array('slug' => $characterUsed->getSlug(), 'context' => 'register')));
-                }
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $classDnDInstances = $characterUsed->getClassDnDInstances();
+            foreach ($classDnDInstances as $classDnDInstance) {
+                $classDnDInstance->setCreateUser($this->getUser());
+                $classDnDInstance->setCharacterUsedDnDInstance($characterUsed);
+                $em->persist($classDnDInstance);
             }
+            // -- On crée un CharacterSkill pour chaque Skill
+            $repositorySkill = $em->getRepository('DnDRulesSkillBundle:Skill');
+            $skills = $repositorySkill->findAll();
+            foreach ($skills as $skill) {
+                $characterSkill = new CharacterSkill;
+                $characterSkill->setCreateUser($this->getUser());
+                $characterSkill->setCharacterUsedSkills($characterUsed);
+                $characterSkill->setSkill($skill);
+                $characterSkill->setRanks(0);
+                $em->persist($characterSkill);
+            }
+            // -- Autres paramètres :
+            $em->persist($characterUsed);
+            $em->persist($characterWealth);
+            $em->persist($xpPoints);
+            $em->persist($strength); $em->persist($dexterity); $em->persist($constitution); $em->persist($intelligence); $em->persist($wisdom); $em->persist($charisma);
+
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre personnage a bien été créé.' );
+            //Renvoie vers la page de gestion des Caractéristiques :
+            return $this->redirect($this->generateUrl('dndinstance_characterused_characterused_edit_abilities', array('slug' => $characterUsed->getSlug(), 'context' => 'register')));
+        }
         return $this->render('DnDInstanceCharacterBundle:CharacterUsed:Register/register.html.twig', array(
                                 'form' => $form->createView(),
                             ));
@@ -104,9 +100,9 @@ class CharacterUsedController extends Controller
     
     public function viewAction($slug)
     {
-        if(isset($_GET['context']) and !empty($_GET['context'])) {$context = $_GET['context'];} else {$context = 'block';}
-        if(isset($_GET['profile']) and !empty($_GET['profile'])) {$profile = $_GET['profile'];} else {$profile = 'full';}
-        if(isset($_GET['newLevel']) and !empty($_GET['newLevel'])) {$newLevel = $_GET['newLevel'];} else {$newLevel = false;}
+        if(isset($_GET['context']) and !empty($_GET['context'])) {$context = $_GET['context'];} elseif(isset($_POST['context']) and !empty($_POST['context'])) {$context = $_POST['context'];} else {$context = 'block';}
+        if(isset($_GET['profile']) and !empty($_GET['profile'])) {$profile = $_GET['profile'];} elseif(isset($_POST['profile']) and !empty($_POST['profile'])) {$profile = $_POST['profile'];} else {$profile = 'full';}
+        if(isset($_GET['newLevel']) and !empty($_GET['newLevel'])) {$newLevel = $_GET['newLevel'];} elseif(isset($_POST['newLevel']) and !empty($_POST['newLevel'])) {$newLevel = $_POST['newLevel'];} else {$newLevel = false;}
 
         $em = $this->getDoctrine()->getManager();
         $characterUsed = $em->getRepository('DnDInstanceCharacterBundle:CharacterUsed')->findOneBySlug($slug);
@@ -128,11 +124,12 @@ class CharacterUsedController extends Controller
                                 'characterUsed' => $characterUsed,
                                 'sortsByClasses' => $sortsByClasses,
                                 'profile' => $profile,
-                                'newLevel' => $newLevel
+                                'newLevel' => $newLevel,
+                                'context' => $context
                             ));
     }
     
-    public function editAction($slug)
+    public function editAction($slug, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $characterUsed = $em->getRepository('DnDInstanceCharacterBundle:CharacterUsed')->findOneBySlug($slug);
@@ -148,19 +145,15 @@ class CharacterUsedController extends Controller
         $form = $this->createForm(new CharacterUsedEditType, $characterUsed, array(
                 'attr' => array('user_id' => $this->getUser()->getId(), 'role' => $role_user))
         );
-        $request = $this->get('request');
-            if ($request->getMethod() == 'POST') {
-                $form->bind($request);
-                
-                if ($form->isValid()) {
-                    $characterUsed->setUpdateUser($this->getUser());
-                    $em->persist($characterUsed);
-                    $em->flush();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $characterUsed->setUpdateUser($this->getUser());
+            $em->persist($characterUsed);
+            $em->flush();
 
-                    $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre personnage a bien été édité.' );
-                    return $this->redirectToRoute('dndinstance_characterused_characterused_view', array('slug' => $characterUsed->getSlug()));
-                }
-            }
+            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre personnage a bien été édité.' );
+            return $this->redirectToRoute('dndinstance_characterused_characterused_view', array('slug' => $characterUsed->getSlug()));
+        }
         
         return $this->render('DnDInstanceCharacterBundle:CharacterUsed:Edit/edit.html.twig', array(
                                 'characterUsed' => $characterUsed,
