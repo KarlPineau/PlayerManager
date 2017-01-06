@@ -1,4 +1,4 @@
 services:
-#    dn_d_instance_class_dn_d.example:
-#        class: DnDInstance\ClassDnDBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    dndinstance_classdnd.classdndinstance:
+        class: DnDInstance\ClassDnDBundle\Service\classDnDInstance
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]

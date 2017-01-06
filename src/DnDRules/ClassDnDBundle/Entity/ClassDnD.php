@@ -72,6 +72,18 @@ class ClassDnD
     private $skills;
 
     /**
+     * @ORM\ManyToMany(targetEntity="DnDRules\WeaponBundle\Entity\WeaponType")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $allowWeaponType;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="DnDRules\ArmorBundle\Entity\ArmorType")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $allowArmorType;
+
+    /**
      * @ORM\ManyToOne(targetEntity="PM\HomeBundle\Entity\DiceType")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -431,5 +443,71 @@ class ClassDnD
     public function getPointsSkillFirstLevel()
     {
         return $this->pointsSkillFirstLevel;
+    }
+
+    /**
+     * Add allowWeaponType
+     *
+     * @param \DnDRules\WeaponBundle\Entity\WeaponType $allowWeaponType
+     * @return ClassDnD
+     */
+    public function addAllowWeaponType(\DnDRules\WeaponBundle\Entity\WeaponType $allowWeaponType)
+    {
+        $this->allowWeaponType[] = $allowWeaponType;
+
+        return $this;
+    }
+
+    /**
+     * Remove allowWeaponType
+     *
+     * @param \DnDRules\WeaponBundle\Entity\WeaponType $allowWeaponType
+     */
+    public function removeAllowWeaponType(\DnDRules\WeaponBundle\Entity\WeaponType $allowWeaponType)
+    {
+        $this->allowWeaponType->removeElement($allowWeaponType);
+    }
+
+    /**
+     * Get allowWeaponType
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAllowWeaponType()
+    {
+        return $this->allowWeaponType;
+    }
+
+    /**
+     * Add allowArmorType
+     *
+     * @param \DnDRules\ArmorBundle\Entity\ArmorType $allowArmorType
+     * @return ClassDnD
+     */
+    public function addAllowArmorType(\DnDRules\ArmorBundle\Entity\ArmorType $allowArmorType)
+    {
+        $this->allowArmorType[] = $allowArmorType;
+
+        return $this;
+    }
+
+    /**
+     * Remove allowArmorType
+     *
+     * @param \DnDRules\ArmorBundle\Entity\ArmorType $allowArmorType
+     */
+    public function removeAllowArmorType(\DnDRules\ArmorBundle\Entity\ArmorType $allowArmorType)
+    {
+        $this->allowArmorType->removeElement($allowArmorType);
+    }
+
+    /**
+     * Get allowArmorType
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAllowArmorType()
+    {
+        return $this->allowArmorType;
     }
 }

@@ -19,15 +19,15 @@ class MonsterAbilityInstanceType extends AbstractType
                                                           'scale' => 2,
                                                           'label' => 'Valeur',
                                                           'attr' => array('class' => 'form-control')))
-            ->add('ability',    'entity',       array(  'class' => 'DnDRulesAbilityBundle:Ability',
-                                                            'property'    => 'name',
-                                                            'expanded' => false,
-                                                            'multiple' => false,
-                                                            'required' => true,
-                                                            'empty_value' => 'Caractérisique',
-                                                            'empty_data'  => null,
-                                                            'label' => 'Caractéristique',
-                                                            'attr' => array('class' => 'form-control')))
+            ->add('ability',        'entity',       array('class' => 'DnDRulesAbilityBundle:Ability',
+                                                          'property'    => 'name',
+                                                          'expanded' => false,
+                                                          'multiple' => false,
+                                                          'required' => true,
+                                                          'empty_value' => 'Caractérisique',
+                                                          'empty_data'  => null,
+                                                          'label' => 'Caractéristique',
+                                                          'attr' => array('class' => 'form-control')))
         ;
     }
     

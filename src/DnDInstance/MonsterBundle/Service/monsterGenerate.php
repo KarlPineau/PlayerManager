@@ -24,7 +24,7 @@ class monsterGenerate
             foreach ($monsterType->getHpForm() as $hpForm) {
                 foreach ($hpForm->getDiceEntities() as $diceEntity) {
                      for ($indexDiceEntity = 1; $indexDiceEntity <= $diceEntity->getDiceNumber(); $indexDiceEntity++) {
-                         $diceEntitiesHp .= rand(1, $diceEntity->getDiceType()->getDice());
+                         $diceEntitiesHp += rand(1, $diceEntity->getDiceType()->getDice());
                      }
                 }
                 foreach ($hpForm->getBonusNumbers() as $bonus) {

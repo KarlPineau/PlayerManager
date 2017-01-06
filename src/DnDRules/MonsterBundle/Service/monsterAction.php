@@ -26,4 +26,9 @@ class monsterAction
         $this->em->remove($monster);
         $this->em->flush();
     }
+
+    public function getMonsterST($monster)
+    {
+        return $this->em->getRepository('DnDRulesMonsterBundle:MonsterST')->findOneByMonster($monster);
+    }
 }

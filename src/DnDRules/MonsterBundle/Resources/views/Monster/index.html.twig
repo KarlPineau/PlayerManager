@@ -17,7 +17,7 @@
 
 {% block h1_extend %}
     {% if is_granted('ROLE_ADMIN') %}
-        <a class="btn btn-primary" href="{{ path('dndrules_monster_monster_insert') }}"><i class="fa fa-plus" aria-hidden="true"></i></a>
+        <a class="btn btn-primary" href="{{ path('dndrules_monster_monster_edit') }}"><i class="fa fa-plus" aria-hidden="true"></i></a>
     {% endif %}
 {% endblock %}
     

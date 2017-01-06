@@ -2,10 +2,6 @@
 dndrules_monster_monster_home:
     path:     /monstres
     defaults: { _controller: DnDRulesMonsterBundle:Monster:index }
-
-dndrules_monster_monster_insert:
-    path:     /monstres/insertion
-    defaults: { _controller: DnDRulesMonsterBundle:Monster:register }
     
 dndrules_monster_monster_view:
     path:     /monstres/vue/{slug}
@@ -14,16 +10,83 @@ dndrules_monster_monster_view:
         slug:  \S{0,255}
     
 dndrules_monster_monster_edit:
-    path:     /monstres/editer/{slug}
-    defaults: { _controller: DnDRulesMonsterBundle:Monster:edit }
+    path:     /monstres/editer/{id}
+    defaults: { _controller: DnDRulesMonsterBundle:Monster:edit, id: null }
+
+dndrules_monster_monster_edit_fight:
+    path:     /monstres/editer-combat/{id}
+    defaults: { _controller: DnDRulesMonsterBundle:Monster:editFight }
     requirements:
-        slug:  \S{0,255}
+        id:  \d+
+
+dndrules_monster_monster_edit_ability:
+    path:     /monstres/editer-caractéristiques/{id}
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterAbility:edit }
+    requirements:
+        id:  \d+
+
+dndrules_monster_monster_delete_ability:
+    path:     /monstres/supprimer-caractéristique/{id}
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterAbility:deleteAbilityInstance }
+    requirements:
+        id:  \d+
+
+dndrules_monster_monster_edit_skill:
+    path:     /monstres/editer-compétences/{id}
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterSkill:edit }
+    requirements:
+        id:  \d+
+
+dndrules_monster_monster_delete_skill:
+    path:     /monstres/supprimer-compétence/{id}
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterSkill:deleteSkillInstance }
+    requirements:
+        id:  \d+
+
+dndrules_monster_monster_edit_st:
+    path:     /monstres/editer-jets-de-sauvegarde/{id}
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterST:edit }
+    requirements:
+        id:  \d+
+
+dndrules_monster_monster_edit_attack:
+    path:     /monstres/editer-attaques/{id}
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterAttack:edit }
+    requirements:
+        id:  \d+
+
+dndrules_monster_monster_delete_attack:
+    path:     /monstres/supprimer-attaque/{id_monster}/{id_attack}
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterAttack:deleteAttackInstance }
+    requirements:
+        id_attack:  \d+
+        id_monster:  \d+
+
+dndrules_monster_monster_delete_attack_damageform:
+    path:     /monstres/supprimer-attaque-dommages/{id_attackInstance}/{id_damageForm}
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterAttack:deleteAttackInstanceDamageForm }
+    requirements:
+        id_attackInstance:  \d+
+        id_damageForm:  \d+
+
+dndrules_monster_monster_delete_attack_critic:
+    path:     /monstres/supprimer-attaque-critique/{id_attackInstance}/{id_critic}
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterAttack:deleteAttackInstanceCritic }
+    requirements:
+        id_attackInstance:  \d+
+        id_critic:  \d+
+
+dndrules_monster_monster_edit_attack_extreme:
+    path:     /monstres/modifier-attaque-extreme-description/{id}
+    defaults: { _controller: DnDRulesMonsterBundle:MonsterAttack:editExtreme }
+    requirements:
+        id:  \d+
     
 dndrules_monster_monster_delete:
-    path:     /monstres/supprimer/{slug}
+    path:     /monstres/supprimer/{id}
     defaults: { _controller: DnDRulesMonsterBundle:Monster:delete }
     requirements:
-        slug:  \S{0,255}
+        id:  \d+
         
 # -- Environnement -- #
 dndrules_monster_environment_home:

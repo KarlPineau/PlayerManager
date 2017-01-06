@@ -30,19 +30,19 @@ class Fight
     protected $game;
     
     /**
-     * @ORM\ManyToMany(targetEntity="DnDInstance\FightBundle\Entity\FightCharacterUsed")
+     * @ORM\ManyToMany(targetEntity="DnDInstance\FightBundle\Entity\FightCharacterUsed", mappedBy="fight", cascade={"remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $fightCharacters;
     
     /**
-     * @ORM\ManyToMany(targetEntity="DnDInstance\FightBundle\Entity\FightMonsterInstance")
+     * @ORM\ManyToMany(targetEntity="DnDInstance\FightBundle\Entity\FightMonsterInstance", cascade={"remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $fightMonsterInstances;
     
     /**
-     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=true)
      */
     protected $createUser;
@@ -56,7 +56,7 @@ class Fight
     protected $createDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=true)
      */
     protected $updateUser;
@@ -89,5 +89,217 @@ class Fight
     public function getId()
     {
         return $this->id;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->fightCharacters = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->fightMonsterInstances = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set createDate
+     *
+     * @param \DateTime $createDate
+     * @return Fight
+     */
+    public function setCreateDate($createDate)
+    {
+        $this->createDate = $createDate;
+
+        return $this;
+    }
+
+    /**
+     * Get createDate
+     *
+     * @return \DateTime 
+     */
+    public function getCreateDate()
+    {
+        return $this->createDate;
+    }
+
+    /**
+     * Set updateDate
+     *
+     * @param \DateTime $updateDate
+     * @return Fight
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+
+        return $this;
+    }
+
+    /**
+     * Get updateDate
+     *
+     * @return \DateTime 
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * Set updateComment
+     *
+     * @param string $updateComment
+     * @return Fight
+     */
+    public function setUpdateComment($updateComment)
+    {
+        $this->updateComment = $updateComment;
+
+        return $this;
+    }
+
+    /**
+     * Get updateComment
+     *
+     * @return string 
+     */
+    public function getUpdateComment()
+    {
+        return $this->updateComment;
+    }
+
+    /**
+     * Set game
+     *
+     * @param \Game\GameBundle\Entity\Game $game
+     * @return Fight
+     */
+    public function setGame(\Game\GameBundle\Entity\Game $game)
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    /**
+     * Get game
+     *
+     * @return \Game\GameBundle\Entity\Game 
+     */
+    public function getGame()
+    {
+        return $this->game;
+    }
+
+    /**
+     * Add fightCharacters
+     *
+     * @param \DnDInstance\FightBundle\Entity\FightCharacterUsed $fightCharacters
+     * @return Fight
+     */
+    public function addFightCharacter(\DnDInstance\FightBundle\Entity\FightCharacterUsed $fightCharacters)
+    {
+        $this->fightCharacters[] = $fightCharacters;
+
+        return $this;
+    }
+
+    /**
+     * Remove fightCharacters
+     *
+     * @param \DnDInstance\FightBundle\Entity\FightCharacterUsed $fightCharacters
+     */
+    public function removeFightCharacter(\DnDInstance\FightBundle\Entity\FightCharacterUsed $fightCharacters)
+    {
+        $this->fightCharacters->removeElement($fightCharacters);
+    }
+
+    /**
+     * Get fightCharacters
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFightCharacters()
+    {
+        return $this->fightCharacters;
+    }
+
+    /**
+     * Add fightMonsterInstances
+     *
+     * @param \DnDInstance\FightBundle\Entity\FightMonsterInstance $fightMonsterInstances
+     * @return Fight
+     */
+    public function addFightMonsterInstance(\DnDInstance\FightBundle\Entity\FightMonsterInstance $fightMonsterInstances)
+    {
+        $this->fightMonsterInstances[] = $fightMonsterInstances;
+
+        return $this;
+    }
+
+    /**
+     * Remove fightMonsterInstances
+     *
+     * @param \DnDInstance\FightBundle\Entity\FightMonsterInstance $fightMonsterInstances
+     */
+    public function removeFightMonsterInstance(\DnDInstance\FightBundle\Entity\FightMonsterInstance $fightMonsterInstances)
+    {
+        $this->fightMonsterInstances->removeElement($fightMonsterInstances);
+    }
+
+    /**
+     * Get fightMonsterInstances
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFightMonsterInstances()
+    {
+        return $this->fightMonsterInstances;
+    }
+
+    /**
+     * Set createUser
+     *
+     * @param \CAS\UserBundle\Entity\User $createUser
+     * @return Fight
+     */
+    public function setCreateUser(\CAS\UserBundle\Entity\User $createUser = null)
+    {
+        $this->createUser = $createUser;
+
+        return $this;
+    }
+
+    /**
+     * Get createUser
+     *
+     * @return \CAS\UserBundle\Entity\User
+     */
+    public function getCreateUser()
+    {
+        return $this->createUser;
+    }
+
+    /**
+     * Set updateUser
+     *
+     * @param \CAS\UserBundle\Entity\User $updateUser
+     * @return Fight
+     */
+    public function setUpdateUser(\CAS\UserBundle\Entity\User $updateUser = null)
+    {
+        $this->updateUser = $updateUser;
+
+        return $this;
+    }
+
+    /**
+     * Get updateUser
+     *
+     * @return \CAS\UserBundle\Entity\User
+     */
+    public function getUpdateUser()
+    {
+        return $this->updateUser;
     }
 }

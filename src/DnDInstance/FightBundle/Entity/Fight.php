@@ -30,7 +30,7 @@ class Fight
     protected $game;
     
     /**
-     * @ORM\ManyToMany(targetEntity="DnDInstance\FightBundle\Entity\FightCharacterUsed", cascade={"remove"})
+     * @ORM\ManyToMany(targetEntity="DnDInstance\FightBundle\Entity\FightCharacterUsed", mappedBy="fight", cascade={"remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $fightCharacters;

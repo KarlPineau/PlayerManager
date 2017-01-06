@@ -26,4 +26,15 @@ class weaponAction
         $this->em->remove($weapon);
         $this->em->flush();
     }
+
+    public function getDamagePerSize($weapon) {
+        $weaponDamages = array();
+        foreach($this->em->getRepository('DnDRulesSizeBundle:Size')->findAll() as $size) {
+            if($this->em->getRepository('DnDRulesWeaponBundle:WeaponDamage')->findBy(array('weapon' => $weapon, 'size' => $size)) != null) {
+                $weaponDamages[] = ['size' => $size, 'weapon' => $weapon, 'damages' => $this->em->getRepository('DnDRulesWeaponBundle:WeaponDamage')->findBy(array('weapon' => $weapon, 'size' => $size))];
+            }
+        }
+
+        return $weaponDamages;
+    }
 }

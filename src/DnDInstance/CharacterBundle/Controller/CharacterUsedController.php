@@ -25,29 +25,34 @@ class CharacterUsedController extends Controller
     public function registerAction(Request $request)
     {   
         $em = $this->getDoctrine()->getManager();
+
+        // -- Création du personnage :
+        $characterUsed = new CharacterUsed;
+
         // -- Gestion de la richesse du personnage :
         $characterWealth = new CharacterWealth;
         $characterWealth->setCreateUser($this->getUser()); $characterWealth->setPo(0); $characterWealth->setPa(0); $characterWealth->setPc(0);
-        
-        // -- Création du personnage :
-        $characterUsed = new CharacterUsed;
+        $characterWealth->setCharacterUsedWealth($characterUsed);
+
+        // -- Info de base
         $characterUsed->setCreateUser($this->getUser());
-        $characterUsed->setHpCurrent(0); $characterUsed->setHpMax(0); $characterUsed->setWealth($characterWealth);
-        
+        $characterUsed->setHpCurrent(0); $characterUsed->setHpMax(0); $characterUsed->addWealth($characterWealth);
+
         // -- Création des XpPoints :
         $xpPoints = new XpPoints;
         $xpPoints->setCreateUser($this->getUser());
-        $xpPoints->setCharacterUsed($characterUsed);
+        $xpPoints->setCharacterUsedDnDXpPoints($characterUsed);
         $xpPoints->setIncrease(0);
+        $characterUsed->addXpPoint($xpPoints);
         
         // -- Gestion des Caractéristiques du personnage :
         $repositoryAbility = $em->getRepository('DnDRulesAbilityBundle:Ability');
-        $strength = new CharacterAbility;        $strength->setCreateUser($this->getUser());       $strength->setAbility($repositoryAbility->findOneByName('Force'));              $strength->setValue(0);     $strength->setCharacterUsed($characterUsed);
-        $dexterity = new CharacterAbility;       $dexterity->setCreateUser($this->getUser());      $dexterity->setAbility($repositoryAbility->findOneByName('Dextérité'));         $dexterity->setValue(0);    $dexterity->setCharacterUsed($characterUsed);
-        $constitution = new CharacterAbility;    $constitution->setCreateUser($this->getUser());   $constitution->setAbility($repositoryAbility->findOneByName('Constitution'));   $constitution->setValue(0); $constitution->setCharacterUsed($characterUsed);
-        $intelligence = new CharacterAbility;    $intelligence->setCreateUser($this->getUser());   $intelligence->setAbility($repositoryAbility->findOneByName('Intelligence'));   $intelligence->setValue(0); $intelligence->setCharacterUsed($characterUsed);
-        $wisdom = new CharacterAbility;          $wisdom->setCreateUser($this->getUser());         $wisdom->setAbility($repositoryAbility->findOneByName('Sagesse'));              $wisdom->setValue(0);       $wisdom->setCharacterUsed($characterUsed);
-        $charisma = new CharacterAbility;        $charisma->setCreateUser($this->getUser());       $charisma->setAbility($repositoryAbility->findOneByName('Charisme'));           $charisma->setValue(0);     $charisma->setCharacterUsed($characterUsed);
+        $strength = new CharacterAbility;        $strength->setCreateUser($this->getUser());       $strength->setAbility($repositoryAbility->findOneByName('Force'));              $strength->setValue(0);     $strength->setCharacterUsedDnDAbilities($characterUsed);
+        $dexterity = new CharacterAbility;       $dexterity->setCreateUser($this->getUser());      $dexterity->setAbility($repositoryAbility->findOneByName('Dextérité'));         $dexterity->setValue(0);    $dexterity->setCharacterUsedDnDAbilities($characterUsed);
+        $constitution = new CharacterAbility;    $constitution->setCreateUser($this->getUser());   $constitution->setAbility($repositoryAbility->findOneByName('Constitution'));   $constitution->setValue(0); $constitution->setCharacterUsedDnDAbilities($characterUsed);
+        $intelligence = new CharacterAbility;    $intelligence->setCreateUser($this->getUser());   $intelligence->setAbility($repositoryAbility->findOneByName('Intelligence'));   $intelligence->setValue(0); $intelligence->setCharacterUsedDnDAbilities($characterUsed);
+        $wisdom = new CharacterAbility;          $wisdom->setCreateUser($this->getUser());         $wisdom->setAbility($repositoryAbility->findOneByName('Sagesse'));              $wisdom->setValue(0);       $wisdom->setCharacterUsedDnDAbilities($characterUsed);
+        $charisma = new CharacterAbility;        $charisma->setCreateUser($this->getUser());       $charisma->setAbility($repositoryAbility->findOneByName('Charisme'));           $charisma->setValue(0);     $charisma->setCharacterUsedDnDAbilities($characterUsed);
 
         // -- Calcul des droits de l'utilisateur
         if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
@@ -64,16 +69,13 @@ class CharacterUsedController extends Controller
         // -- Validation du formulaire :
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $classDnDInstances = $characterUsed->getClassDnDInstances();
-            foreach ($classDnDInstances as $classDnDInstance) {
+            foreach ($characterUsed->getClassDnDInstances() as $classDnDInstance) {
                 $classDnDInstance->setCreateUser($this->getUser());
                 $classDnDInstance->setCharacterUsedDnDInstance($characterUsed);
                 $em->persist($classDnDInstance);
             }
             // -- On crée un CharacterSkill pour chaque Skill
-            $repositorySkill = $em->getRepository('DnDRulesSkillBundle:Skill');
-            $skills = $repositorySkill->findAll();
-            foreach ($skills as $skill) {
+            foreach ($em->getRepository('DnDRulesSkillBundle:Skill')->findAll() as $skill) {
                 $characterSkill = new CharacterSkill;
                 $characterSkill->setCreateUser($this->getUser());
                 $characterSkill->setCharacterUsedSkills($characterUsed);
@@ -133,7 +135,8 @@ class CharacterUsedController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
         $characterUsed = $em->getRepository('DnDInstanceCharacterBundle:CharacterUsed')->findOneBySlug($slug);
-        if ($characterUsed === null) {throw $this->createNotFoundException('Personnage : [slug='.$slug.'] inexistant.');}
+        if($characterUsed === null) {throw $this->createNotFoundException('CharacterUsed : [slug='.$slug.'] undefined.');}
+        if($characterUsed->getUser() != $this->getUser() AND !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('CharacterUsed : [slug='.$slug.'] undefined.');}
 
         // -- Calcul des droits de l'utilisateur
         if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
@@ -186,5 +189,17 @@ class CharacterUsedController extends Controller
         }
 
         return $this->redirectToRoute('dndinstance_characterused_characterused_view', array('slug' => $characterUsed->getSlug(), 'newLevel' => true));
+    }
+
+    public function cloneAction($slug)
+    {
+        $characterUsed = $this->getDoctrine()->getManager()->getRepository('DnDInstanceCharacterBundle:CharacterUsed')->findOneBySlug($slug);
+        if($characterUsed === null) {throw $this->createNotFoundException('Personnage : [slug='.$slug.'] inexistant.');}
+        if($characterUsed->getUser() != $this->getUser() AND !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Personnage : [slug='.$slug.'] inexistant.');}
+
+        $newCharacterUsed = $this->container->get('dndinstance_character.characterusedaction')->cloneCharacterUsed($characterUsed);
+
+        $this->get('session')->getFlashBag()->add('notice', 'Le personnage a bien été supprimé.' );
+        return $this->redirectToRoute('dndinstance_characterused_characterused_view', array('slug' => $newCharacterUsed->getSlug()));
     }
 }

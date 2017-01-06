@@ -70,17 +70,6 @@ class MonsterAbilityInstance
      */
     protected $updateDate;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="updateComment", type="string", length=255, nullable=true)
-     * @Assert\Length(
-     *      max = "255",
-     *      maxMessage = "Le commentaire ne doit pas dépasser {{ limit }} caractères."
-     * )
-     */
-    protected $updateComment;
-
 
     /**
      * Get id
@@ -159,29 +148,6 @@ class MonsterAbilityInstance
     public function getUpdateDate()
     {
         return $this->updateDate;
-    }
-
-    /**
-     * Set updateComment
-     *
-     * @param string $updateComment
-     * @return MonsterAbilityInstance
-     */
-    public function setUpdateComment($updateComment)
-    {
-        $this->updateComment = $updateComment;
-
-        return $this;
-    }
-
-    /**
-     * Get updateComment
-     *
-     * @return string 
-     */
-    public function getUpdateComment()
-    {
-        return $this->updateComment;
     }
 
     /**

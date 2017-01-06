@@ -1,4 +1,4 @@
 services:
-#    dn_d_instance_sort.example:
-#        class: DnDInstance\SortBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    dndinstance_sort.sortinstance:
+        class: DnDInstance\SortBundle\Service\sortInstance
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]

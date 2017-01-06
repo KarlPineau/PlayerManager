@@ -15,7 +15,7 @@ class XpPointsController extends Controller
         $repositoryXpPoint = $em->getRepository('DnDInstanceCharacterBundle:XpPoints');
  
         $characterUsed = $repositoryCharacterUsed->findOneBySlug($slug);
-        $xpPoints = $repositoryXpPoint->findOneBy(array('characterUsed' => $characterUsed));
+        $xpPoints = $repositoryXpPoint->findOneBy(array('characterUsedDnDXpPoints' => $characterUsed));
         if ($characterUsed === null) {throw $this->createNotFoundException('Personnage : [slug='.$slug.'] inexistant.');}
         if($characterUsed->getUser() != $this->getUser() AND !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Personnage : [slug='.$slug.'] inexistant.');}
 

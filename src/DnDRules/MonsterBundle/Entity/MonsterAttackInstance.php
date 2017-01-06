@@ -25,6 +25,12 @@ class MonsterAttackInstance
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="DnDRules\MonsterBundle\Entity\Monster", inversedBy="attackInstances")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $monsterAttackInstances;
+
+    /**
      * @var string
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -39,6 +45,13 @@ class MonsterAttackInstance
     private $name;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="onlyExtreme", type="boolean", nullable=true, options={"default" = false})
+     */
+    private $onlyExtreme;
+
+    /**
      * @var integer
      * @Assert\NotBlank()
      *
@@ -47,22 +60,22 @@ class MonsterAttackInstance
     private $bab;
 
     /**
-     * @ORM\ManyToOne(targetEntity="DnDRules\WeaponBundle\Entity\WeaponType")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $weaponType;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="PM\HomeBundle\Entity\DiceForm")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $damageForm;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="PM\HomeBundle\Entity\DiceForm")
+     * @ORM\ManyToOne(targetEntity="DnDRules\WeaponBundle\Entity\Weapon")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $damageCriticForm;
+    private $weapon;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PM\HomeBundle\Entity\DiceForm", mappedBy="monsterAttackDamage", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $damageForms;
+
+    /**
+     * @ORM\OneToMany(targetEntity="PM\HomeBundle\Entity\Critical", mappedBy="monsterAttackCritic", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $damageCriticForms;
 
     /**
      * @var string
@@ -77,7 +90,7 @@ class MonsterAttackInstance
 
     /**
      * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     protected $createUser;
 
@@ -172,26 +185,26 @@ class MonsterAttackInstance
     }
 
     /**
-     * Set weaponType
+     * Set weapon
      *
-     * @param \stdClass $weaponType
+     * @param \stdClass $weapon
      * @return MonsterAttackInstance
      */
-    public function setWeaponType($weaponType)
+    public function setWeapon($weapon)
     {
-        $this->weaponType = $weaponType;
+        $this->weapon = $weapon;
 
         return $this;
     }
 
     /**
-     * Get weaponType
+     * Get weapon
      *
      * @return \stdClass 
      */
-    public function getWeaponType()
+    public function getWeapon()
     {
-        return $this->weaponType;
+        return $this->weapon;
     }
 
     /**
@@ -218,26 +231,26 @@ class MonsterAttackInstance
     }
 
     /**
-     * Set damageCriticForm
+     * Set damageCriticForms
      *
-     * @param \stdClass $damageCriticForm
+     * @param \stdClass $damageCriticForms
      * @return MonsterAttackInstance
      */
-    public function setDamageCriticForm($damageCriticForm)
+    public function setDamageCriticForms($damageCriticForms)
     {
-        $this->damageCriticForm = $damageCriticForm;
+        $this->damageCriticForms = $damageCriticForms;
 
         return $this;
     }
 
     /**
-     * Get damageCriticForm
+     * Get damageCriticForms
      *
      * @return \stdClass 
      */
-    public function getDamageCriticForm()
+    public function getDamageCriticForms()
     {
-        return $this->damageCriticForm;
+        return $this->damageCriticForms;
     }
 
     /**
@@ -261,5 +274,252 @@ class MonsterAttackInstance
     public function getDamageSideEffect()
     {
         return $this->damageSideEffect;
+    }
+
+    /**
+     * Set createDate
+     *
+     * @param \DateTime $createDate
+     * @return MonsterAttackInstance
+     */
+    public function setCreateDate($createDate)
+    {
+        $this->createDate = $createDate;
+
+        return $this;
+    }
+
+    /**
+     * Get createDate
+     *
+     * @return \DateTime 
+     */
+    public function getCreateDate()
+    {
+        return $this->createDate;
+    }
+
+    /**
+     * Set updateDate
+     *
+     * @param \DateTime $updateDate
+     * @return MonsterAttackInstance
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+
+        return $this;
+    }
+
+    /**
+     * Get updateDate
+     *
+     * @return \DateTime 
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * Set updateComment
+     *
+     * @param string $updateComment
+     * @return MonsterAttackInstance
+     */
+    public function setUpdateComment($updateComment)
+    {
+        $this->updateComment = $updateComment;
+
+        return $this;
+    }
+
+    /**
+     * Get updateComment
+     *
+     * @return string 
+     */
+    public function getUpdateComment()
+    {
+        return $this->updateComment;
+    }
+
+    /**
+     * Set monsterAttackInstances
+     *
+     * @param \DnDRules\MonsterBundle\Entity\Monster $monsterAttackInstances
+     * @return MonsterAttackInstance
+     */
+    public function setMonsterAttackInstances(\DnDRules\MonsterBundle\Entity\Monster $monsterAttackInstances)
+    {
+        $this->monsterAttackInstances = $monsterAttackInstances;
+
+        return $this;
+    }
+
+    /**
+     * Get monsterAttackInstances
+     *
+     * @return \DnDRules\MonsterBundle\Entity\Monster 
+     */
+    public function getMonsterAttackInstances()
+    {
+        return $this->monsterAttackInstances;
+    }
+
+    /**
+     * Set createUser
+     *
+     * @param \CAS\UserBundle\Entity\User $createUser
+     * @return MonsterAttackInstance
+     */
+    public function setCreateUser(\CAS\UserBundle\Entity\User $createUser)
+    {
+        $this->createUser = $createUser;
+
+        return $this;
+    }
+
+    /**
+     * Get createUser
+     *
+     * @return \CAS\UserBundle\Entity\User 
+     */
+    public function getCreateUser()
+    {
+        return $this->createUser;
+    }
+
+    /**
+     * Set updateUser
+     *
+     * @param \CAS\UserBundle\Entity\User $updateUser
+     * @return MonsterAttackInstance
+     */
+    public function setUpdateUser(\CAS\UserBundle\Entity\User $updateUser = null)
+    {
+        $this->updateUser = $updateUser;
+
+        return $this;
+    }
+
+    /**
+     * Get updateUser
+     *
+     * @return \CAS\UserBundle\Entity\User 
+     */
+    public function getUpdateUser()
+    {
+        return $this->updateUser;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->damageForms = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add damageForms
+     *
+     * @param \PM\HomeBundle\Entity\DiceForm $damageForms
+     * @return MonsterAttackInstance
+     */
+    public function addDamageForm(\PM\HomeBundle\Entity\DiceForm $damageForms)
+    {
+        $this->damageForms[] = $damageForms;
+
+        return $this;
+    }
+
+    /**
+     * Remove damageForms
+     *
+     * @param \PM\HomeBundle\Entity\DiceForm $damageForms
+     */
+    public function removeDamageForm(\PM\HomeBundle\Entity\DiceForm $damageForms)
+    {
+        $this->damageForms->removeElement($damageForms);
+    }
+
+    /**
+     * Get damageForms
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDamageForms()
+    {
+        return $this->damageForms;
+    }
+
+    /**
+     * Add damageCriticForms
+     *
+     * @param \PM\HomeBundle\Entity\Critical $damageCriticForms
+     * @return MonsterAttackInstance
+     */
+    public function addDamageCriticForms(\PM\HomeBundle\Entity\Critical $damageCriticForms)
+    {
+        $this->damageCriticForms[] = $damageCriticForms;
+
+        return $this;
+    }
+
+    /**
+     * Remove damageCriticForms
+     *
+     * @param \PM\HomeBundle\Entity\Critical $damageCriticForms
+     */
+    public function removeDamageCriticForms(\PM\HomeBundle\Entity\Critical $damageCriticForms)
+    {
+        $this->damageCriticForms->removeElement($damageCriticForms);
+    }
+
+    /**
+     * Set onlyExtreme
+     *
+     * @param boolean $onlyExtreme
+     * @return MonsterAttackInstance
+     */
+    public function setOnlyExtreme($onlyExtreme)
+    {
+        $this->onlyExtreme = $onlyExtreme;
+
+        return $this;
+    }
+
+    /**
+     * Get onlyExtreme
+     *
+     * @return boolean 
+     */
+    public function getOnlyExtreme()
+    {
+        return $this->onlyExtreme;
+    }
+
+    /**
+     * Add damageCriticForms
+     *
+     * @param \PM\HomeBundle\Entity\Critical $damageCriticForms
+     * @return MonsterAttackInstance
+     */
+    public function addDamageCriticForm(\PM\HomeBundle\Entity\Critical $damageCriticForms)
+    {
+        $this->damageCriticForms[] = $damageCriticForms;
+
+        return $this;
+    }
+
+    /**
+     * Remove damageCriticForms
+     *
+     * @param \PM\HomeBundle\Entity\Critical $damageCriticForms
+     */
+    public function removeDamageCriticForm(\PM\HomeBundle\Entity\Critical $damageCriticForms)
+    {
+        $this->damageCriticForms->removeElement($damageCriticForms);
     }
 }

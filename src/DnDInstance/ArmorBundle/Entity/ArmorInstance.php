@@ -36,6 +36,12 @@ class ArmorInstance
     private $characterUsedArmors;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Game\GameBundle\Entity\Game", inversedBy="armorInstances")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $game;
+
+    /**
      * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -83,6 +89,13 @@ class ArmorInstance
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -267,5 +280,28 @@ class ArmorInstance
     public function getCharacterUsedArmors()
     {
         return $this->characterUsedArmors;
+    }
+
+    /**
+     * Set game
+     *
+     * @param \Game\GameBundle\Entity\Game $game
+     * @return ArmorInstance
+     */
+    public function setGame(\Game\GameBundle\Entity\Game $game = null)
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    /**
+     * Get game
+     *
+     * @return \Game\GameBundle\Entity\Game 
+     */
+    public function getGame()
+    {
+        return $this->game;
     }
 }

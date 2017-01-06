@@ -25,6 +25,12 @@ class CharacterUsed
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Game\GameBundle\Entity\Game", inversedBy="characters")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $game;
+
+    /**
      * @var string
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -64,7 +70,7 @@ class CharacterUsed
      *      minMessage = "Votre personnage ne peut pas avoir un âge négatif ou nul."
      * )
      * 
-     * @ORM\Column(name="age", type="smallint", nullable=true)
+     * @ORM\Column(name="age", type="integer", nullable=true)
      */
     private $age;
 
@@ -131,6 +137,18 @@ class CharacterUsed
     private $gifts;
 
     /**
+     * @ORM\OneToMany(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterAbility", mappedBy="characterUsedDnDAbilities", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $abilities;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DnDInstance\CharacterBundle\Entity\XpPoints", mappedBy="characterUsedDnDXpPoints", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $xpPoints;
+
+    /**
      * @ORM\OneToMany(targetEntity="DnDInstance\ClassDnDBundle\Entity\ClassDnDInstance", mappedBy="characterUsedDnDInstance", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=false)
      */
@@ -155,31 +173,31 @@ class CharacterUsed
     private $race;
 
     /**
-     * @ORM\OneToOne(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterWealth", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\OneToMany(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterWealth", mappedBy="characterUsedWealth", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
      */
     private $wealth;
 
     /**
-     * @ORM\OneToMany(targetEntity="DnDInstance\WeaponBundle\Entity\WeaponInstance", mappedBy="characterUsedWeapons", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="DnDInstance\WeaponBundle\Entity\WeaponInstance", mappedBy="characterUsedWeapons", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $weapons;
 
     /**
-     * @ORM\OneToMany(targetEntity="DnDInstance\ArmorBundle\Entity\ArmorInstance", mappedBy="characterUsedArmors", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="DnDInstance\ArmorBundle\Entity\ArmorInstance", mappedBy="characterUsedArmors", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $armors;
 
     /**
-     * @ORM\OneToMany(targetEntity="DnDInstance\EquipmentBundle\Entity\EquipmentInstance", mappedBy="characterUsedEquipments", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="DnDInstance\EquipmentBundle\Entity\EquipmentInstance", mappedBy="characterUsedEquipments", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $equipments;
 
     /**
-     * @ORM\OneToMany(targetEntity="DnDInstance\SortBundle\Entity\SortInstance", mappedBy="characterUsedSorts", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="DnDInstance\SortBundle\Entity\SortInstance", mappedBy="characterUsedSorts", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $sorts;
@@ -227,6 +245,14 @@ class CharacterUsed
     {
         return $this->id;
     }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
     /**
      * Constructor
      */
@@ -895,5 +921,117 @@ class CharacterUsed
     public function getUpdateUser()
     {
         return $this->updateUser;
+    }
+
+    /**
+     * Set game
+     *
+     * @param \Game\GameBundle\Entity\Game $game
+     * @return CharacterUsed
+     */
+    public function setGame(\Game\GameBundle\Entity\Game $game = null)
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    /**
+     * Get game
+     *
+     * @return \Game\GameBundle\Entity\Game 
+     */
+    public function getGame()
+    {
+        return $this->game;
+    }
+
+    /**
+     * Add abilities
+     *
+     * @param \DnDInstance\CharacterBundle\Entity\CharacterAbility $abilities
+     * @return CharacterUsed
+     */
+    public function addAbility(\DnDInstance\CharacterBundle\Entity\CharacterAbility $abilities)
+    {
+        $this->abilities[] = $abilities;
+
+        return $this;
+    }
+
+    /**
+     * Remove abilities
+     *
+     * @param \DnDInstance\CharacterBundle\Entity\CharacterAbility $abilities
+     */
+    public function removeAbility(\DnDInstance\CharacterBundle\Entity\CharacterAbility $abilities)
+    {
+        $this->abilities->removeElement($abilities);
+    }
+
+    /**
+     * Get abilities
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAbilities()
+    {
+        return $this->abilities;
+    }
+
+    /**
+     * Add xpPoints
+     *
+     * @param \DnDInstance\CharacterBundle\Entity\XpPoints $xpPoints
+     * @return CharacterUsed
+     */
+    public function addXpPoint(\DnDInstance\CharacterBundle\Entity\XpPoints $xpPoints)
+    {
+        $this->xpPoints[] = $xpPoints;
+
+        return $this;
+    }
+
+    /**
+     * Remove xpPoints
+     *
+     * @param \DnDInstance\CharacterBundle\Entity\XpPoints $xpPoints
+     */
+    public function removeXpPoint(\DnDInstance\CharacterBundle\Entity\XpPoints $xpPoints)
+    {
+        $this->xpPoints->removeElement($xpPoints);
+    }
+
+    /**
+     * Get xpPoints
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getXpPoints()
+    {
+        return $this->xpPoints;
+    }
+
+    /**
+     * Add wealth
+     *
+     * @param \DnDInstance\CharacterBundle\Entity\CharacterWealth $wealth
+     * @return CharacterUsed
+     */
+    public function addWealth(\DnDInstance\CharacterBundle\Entity\CharacterWealth $wealth)
+    {
+        $this->wealth[] = $wealth;
+
+        return $this;
+    }
+
+    /**
+     * Remove wealth
+     *
+     * @param \DnDInstance\CharacterBundle\Entity\CharacterWealth $wealth
+     */
+    public function removeWealth(\DnDInstance\CharacterBundle\Entity\CharacterWealth $wealth)
+    {
+        $this->wealth->removeElement($wealth);
     }
 }

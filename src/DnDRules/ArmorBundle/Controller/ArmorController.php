@@ -11,7 +11,7 @@ class ArmorController extends Controller
 {
     public function indexAction()
     {
-        $listArmors = $this->getDoctrine()->getManager()->getRepository('DnDRulesArmorBundle:Armor')->findAll();
+        $listArmors = $this->getDoctrine()->getManager()->getRepository('DnDRulesArmorBundle:Armor')->findBy(array(), array('type' => 'ASC', 'name' => 'ASC'));
         return $this->render('DnDRulesArmorBundle:Armor:index.html.twig', array(
             'listArmors' => $listArmors,
         ));

@@ -1,0 +1,75 @@
+{# src/DnDRules/MonsterBundle/Resources/views/Monster/view.html.twig #}
+<div class="list-group">
+    <dl class="list-group-item dl-horizontal"><dt>Points de vie moyens</dt><dd>{{monster.hpAverage}}</dd></dl>
+    <dl class="list-group-item dl-horizontal">
+        <dt>Dés de vie</dt>
+        <dd>
+            {% if monster.hpForm is not empty %}
+                {% for diceForm in monster.hpForm %}
+                    {% if loop.index > 1 %}<br />{% endif %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <div class="pull-right">
+                            <a href=""><i class="fa fa-remove"></i></a>
+                        </div>
+                    {% endif %}
+                    {% for diceEntity in diceForm.diceEntities %}
+                        {{ diceEntity.diceNumber }}d{{diceEntity.diceType.dice}}
+                    {% else %}
+                        diceEntity vide
+                    {% endfor %}
+                    {% for bonusNumber in diceForm.bonusNumbers %}
+                        +{{ bonusNumber.value }}
+                    {% else %}
+                        bonusNumber vide
+                    {% endfor %}
+                {% else %}
+                    diceForm vide
+                {% endfor %}
+            {% endif %}
+        </dd>
+    </dl>
+    <dl class="list-group-item dl-horizontal"><dt>Vitesse de déplacement au sol</dt><dd>{{monster.speed}}</dd></dl>
+    <dl class="list-group-item dl-horizontal">
+        <dt>Autres modes de déplacement</dt>
+        <dd>
+        {% for speedSpecialInstance in monster.speedSpecialInstances %}
+            <a href="{{path('dndrules_monster_speedspecial_view', {'slug':speedSpecialInstance.speedSpecial.slug})}}" target="_blank">{{speedSpecialInstance.speedSpecial.name}}</a>: {{speedSpecialInstance.value}}
+        {% else %}
+            Pas d'autres modes de déplacement connus.
+        {% endfor %}
+        </dd>
+    </dl>
+    <dl class="list-group-item dl-horizontal"><dt>Espace au sol</dt><dd>{{monster.spaceOccupied}}</dd></dl>
+    <dl class="list-group-item dl-horizontal"><dt>Zone de danger</dt><dd>{{monster.areaLying}}</dd></dl>
+    <dl class="list-group-item dl-horizontal"><dt>Facteur de Puissance</dt><dd>{{monster.powerfullFactor}}</dd></dl>
+    <dl class="list-group-item dl-horizontal">
+        <dt>Caractéristiques</dt>
+        <dd>
+            <ul>
+                {% for abilityInstance in monster.abilityInstances %}
+                    <li>
+                        {% if is_granted('ROLE_ADMIN') %}<div class="pull-right"><a href="{{ path('dndrules_monster_monster_delete_ability', {'id': abilityInstance.id}) }}"><i class="fa fa-remove"></i></a></div>{% endif %}
+                        <a href="{{path('dndrules_ability_ability_view', {'slug': abilityInstance.ability.slug})}}" target="_blank">{{abilityInstance.ability.name}}</a> : {{abilityInstance.value}}
+                    </li>
+                {% else %}
+                    <li>Aucune caractéristique connue pour ce monstre</li>
+                {% endfor %}
+            </ul>
+        </dd>
+    </dl>
+    <dl class="list-group-item dl-horizontal">
+        <dt>Compétences</dt>
+        <dd>
+            <ul>
+                {% for skillInstance in monster.skillInstances %}
+                    <li>
+                        {% if is_granted('ROLE_ADMIN') %}<div class="pull-right"><a href="{{ path('dndrules_monster_monster_delete_skill', {'id': skillInstance.id}) }}"><i class="fa fa-remove"></i></a></div>{% endif %}
+                        <a href="{{path('dndrules_skill_skill_view', {'slug': skillInstance.skill.slug})}}" target="_blank">{{skillInstance.skill.name}}</a> : {{skillInstance.ranks}}
+                    </li>
+                {% else %}
+                    <li>Aucune compétence connue pour ce monstre</li>
+                {% endfor %}
+            </ul>
+        </dd>
+    </dl>
+</div>

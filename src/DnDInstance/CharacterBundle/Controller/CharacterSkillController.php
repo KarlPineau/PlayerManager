@@ -14,7 +14,9 @@ class CharacterSkillController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $characterUsed = $em->getRepository('DnDInstanceCharacterBundle:CharacterUsed')->findOneBySlug($slug);
-        
+        if($characterUsed === null) {throw $this->createNotFoundException('CharacterUsed : [slug='.$slug.'] undefined.');}
+        if($characterUsed->getUser() != $this->getUser() AND !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('CharacterUsed : [slug='.$slug.'] undefined.');}
+
         $form = $this->createForm(new CharacterUsedAddSkillType, $characterUsed);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {

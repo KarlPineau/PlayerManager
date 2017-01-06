@@ -19,6 +19,7 @@
                     {% if dndinstance_character_characterusedclassdnd.getMainLevelInstance(characterUsed).gift == true %}
                         <li>Ajouter 1 don à votre liste</li>
                     {% endif %}
+                    <li><a href="{{ path('dndinstance_characterused_characterused_edit_hpmax', {'slug': characterUsed.slug}) }}" target="_blank">Mettez à jour votre nombre maximum de Points de Vie</a></li>
                 </ul>
             </div>
         </div>

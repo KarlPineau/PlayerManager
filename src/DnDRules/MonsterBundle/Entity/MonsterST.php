@@ -24,23 +24,29 @@ class MonsterST
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="DnDRules\MonsterBundle\Entity\Monster")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    protected $monster;
+
+    /**
      * @var integer
      *
-     * @ORM\Column(name="fortitude", type="integer", options={"default" = 0})
+     * @ORM\Column(name="fortitude", type="integer", nullable=true, options={"default" = 0})
      */
     private $fortitude;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="reflex", type="integer", options={"default" = 0})
+     * @ORM\Column(name="reflex", type="integer", nullable=true, options={"default" = 0})
      */
     private $reflex;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="will", type="integer", options={"default" = 0})
+     * @ORM\Column(name="will", type="integer", nullable=true, options={"default" = 0})
      */
     private $will;
 
@@ -71,17 +77,6 @@ class MonsterST
      * @ORM\Column(name="updateDate", type="datetime", nullable=true)
      */
     protected $updateDate;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="updateComment", type="string", length=255, nullable=true)
-     * @Assert\Length(
-     *      max = "255",
-     *      maxMessage = "Le commentaire ne doit pas dépasser {{ limit }} caractères."
-     * )
-     */
-    protected $updateComment;
 
 
     /**
@@ -210,26 +205,26 @@ class MonsterST
     }
 
     /**
-     * Set updateComment
+     * Set monster
      *
-     * @param string $updateComment
+     * @param \DnDRules\MonsterBundle\Entity\Monster $monster
      * @return MonsterST
      */
-    public function setUpdateComment($updateComment)
+    public function setMonster(\DnDRules\MonsterBundle\Entity\Monster $monster = null)
     {
-        $this->updateComment = $updateComment;
+        $this->monster = $monster;
 
         return $this;
     }
 
     /**
-     * Get updateComment
+     * Get monster
      *
-     * @return string 
+     * @return \DnDRules\MonsterBundle\Entity\Monster 
      */
-    public function getUpdateComment()
+    public function getMonster()
     {
-        return $this->updateComment;
+        return $this->monster;
     }
 
     /**
@@ -238,7 +233,7 @@ class MonsterST
      * @param \CAS\UserBundle\Entity\User $createUser
      * @return MonsterST
      */
-    public function setCreateUser(\CAS\UserBundle\Entity\User $createUser)
+    public function setCreateUser(\CAS\UserBundle\Entity\User $createUser = null)
     {
         $this->createUser = $createUser;
 
@@ -248,7 +243,7 @@ class MonsterST
     /**
      * Get createUser
      *
-     * @return \CAS\UserBundle\Entity\User
+     * @return \CAS\UserBundle\Entity\User 
      */
     public function getCreateUser()
     {
@@ -271,7 +266,7 @@ class MonsterST
     /**
      * Get updateUser
      *
-     * @return \CAS\UserBundle\Entity\User
+     * @return \CAS\UserBundle\Entity\User 
      */
     public function getUpdateUser()
     {

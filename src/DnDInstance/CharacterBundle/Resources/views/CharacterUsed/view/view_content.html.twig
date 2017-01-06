@@ -32,7 +32,18 @@
             {% if allowEdit == true and profile == 'short' %}<a href="{{ path('dndinstance_characterused_characterused_view', {'slug': characterUsed.slug, 'inline': false, 'profile': 'full'}) }}" target="_blank">Profil complet</a>{% endif %}
             <div class="row">
                 <div class="col-md-3">
-                    <small><a href="{{path('cas_administration_user_view', { 'id' : characterUsed.user.id})}}" target="_blank">{{characterUsed.user.username}}</a></small>
+                    <dl class="dl-horizontal">
+                        <dt><small>Joueur :</small></dt>
+                        <dd><small><a href="{{path('cas_administration_user_view', { 'id' : characterUsed.user.id})}}" target="_blank">{{characterUsed.user.username}}</a></small></dd>
+                    </dl>
+                    <dl class="dl-horizontal">
+                        <dt>Partie :</dt>
+                        <dd>
+                            {% if characterUsed.game != null %}{{ characterUsed.game.name }}
+                            {% else %}<span class="text-warning">Personnage orphelin</span>
+                            {% endif %}
+                        </dd>
+                    </dl>
                 </div>
                 <div class="col-md-3">
                     <dl class="dl-horizontal"><dt>Race :</dt><dd><a href="{{path('dndrules_race_race_view', {'slug': characterUsed.race.slug})}}" target="_blank">{{characterUsed.race.name}}</a></dd></dl>
@@ -55,9 +66,9 @@
                     <dl class="dl-horizontal">
                         <dt>{% if allowEdit == true %}<a href="{{ path('dndinstance_characterused_characterused_edit_wealth', {'slug': characterUsed.slug}) }}" title="Modifier votre richesse">{% endif %}Richesse :{% if allowEdit == true %}</a>{% endif %}</dt>
                         <dd>
-                            {{ characterUsed.wealth.po|number_format(0, ',', '.') }} PO<br />
-                            {{ characterUsed.wealth.pa|number_format(0, ',', '.') }} PA<br />
-                            {{ characterUsed.wealth.pc|number_format(0, ',', '.') }} PC
+                            {{ dndinstance_character_characterusedwealth.findByCharacterUsed(characterUsed).po|number_format(0, ',', '.') }} PO<br />
+                            {{ dndinstance_character_characterusedwealth.findByCharacterUsed(characterUsed).pa|number_format(0, ',', '.') }} PA<br />
+                            {{ dndinstance_character_characterusedwealth.findByCharacterUsed(characterUsed).pc|number_format(0, ',', '.') }} PC
                         </dd>
                     </dl>
                 </div>

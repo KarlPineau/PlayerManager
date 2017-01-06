@@ -72,6 +72,18 @@ class ClassDnD
     private $skills;
 
     /**
+     * @ORM\ManyToMany(targetEntity="DnDRules\WeaponBundle\Entity\WeaponType")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $allowWeaponType;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="DnDRules\WeaponBundle\Entity\ArmorType")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $allowArmorType;
+
+    /**
      * @ORM\ManyToOne(targetEntity="PM\HomeBundle\Entity\DiceType")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -385,5 +397,51 @@ class ClassDnD
     public function getDiceHealth()
     {
         return $this->diceHealth;
+    }
+
+    /**
+     * Set pointsSkillByLevel
+     *
+     * @param integer $pointsSkillByLevel
+     * @return ClassDnD
+     */
+    public function setPointsSkillByLevel($pointsSkillByLevel)
+    {
+        $this->pointsSkillByLevel = $pointsSkillByLevel;
+
+        return $this;
+    }
+
+    /**
+     * Get pointsSkillByLevel
+     *
+     * @return integer 
+     */
+    public function getPointsSkillByLevel()
+    {
+        return $this->pointsSkillByLevel;
+    }
+
+    /**
+     * Set pointsSkillFirstLevel
+     *
+     * @param integer $pointsSkillFirstLevel
+     * @return ClassDnD
+     */
+    public function setPointsSkillFirstLevel($pointsSkillFirstLevel)
+    {
+        $this->pointsSkillFirstLevel = $pointsSkillFirstLevel;
+
+        return $this;
+    }
+
+    /**
+     * Get pointsSkillFirstLevel
+     *
+     * @return integer 
+     */
+    public function getPointsSkillFirstLevel()
+    {
+        return $this->pointsSkillFirstLevel;
     }
 }

@@ -99,7 +99,7 @@ class Game
     private $gameMasters;
     
     /**
-     * @ORM\ManyToMany(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterUsed")
+     * @ORM\OneToMany(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterUsed", mappedBy="game", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $characters;
@@ -115,6 +115,18 @@ class Game
      * @ORM\JoinColumn(nullable=true)
      */
     private $openClasses;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DnDInstance\WeaponBundle\Entity\WeaponInstance", mappedBy="game", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $weaponInstances;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DnDInstance\ArmorBundle\Entity\ArmorInstance", mappedBy="game", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $armorInstances;
 
     /**
      * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
@@ -605,5 +617,71 @@ class Game
     public function getOpenClasses()
     {
         return $this->openClasses;
+    }
+
+    /**
+     * Add weaponInstances
+     *
+     * @param \DnDInstance\WeaponBundle\Entity\WeaponInstance $weaponInstances
+     * @return Game
+     */
+    public function addWeaponInstance(\DnDInstance\WeaponBundle\Entity\WeaponInstance $weaponInstances)
+    {
+        $this->weaponInstances[] = $weaponInstances;
+
+        return $this;
+    }
+
+    /**
+     * Remove weaponInstances
+     *
+     * @param \DnDInstance\WeaponBundle\Entity\WeaponInstance $weaponInstances
+     */
+    public function removeWeaponInstance(\DnDInstance\WeaponBundle\Entity\WeaponInstance $weaponInstances)
+    {
+        $this->weaponInstances->removeElement($weaponInstances);
+    }
+
+    /**
+     * Get weaponInstances
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getWeaponInstances()
+    {
+        return $this->weaponInstances;
+    }
+
+    /**
+     * Add armorInstances
+     *
+     * @param \DnDInstance\ArmorBundle\Entity\ArmorInstance $armorInstances
+     * @return Game
+     */
+    public function addArmorInstance(\DnDInstance\ArmorBundle\Entity\ArmorInstance $armorInstances)
+    {
+        $this->armorInstances[] = $armorInstances;
+
+        return $this;
+    }
+
+    /**
+     * Remove armorInstances
+     *
+     * @param \DnDInstance\ArmorBundle\Entity\ArmorInstance $armorInstances
+     */
+    public function removeArmorInstance(\DnDInstance\ArmorBundle\Entity\ArmorInstance $armorInstances)
+    {
+        $this->armorInstances->removeElement($armorInstances);
+    }
+
+    /**
+     * Get armorInstances
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getArmorInstances()
+    {
+        return $this->armorInstances;
     }
 }

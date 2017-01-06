@@ -268,7 +268,7 @@ class characterUsedDnD
         
         $xp = 0;
         $repositoryXpPoints = $this->em->getRepository('DnDInstanceCharacterBundle:XpPoints');
-        $listXpPoints = $repositoryXpPoints->findBy(array('characterUsed' => $characterUsed));
+        $listXpPoints = $repositoryXpPoints->findBy(array('characterUsedDnDXpPoints' => $characterUsed));
         
         foreach ($listXpPoints as $xpPoints) {
             $xp += $xpPoints->getIncrease();

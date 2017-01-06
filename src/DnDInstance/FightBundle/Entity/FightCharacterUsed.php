@@ -24,6 +24,12 @@ class FightCharacterUsed
     private $id;
 
     /**
+     * @ORM\ManyToMany(targetEntity="DnDInstance\FightBundle\Entity\Fight", inversedBy="fightCharacters")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $fightCharacters;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="initiative", type="integer")
@@ -245,5 +251,45 @@ class FightCharacterUsed
     public function getUpdateUser()
     {
         return $this->updateUser;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->fightCharacters = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add fightCharacters
+     *
+     * @param \DnDInstance\FightBundle\Entity\Fight $fightCharacters
+     * @return FightCharacterUsed
+     */
+    public function addFightCharacter(\DnDInstance\FightBundle\Entity\Fight $fightCharacters)
+    {
+        $this->fightCharacters[] = $fightCharacters;
+
+        return $this;
+    }
+
+    /**
+     * Remove fightCharacters
+     *
+     * @param \DnDInstance\FightBundle\Entity\Fight $fightCharacters
+     */
+    public function removeFightCharacter(\DnDInstance\FightBundle\Entity\Fight $fightCharacters)
+    {
+        $this->fightCharacters->removeElement($fightCharacters);
+    }
+
+    /**
+     * Get fightCharacters
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFightCharacters()
+    {
+        return $this->fightCharacters;
     }
 }

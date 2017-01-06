@@ -1,0 +1,13 @@
+{# src/DnDRules/MonsterBundle/Resources/views/Monster/view.html.twig #}
+{% set monsterST = dndrules_monster_monster.getMonsterST(monster) %}
+{% if monsterST != null %}
+<div class="list-group">
+    <dl class="list-group-item dl-horizontal"><dt>Réflexe</dt><dd>{{ monsterST.fortitude }}</dd></dl>
+    <dl class="list-group-item dl-horizontal"><dt>Vigueur</dt><dd>{{ monsterST.reflex }}</dd></dl>
+    <dl class="list-group-item dl-horizontal"><dt>Volonté</dt><dd>{{ monsterST.will }}</dd></dl>
+</div>
+{% else %}
+    <div class="alert alert-warning">
+        <p>Aucun jet de sauvegarde connu - <a href="{{ path('dndrules_monster_monster_edit_st', {'id': monster.id}) }}">Editer les jets de sauvegarde</a></p>
+    </div>
+{% endif %}

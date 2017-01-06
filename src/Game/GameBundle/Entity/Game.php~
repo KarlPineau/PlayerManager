@@ -1,8 +1,9 @@
 <?php
 
-namespace PM\GameBundle\Entity;
+namespace Game\GameBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -10,7 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Game
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="PM\GameBundle\Entity\GameRepository")
+ * @ORM\Entity(repositoryClass="Game\GameBundle\Entity\GameRepository")
  */
 class Game
 {
@@ -92,31 +93,43 @@ class Game
     private $active;
     
     /**
-     * @ORM\ManyToMany(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\ManyToMany(targetEntity="CAS\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=true)
      */
     private $gameMasters;
     
     /**
-     * @ORM\ManyToMany(targetEntity="PM\CharacterBundle\Entity\CharacterUsed")
+     * @ORM\OneToMany(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterUsed", mappedBy="game", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $characters;
     
     /**
-     * @ORM\ManyToMany(targetEntity="PM\CharacterBundle\Entity\Race")
+     * @ORM\ManyToMany(targetEntity="DnDRules\RaceBundle\Entity\Race")
      * @ORM\JoinColumn(nullable=true)
      */
     private $openRaces;
     
     /**
-     * @ORM\ManyToMany(targetEntity="PM\CharacterBundle\Entity\ClassDnD")
+     * @ORM\ManyToMany(targetEntity="DnDRules\ClassDnDBundle\Entity\ClassDnD")
      * @ORM\JoinColumn(nullable=true)
      */
     private $openClasses;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\OneToMany(targetEntity="DnDInstance\WeaponBundle\Entity\WeaponInstance", mappedBy="game", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $weaponInstances;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DnDInstance\ArmorBundle\Entity\ArmorInstance", mappedBy="game", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $armorInstances;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $createUser;
@@ -130,7 +143,7 @@ class Game
     protected $createDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=true)
      */
     protected $updateUser;
@@ -154,7 +167,17 @@ class Game
      */
     protected $updateComment;
 
-
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->gameMasters = new ArrayCollection();
+        $this->characters = new ArrayCollection();
+        $this->openRaces = new ArrayCollection();
+        $this->openClasses = new ArrayCollection();
+    }
+    
     /**
      * Get id
      *
@@ -352,10 +375,10 @@ class Game
     /**
      * Set createUser
      *
-     * @param \PM\UserBundle\Entity\User $createUser
+     * @param \CAS\UserBundle\Entity\User $createUser
      * @return Game
      */
-    public function setCreateUser(\PM\UserBundle\Entity\User $createUser)
+    public function setCreateUser(\CAS\UserBundle\Entity\User $createUser)
     {
         $this->createUser = $createUser;
 
@@ -365,7 +388,7 @@ class Game
     /**
      * Get createUser
      *
-     * @return \PM\UserBundle\Entity\User 
+     * @return \CAS\UserBundle\Entity\User
      */
     public function getCreateUser()
     {
@@ -375,10 +398,10 @@ class Game
     /**
      * Set updateUser
      *
-     * @param \PM\UserBundle\Entity\User $updateUser
+     * @param \CAS\UserBundle\Entity\User $updateUser
      * @return Game
      */
-    public function setUpdateUser(\PM\UserBundle\Entity\User $updateUser = null)
+    public function setUpdateUser(\CAS\UserBundle\Entity\User $updateUser = null)
     {
         $this->updateUser = $updateUser;
 
@@ -388,7 +411,7 @@ class Game
     /**
      * Get updateUser
      *
-     * @return \PM\UserBundle\Entity\User 
+     * @return \CAS\UserBundle\Entity\User
      */
     public function getUpdateUser()
     {
@@ -462,5 +485,170 @@ class Game
     public function getSynopsis()
     {
         return $this->synopsis;
+    }
+
+    /**
+     * Add gameMasters
+     *
+     * @param \CAS\UserBundle\Entity\User $gameMasters
+     * @return Game
+     */
+    public function addGameMaster(\CAS\UserBundle\Entity\User $gameMasters)
+    {
+        $this->gameMasters[] = $gameMasters;
+
+        return $this;
+    }
+
+    /**
+     * Remove gameMasters
+     *
+     * @param \CAS\UserBundle\Entity\User $gameMaster
+     */
+    public function removeGameMaster(\CAS\UserBundle\Entity\User $gameMaster)
+    {
+        $this->gameMasters->removeElement($gameMaster);
+    }
+
+    /**
+     * Get gameMasters
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getGameMasters()
+    {
+        return $this->gameMasters;
+    }
+
+    /**
+     * Add characters
+     *
+     * @param \DnDInstance\CharacterBundle\Entity\CharacterUsed $character
+     * @return Game
+     */
+    public function addCharacter(\DnDInstance\CharacterBundle\Entity\CharacterUsed $character)
+    {
+        $this->characters[] = $character;
+
+        return $this;
+    }
+
+    /**
+     * Remove characters
+     *
+     * @param \DnDInstance\CharacterBundle\Entity\CharacterUsed $character
+     */
+    public function removeCharacter(\DnDInstance\CharacterBundle\Entity\CharacterUsed $character)
+    {
+        $this->characters->removeElement($character);
+    }
+
+    /**
+     * Get characters
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCharacters()
+    {
+        return $this->characters;
+    }
+
+    /**
+     * Add openRaces
+     *
+     * @param \DnDRules\RaceBundle\Entity\Race $openRace
+     * @return Game
+     */
+    public function addOpenRace(\DnDRules\RaceBundle\Entity\Race $openRace)
+    {
+        $this->openRaces[] = $openRace;
+
+        return $this;
+    }
+
+    /**
+     * Remove openRaces
+     *
+     * @param \DnDRules\RaceBundle\Entity\Race $openRace
+     */
+    public function removeOpenRace(\DnDRules\RaceBundle\Entity\Race $openRace)
+    {
+        $this->openRaces->removeElement($openRace);
+    }
+
+    /**
+     * Get openRaces
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOpenRaces()
+    {
+        return $this->openRaces;
+    }
+
+    /**
+     * Add openClasses
+     *
+     * @param \DnDRules\ClassDnDBundle\Entity\ClassDnD $openClasse
+     * @return Game
+     */
+    public function addOpenClass(\DnDRules\ClassDnDBundle\Entity\ClassDnD $openClasse)
+    {
+        $this->openClasses[] = $openClasse;
+
+        return $this;
+    }
+
+    /**
+     * Remove openClasses
+     *
+     * @param \DnDRules\ClassDnDBundle\Entity\ClassDnD $openClasse
+     */
+    public function removeOpenClass(\DnDRules\ClassDnDBundle\Entity\ClassDnD $openClasse)
+    {
+        $this->openClasses->removeElement($openClasse);
+    }
+
+    /**
+     * Get openClasses
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOpenClasses()
+    {
+        return $this->openClasses;
+    }
+
+    /**
+     * Add weaponInstances
+     *
+     * @param \DnDInstance\WeaponBundle\Entity\WeaponInstance $weaponInstances
+     * @return Game
+     */
+    public function addWeaponInstance(\DnDInstance\WeaponBundle\Entity\WeaponInstance $weaponInstances)
+    {
+        $this->weaponInstances[] = $weaponInstances;
+
+        return $this;
+    }
+
+    /**
+     * Remove weaponInstances
+     *
+     * @param \DnDInstance\WeaponBundle\Entity\WeaponInstance $weaponInstances
+     */
+    public function removeWeaponInstance(\DnDInstance\WeaponBundle\Entity\WeaponInstance $weaponInstances)
+    {
+        $this->weaponInstances->removeElement($weaponInstances);
+    }
+
+    /**
+     * Get weaponInstances
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getWeaponInstances()
+    {
+        return $this->weaponInstances;
     }
 }

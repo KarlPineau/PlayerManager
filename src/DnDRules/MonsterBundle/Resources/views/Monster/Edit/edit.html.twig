@@ -7,13 +7,17 @@
 {% endblock %}
     
 {% block h1 %}
-    Edition :
+    Edition
 {% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
-    <li><a href="{{ path('dndrules_monster_monster_view', {'slug': monster.slug}) }}">{{monster.name}}</a></li>
-    <li class="active">Edition</li>
+    {% if monster.id != null %}
+        <li><a href="{{ path('dndrules_monster_monster_view', {'slug': monster.slug}) }}">{{monster.name}}</a></li>
+        <li class="active">Edition</li>
+    {% else %}
+        <li class="active">Insertion</li>
+    {% endif %}
 {% endblock %} 
 
 {% block PM_body %}
@@ -33,7 +37,7 @@
 {% endblock %}
     
 {% block javascripts_block %}
-    {% javascripts  '@DnDRulesMonsterBundle/Resources/public/js/*'  %}
+    {% javascripts  '@DnDRulesMonsterBundle/Resources/public/js/monster_edit.js'  %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
     {% endjavascripts %}
 {% endblock %}

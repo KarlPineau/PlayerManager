@@ -99,4 +99,16 @@ class characterUsedSkill
 
         return (($pointForLevel1+$modInt)*4)+(($pointByLevel+$modInt)*($level-1));
     }
+
+    public function cloneCharacterUsedSkill($characterUsedSkill, $characterUsed)
+    {
+        $newCharacterUsedSkill = clone $characterUsedSkill;
+        $newCharacterUsedSkill->setCharacterUsedSkills($characterUsed);
+        $newCharacterUsedSkill->setId(null);
+
+        $this->em->persist($newCharacterUsedSkill);
+        $this->em->flush();
+
+        return $newCharacterUsedSkill;
+    }
 }

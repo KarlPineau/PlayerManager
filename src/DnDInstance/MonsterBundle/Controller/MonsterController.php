@@ -5,28 +5,24 @@ namespace DnDInstance\MonsterBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use DnDInstance\MonsterBundle\Form\GenerateMonsterType;
 use DnDInstance\MonsterBundle\Form\MonsterInstanceEditType;
+use Symfony\Component\HttpFoundation\Request;
 
 class MonsterController extends Controller
 {
-    public function generateAction($slug)
+    public function generateAction($slug, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $game = $em->getRepository('GameGameBundle:Game')->findOneBySlug($slug);
-        if ($game === null or !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Game : [slug='.$slug.'] inexistant.');}
+        if($game === null or !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Game : [slug='.$slug.'] inexistant.');}
 
         $form = $this->createForm(new GenerateMonsterType);
-        $request = $this->get('request');
-            if ($request->getMethod() == 'POST') {
-                $form->bind($request);
-                
-                if ($form->isValid()) {
-                    $serviceMonsterInstance = $this->container->get('dndinstance_monster.monster');
-                    $serviceMonsterInstance->generateMonster($form->get('monster')->getData(), $form->get('number')->getData(), $game);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->container->get('dndinstance_monster.monster')->generateMonster($form->get('monster')->getData(), $form->get('number')->getData(), $game);
         
-                    $this->get('session')->getFlashBag()->add('notice', 'Félicitations, les monstres ont bien été créés.');
-                    return $this->redirect($this->generateUrl('game_game_game_view', array('slug' => $game->getSlug())));
-                }
-            }
+            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, les monstres ont bien été créés.');
+            return $this->redirect($this->generateUrl('game_game_game_view', array('slug' => $game->getSlug())));
+        }
         return $this->render('DnDInstanceMonsterBundle:Monster:generate_content.html.twig', array(
                                 'game' => $game,
                                 'form' => $form->createView(),
@@ -44,27 +40,22 @@ class MonsterController extends Controller
                             ));
     }
     
-    public function editAction($slug)
+    public function editAction($slug, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $monsterInstance = $em->getRepository('DnDInstanceMonsterBundle:MonsterInstance')->findOneBySlug($slug);
         if($monsterInstance === null or !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Instance du monstre : [slug='.$slug.'] inexistante.');}
         
         $form = $this->createForm(new MonsterInstanceEditType, $monsterInstance);
-        $request = $this->get('request');
-            if ($request->getMethod() == 'POST') {
-                $form->bind($request);
-                
-                if ($form->isValid()) {
-                    $monsterInstance->setUpdateUser($this->getUser());
-                    $em->persist($monsterInstance);
-                    $em->flush();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $monsterInstance->setUpdateUser($this->getUser());
+            $em->persist($monsterInstance);
+            $em->flush();
 
-                    $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre monstre a bien été édité.' );
-                    return $this->redirect($this->generateUrl('game_game_game_view', array('slug' => $monsterInstance->getGame()->getSlug())));
-                }
-            }
-        
+            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre monstre a bien été édité.' );
+            return $this->redirect($this->generateUrl('game_game_game_view', array('slug' => $monsterInstance->getGame()->getSlug())));
+        }
         return $this->render('DnDInstanceMonsterBundle:Monster:Edit/edit.html.twig', array(
                                 'monsterInstance' => $monsterInstance,
                                 'form' => $form->createView(),

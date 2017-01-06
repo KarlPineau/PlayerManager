@@ -18,7 +18,7 @@ $(document).ready(function() {
         $('#dndinstance_characterbundle_characterused_addskill_skills_'+index+'_ranks').addClass('form-control');
     });
 
-    var content =   $('#dndinstance_characterbundle_characterused_addskill_skills').html();
+    var content = $('#dndinstance_characterbundle_characterused_addskill_skills').html();
 
     $('#dndinstance_characterbundle_characterused_addskill_skills').html('' +
         '<table class="table table-bordered table-striped">' +

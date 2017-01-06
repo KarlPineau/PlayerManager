@@ -49,6 +49,12 @@ class DiceForm
     private $monsterHpForm;
 
     /**
+     * @ORM\ManyToOne(targetEntity="DnDRules\MonsterBundle\Entity\MonsterAttackInstance", inversedBy="damageForms")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $monsterAttackDamage;
+
+    /**
      * @var \DateTime
      *
      * @Gedmo\Timestampable(on="create")
@@ -207,5 +213,28 @@ class DiceForm
     public function getMonsterHpForm()
     {
         return $this->monsterHpForm;
+    }
+
+    /**
+     * Set monsterAttackDamage
+     *
+     * @param \DnDRules\MonsterBundle\Entity\MonsterAttackInstance $monsterAttackDamage
+     * @return DiceForm
+     */
+    public function setMonsterAttackDamage(\DnDRules\MonsterBundle\Entity\MonsterAttackInstance $monsterAttackDamage = null)
+    {
+        $this->monsterAttackDamage = $monsterAttackDamage;
+
+        return $this;
+    }
+
+    /**
+     * Get monsterAttackDamage
+     *
+     * @return \DnDRules\MonsterBundle\Entity\MonsterAttackInstance 
+     */
+    public function getMonsterAttackDamage()
+    {
+        return $this->monsterAttackDamage;
     }
 }

@@ -54,6 +54,12 @@ dndinstance_characterused_characterused_delete:
     requirements:
         slug:  \S{0,255}
 
+dndinstance_characterused_characterused_clone:
+    path:     /personnage/clone/{slug}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:clone }
+    requirements:
+        slug:  \S{0,255}
+
 dndinstance_characterused_characterused_edit_xppoints:
     path:     /personnage/edition/points-experience/{slug}
     defaults: { _controller: DnDInstanceCharacterBundle:XpPoints:editXpPoints }

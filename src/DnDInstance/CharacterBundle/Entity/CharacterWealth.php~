@@ -1,6 +1,6 @@
 <?php
 
-namespace PM\CharacterBundle\Entity;
+namespace DnDInstance\CharacterBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * CharacterWealth
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="PM\CharacterBundle\Entity\CharacterWealthRepository")
+ * @ORM\Entity(repositoryClass="DnDInstance\CharacterBundle\Entity\CharacterWealthRepository")
  */
 class CharacterWealth
 {
@@ -22,6 +22,12 @@ class CharacterWealth
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterUsed", inversedBy="wealth")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $characterUsedWealth;
 
     /**
      * @var integer
@@ -45,7 +51,7 @@ class CharacterWealth
     private $pc;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $createUser;
@@ -59,7 +65,7 @@ class CharacterWealth
     protected $createDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=true)
      */
     protected $updateUser;
@@ -72,17 +78,6 @@ class CharacterWealth
      */
     protected $updateDate;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="updateComment", type="string", length=255, nullable=true)
-     * @Assert\Length(
-     *      max = "255",
-     *      maxMessage = "Le commentaire ne doit pas dépasser {{ limit }} caractères."
-     * )
-     */
-    protected $updateComment;
-
 
     /**
      * Get id
@@ -92,6 +87,13 @@ class CharacterWealth
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -210,35 +212,12 @@ class CharacterWealth
     }
 
     /**
-     * Set updateComment
-     *
-     * @param string $updateComment
-     * @return CharacterWealth
-     */
-    public function setUpdateComment($updateComment)
-    {
-        $this->updateComment = $updateComment;
-
-        return $this;
-    }
-
-    /**
-     * Get updateComment
-     *
-     * @return string 
-     */
-    public function getUpdateComment()
-    {
-        return $this->updateComment;
-    }
-
-    /**
      * Set createUser
      *
-     * @param \PM\UserBundle\Entity\User $createUser
+     * @param \CAS\UserBundle\Entity\User $createUser
      * @return CharacterWealth
      */
-    public function setCreateUser(\PM\UserBundle\Entity\User $createUser)
+    public function setCreateUser(\CAS\UserBundle\Entity\User $createUser)
     {
         $this->createUser = $createUser;
 
@@ -248,7 +227,7 @@ class CharacterWealth
     /**
      * Get createUser
      *
-     * @return \PM\UserBundle\Entity\User 
+     * @return \CAS\UserBundle\Entity\User
      */
     public function getCreateUser()
     {
@@ -258,10 +237,10 @@ class CharacterWealth
     /**
      * Set updateUser
      *
-     * @param \PM\UserBundle\Entity\User $updateUser
+     * @param \CAS\UserBundle\Entity\User $updateUser
      * @return CharacterWealth
      */
-    public function setUpdateUser(\PM\UserBundle\Entity\User $updateUser = null)
+    public function setUpdateUser(\CAS\UserBundle\Entity\User $updateUser = null)
     {
         $this->updateUser = $updateUser;
 
@@ -271,7 +250,7 @@ class CharacterWealth
     /**
      * Get updateUser
      *
-     * @return \PM\UserBundle\Entity\User 
+     * @return \CAS\UserBundle\Entity\User
      */
     public function getUpdateUser()
     {

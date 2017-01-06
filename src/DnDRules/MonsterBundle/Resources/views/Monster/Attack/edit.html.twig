@@ -1,0 +1,39 @@
+{# src/DnDRules/MonsterBundle/Resources/views/Monster/register.html.twig #}
+ 
+{% extends "DnDRulesMonsterBundle:Monster:layout.html.twig" %}
+
+{% block title %}
+    Attaques de {{ monster.name }} - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    Attaques de {{ monster.name }}
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('dndrules_monster_monster_view', {'slug': monster.slug}) }}">{{monster.name}}</a></li>
+    <li class="active">Attaques</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="well">
+            {% include "DnDRulesMonsterBundle:Monster:Attack/edit_content.html.twig" %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+    
+{% block javascripts_block %}
+    {% javascripts  '@DnDRulesMonsterBundle/Resources/public/js/monster_attack_edit.js'  %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

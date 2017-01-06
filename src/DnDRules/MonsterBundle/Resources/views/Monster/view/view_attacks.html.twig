@@ -1,0 +1,93 @@
+{% if monster.attackExtremeDescription != null %}
+    <div class="well">
+        <div>
+            <div class="pull-right"><a href="{{ path('dndrules_monster_monster_edit_attack_extreme', {'id': monster.id}) }}" class="btn btn-sm btn-primary"><i class="fa fa-edit"></i></a></div>
+            <h4>Attaque à outrance :</h4>
+        </div>
+        {{ monster.attackExtremeDescription|raw }}
+    </div>
+{% else %}
+    <div class="alert alert-info">
+        <p>Pas d'attaque à outrance - <a href="{{ path('dndrules_monster_monster_edit_attack_extreme', {'id': monster.id}) }}">Editer l'attaque à outrance</a></p>
+    </div>
+{% endif %}
+
+{% for attackInstance in monster.attackInstances %}
+<div class="list-group">
+    <div class="list-group-item">
+        <div class="pull-right">
+        {% if attackInstance.onlyExtreme == true %}<small>(Attaque à outrance uniquement)</small>{% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+                <div class="btn-group">
+                    <a href="{{ path('dndrules_monster_monster_edit_attack', {'id': monster.id}) }}" class="btn btn-primary"><i class="fa fa-edit"></i></a>
+                    <a href="{{ path('dndrules_monster_monster_delete_attack', {'id_attack': attackInstance.id, 'id_monster': monster.id}) }}" class="btn btn-danger"><i class="fa fa-remove"></i></a>
+                </div>
+        {% endif %}
+        </div>
+        <h4>
+            {{ attackInstance.name }}
+        </h4>
+    </div>
+    <dl class="list-group-item dl-horizontal">
+        <dt>Arme</dt>
+        <dd>
+            {% if attackInstance.weapon != null %}
+            <a href="{{ path('dndrules_weapon_weapon_view', {'slug': attackInstance.weapon.slug}) }}" target="_blank">{{ attackInstance.weapon.name }}</a>
+            {% else %}<i class="fa fa-minus"></i>
+            {% endif %}
+        </dd>
+    </dl>
+    <dl class="list-group-item dl-horizontal">
+        <dt title="Bonus de Base à l'Attaque">Bonus de Base à l'Attaque</dt>
+        <dd>{{ attackInstance.bab }}</dd>
+    </dl>
+    <dl class="list-group-item dl-horizontal">
+        <dt>Dégâts</dt>
+        <dd>
+            {% for diceForm in attackInstance.damageForms %}
+                {% if loop.index > 1 %}<br />{% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div class="pull-right">
+                        <a href="{{ path('dndrules_monster_monster_delete_attack_damageform', {'id_attackInstance': attackInstance.id, 'id_damageForm': diceForm.id}) }}"><i class="fa fa-remove"></i></a>
+                    </div>
+                {% endif %}
+                {% for diceEntity in diceForm.diceEntities %}
+                    {{ diceEntity.diceNumber }}d{{diceEntity.diceType.dice}}
+                {% else %}
+                    diceEntity vide
+                {% endfor %}
+                {% for bonusNumber in diceForm.bonusNumbers %}
+                    +{{ bonusNumber.value }}
+                {% endfor %}
+            {% else %}
+                Pas de dégâts connus
+            {% endfor %}
+        </dd>
+    </dl>
+    <dl class="list-group-item dl-horizontal">
+        <dt>Critique</dt>
+        <dd>
+            {% for critical in attackInstance.damageCriticForms %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <div class="pull-right">
+                        <a href="{{ path('dndrules_monster_monster_delete_attack_critic', {'id_attackInstance': attackInstance.id, 'id_critic': critical.id}) }}"><i class="fa fa-remove"></i></a>
+                    </div>
+                {% endif %}
+                {{critical.rangeCriticalBegin}}-{{critical.rangeCriticalEnd}} : x{{critical.multiplier}}
+            {% else %}
+                <i class="fa fa-minus"></i>
+            {% endfor %}
+        </dd>
+    </dl>
+    <dl class="list-group-item dl-horizontal">
+        <dt>Effets secondaires</dt>
+        <dd>
+            {% if attackInstance.damageSideEffect != null %}{{ attackInstance.damageSideEffect }}{% else %}<i class="fa fa-minus"></i>{% endif %}
+        </dd>
+    </dl>
+</div>
+{% else %}
+<div class="alert alert-warning">
+    <p>Pas d'attaques connues</p>
+</div>
+{% endfor %}

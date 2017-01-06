@@ -1,14 +1,32 @@
 {# src/DnDRules/MonsterBundle/Resources/views/Monster/view.html.twig #}
  
-<ul>
-    <li>Langues parlées :</li>
-    <ul>
-        {% for language in monster.languages %}
-            <li><a href="{{path('dndrules_language_language_view', {'slug': language.slug})}}" target="_blank">{{language.name}}</a></li>
-        {% else %}
-            <li>Aucune langue connue pour ce monstre</li>
-        {% endfor %}   
-    </ul>
-    <li>Alignement : {% if monster.alignment is not empty %}<a href="{{path('dndrules_alignment_alignment_view', {'slug': monster.alignment.slug})}}" target="_blank">{{monster.alignment.name}}</a>{% endif %}</li>
-    <li>Environnement : {% if monster.environment is not empty %}<a href="{{path('dndrules_monster_environment_view', {'slug': monster.environment.slug})}}" target="_blank">{{monster.environment.name}}</a>{% endif %}</li>
-</ul>
+<div class="list-group">
+    <dl class="list-group-item dl-horizontal">
+        <dt>Langues parlées :</dt>
+        <dd>
+            <ul>
+                {% for language in monster.languages %}
+                    <li><a href="{{path('dndrules_language_language_view', {'slug': language.slug})}}" target="_blank">{{language.name}}</a></li>
+                {% else %}
+                    <li>Aucune langue connue pour ce monstre</li>
+                {% endfor %}
+            </ul>
+        </dd>
+    </dl>
+    <dl class="list-group-item dl-horizontal">
+        <dt>Alignements autorisés</dt>
+        <dd>
+            <ul>
+            {% for alignement in monster.alignments %}
+                <li><a href="{{path('dndrules_alignment_alignment_view', {'slug': alignment.slug})}}" target="_blank">{{alignment.name}}</a></li>
+            {% else %}
+                <li>Pas d'alignement connu</li>
+            {% endfor %}
+            </ul>
+        </dd>
+    </dl>
+    <dl class="list-group-item dl-horizontal">
+        <dt>Environnement</dt>
+        <dd>{% if monster.environment is not empty %}<a href="{{path('dndrules_monster_environment_view', {'slug': monster.environment.slug})}}" target="_blank">{{monster.environment.name}}</a>{% endif %}</dd>
+    </dl>
+</div>

@@ -51,6 +51,12 @@ class Critical
     private $weapon;
 
     /**
+     * @ORM\ManyToOne(targetEntity="DnDRules\MonsterBundle\Entity\MonsterAttackInstance", inversedBy="damageCriticForms")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $monsterAttackCritic;
+
+    /**
      * @var \DateTime
      *
      * @Gedmo\Timestampable(on="create")
@@ -182,5 +188,28 @@ class Critical
     public function getWeapon()
     {
         return $this->weapon;
+    }
+
+    /**
+     * Set monsterAttackCritic
+     *
+     * @param \DnDRules\MonsterBundle\Entity\MonsterAttackInstance $monsterAttackCritic
+     * @return Critical
+     */
+    public function setMonsterAttackCritic(\DnDRules\MonsterBundle\Entity\MonsterAttackInstance $monsterAttackCritic = null)
+    {
+        $this->monsterAttackCritic = $monsterAttackCritic;
+
+        return $this;
+    }
+
+    /**
+     * Get monsterAttackCritic
+     *
+     * @return \DnDRules\MonsterBundle\Entity\MonsterAttackInstance 
+     */
+    public function getMonsterAttackCritic()
+    {
+        return $this->monsterAttackCritic;
     }
 }

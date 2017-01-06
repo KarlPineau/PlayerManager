@@ -1,9 +1,38 @@
-{# src/DnDRules/MonsterBundle/Resources/views/Monster/view.html.twig #}
- 
-<ul>
-    <li>Initiative : {% if monster.initiative is not null %}{{monster.initiative}}{% else %}Valeur non renseignée{% endif %}</li>
-    <li>Modificateur de Lutte : {% if monster.grappleModifier is not null %}{{monster.grappleModifier}}{% else %}Valeur non renseignée{% endif %}</li>
-    <li>CA : {% if monster.ac is not null %}{{monster.ac}}{% else %}Valeur non renseignée{% endif %}</li>
-    <li>CA de Contact : {% if monster.touchAC is not null %}{{monster.touchAC}}{% else %}Valeur non renseignée{% endif %}</li>
-    <li>CA de Prise au dépourvu : {% if monster.ffAC is not null %}{{monster.ffAC}}{% else %}Valeur non renseignée{% endif %}</li>
-</ul>
+<div class="list-group">
+    <dl class="list-group-item dl-horizontal">
+        <dt>Initiative</dt>
+        <dd>
+            {% if monster.initiative is not null %}{{monster.initiative}}{% else %}Valeur non renseignée{% endif %}
+        </dd>
+    </dl>
+    <dl class="list-group-item dl-horizontal">
+        <dt>Bonus de Base à l'Attaque</dt>
+        <dd>
+            {% if monster.bab is not null %}{{monster.bab}}{% else %}Valeur non renseignée{% endif %}
+        </dd>
+    </dl>
+    <dl class="list-group-item dl-horizontal">
+        <dt>Bonus de Lutte</dt>
+        <dd>
+            {% if monster.bfb is not null %}{{monster.bfb}}{% else %}Valeur non renseignée{% endif %}
+        </dd>
+    </dl>
+    <dl class="list-group-item dl-horizontal">
+        <dt>CA</dt>
+        <dd>
+            {% if monster.ac is not null %}{{monster.ac}}{% else %}Valeur non renseignée{% endif %}
+        </dd>
+    </dl>
+    <dl class="list-group-item dl-horizontal">
+        <dt>CA de Contact</dt>
+        <dd>
+            {% if monster.touchAC is not null %}{{monster.touchAC}}{% else %}Valeur non renseignée{% endif %}
+        </dd>
+    </dl>
+    <dl class="list-group-item dl-horizontal">
+        <dt>CA de Prise au dépourvu</dt>
+        <dd>
+            {% if monster.ffAC is not null %}{{monster.ffAC}}{% else %}Valeur non renseignée{% endif %}
+        </dd>
+    </dl>
+</div>

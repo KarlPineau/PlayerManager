@@ -25,7 +25,7 @@ class CharacterSkill
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterUsed", inversedBy="CharacterUsed")
+     * @ORM\ManyToOne(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterUsed", inversedBy="skills")
      * @ORM\JoinColumn(nullable=false)
      */
     private $characterUsedSkills;
@@ -44,7 +44,7 @@ class CharacterSkill
     private $ranks;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $createUser;
@@ -58,7 +58,7 @@ class CharacterSkill
     protected $createDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=true)
      */
     protected $updateUser;
@@ -90,5 +90,196 @@ class CharacterSkill
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Set ranks
+     *
+     * @param integer $ranks
+     * @return CharacterSkill
+     */
+    public function setRanks($ranks)
+    {
+        $this->ranks = $ranks;
+
+        return $this;
+    }
+
+    /**
+     * Get ranks
+     *
+     * @return integer 
+     */
+    public function getRanks()
+    {
+        return $this->ranks;
+    }
+
+    /**
+     * Set createDate
+     *
+     * @param \DateTime $createDate
+     * @return CharacterSkill
+     */
+    public function setCreateDate($createDate)
+    {
+        $this->createDate = $createDate;
+
+        return $this;
+    }
+
+    /**
+     * Get createDate
+     *
+     * @return \DateTime 
+     */
+    public function getCreateDate()
+    {
+        return $this->createDate;
+    }
+
+    /**
+     * Set updateDate
+     *
+     * @param \DateTime $updateDate
+     * @return CharacterSkill
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+
+        return $this;
+    }
+
+    /**
+     * Get updateDate
+     *
+     * @return \DateTime 
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * Set updateComment
+     *
+     * @param string $updateComment
+     * @return CharacterSkill
+     */
+    public function setUpdateComment($updateComment)
+    {
+        $this->updateComment = $updateComment;
+
+        return $this;
+    }
+
+    /**
+     * Get updateComment
+     *
+     * @return string 
+     */
+    public function getUpdateComment()
+    {
+        return $this->updateComment;
+    }
+
+    /**
+     * Set characterUsedSkills
+     *
+     * @param \DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsedSkills
+     * @return CharacterSkill
+     */
+    public function setCharacterUsedSkills(\DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsedSkills)
+    {
+        $this->characterUsedSkills = $characterUsedSkills;
+
+        return $this;
+    }
+
+    /**
+     * Get characterUsedSkills
+     *
+     * @return \DnDInstance\CharacterBundle\Entity\CharacterUsed 
+     */
+    public function getCharacterUsedSkills()
+    {
+        return $this->characterUsedSkills;
+    }
+
+    /**
+     * Set skill
+     *
+     * @param \DnDRules\SkillBundle\Entity\Skill $skill
+     * @return CharacterSkill
+     */
+    public function setSkill(\DnDRules\SkillBundle\Entity\Skill $skill)
+    {
+        $this->skill = $skill;
+
+        return $this;
+    }
+
+    /**
+     * Get skill
+     *
+     * @return \DnDRules\SkillBundle\Entity\Skill 
+     */
+    public function getSkill()
+    {
+        return $this->skill;
+    }
+
+    /**
+     * Set createUser
+     *
+     * @param \CAS\UserBundle\Entity\User $createUser
+     * @return CharacterSkill
+     */
+    public function setCreateUser(\CAS\UserBundle\Entity\User $createUser)
+    {
+        $this->createUser = $createUser;
+
+        return $this;
+    }
+
+    /**
+     * Get createUser
+     *
+     * @return \CAS\UserBundle\Entity\User
+     */
+    public function getCreateUser()
+    {
+        return $this->createUser;
+    }
+
+    /**
+     * Set updateUser
+     *
+     * @param \CAS\UserBundle\Entity\User $updateUser
+     * @return CharacterSkill
+     */
+    public function setUpdateUser(\CAS\UserBundle\Entity\User $updateUser = null)
+    {
+        $this->updateUser = $updateUser;
+
+        return $this;
+    }
+
+    /**
+     * Get updateUser
+     *
+     * @return \CAS\UserBundle\Entity\User
+     */
+    public function getUpdateUser()
+    {
+        return $this->updateUser;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace PM\CharacterBundle\Entity;
+namespace DnDInstance\CharacterBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Ability
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="PM\CharacterBundle\Entity\CharacterAbilityRepository")
+ * @ORM\Entity(repositoryClass="DnDInstance\CharacterBundle\Entity\CharacterAbilityRepository")
  */
 class CharacterAbility
 {
@@ -24,13 +24,13 @@ class CharacterAbility
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PM\CharacterBundle\Entity\CharacterUsed")
+     * @ORM\ManyToOne(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterUsed", inversedBy="abilities")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $characterUsed;
+    private $characterUsedDnDAbilities;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PM\CharacterBundle\Entity\Ability")
+     * @ORM\ManyToOne(targetEntity="DnDRules\AbilityBundle\Entity\Ability")
      * @ORM\JoinColumn(nullable=false)
      */
     private $ability;
@@ -43,7 +43,7 @@ class CharacterAbility
     private $value;
 
     /**
-    * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+    * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
     * @ORM\JoinColumn(nullable=false)
     */
     protected $createUser;
@@ -57,7 +57,7 @@ class CharacterAbility
     protected $createDate;
 
     /**
-    * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+    * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
     * @ORM\JoinColumn(nullable=true)
     */
     protected $updateUser;
@@ -92,34 +92,18 @@ class CharacterAbility
         return $this->id;
     }
 
-    /**
-     * Set type
-     *
-     * @param integer $type
-     * @return ability
-     */
-    public function setType($type)
+    public function setId($id)
     {
-        $this->type = $type;
+        $this->id = $id;
 
         return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return integer 
-     */
-    public function getType()
-    {
-        return $this->type;
     }
 
     /**
      * Set value
      *
      * @param integer $value
-     * @return ability
+     * @return CharacterAbility
      */
     public function setValue($value)
     {
@@ -142,7 +126,7 @@ class CharacterAbility
      * Set createDate
      *
      * @param \DateTime $createDate
-     * @return ability
+     * @return CharacterAbility
      */
     public function setCreateDate($createDate)
     {
@@ -165,7 +149,7 @@ class CharacterAbility
      * Set updateDate
      *
      * @param \DateTime $updateDate
-     * @return ability
+     * @return CharacterAbility
      */
     public function setUpdateDate($updateDate)
     {
@@ -188,7 +172,7 @@ class CharacterAbility
      * Set updateComment
      *
      * @param string $updateComment
-     * @return ability
+     * @return CharacterAbility
      */
     public function setUpdateComment($updateComment)
     {
@@ -208,35 +192,58 @@ class CharacterAbility
     }
 
     /**
-     * Set characterUsed
+     * Set characterUsedDnDAbilities
      *
-     * @param \PM\CharacterBundle\Entity\CharacterUsed $characterUsed
-     * @return ability
+     * @param \DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsedDnDAbilities
+     * @return CharacterAbility
      */
-    public function setCharacterUsed(\PM\CharacterBundle\Entity\CharacterUsed $characterUsed)
+    public function setCharacterUsedDnDAbilities(\DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsedDnDAbilities)
     {
-        $this->characterUsed = $characterUsed;
+        $this->characterUsedDnDAbilities = $characterUsedDnDAbilities;
 
         return $this;
     }
 
     /**
-     * Get characterUsed
+     * Get characterUsedDnDAbilities
      *
-     * @return \PM\CharacterBundle\Entity\CharacterUsed 
+     * @return \DnDInstance\CharacterBundle\Entity\CharacterUsed 
      */
-    public function getCharacterUsed()
+    public function getCharacterUsedDnDAbilities()
     {
-        return $this->characterUsed;
+        return $this->characterUsedDnDAbilities;
+    }
+
+    /**
+     * Set ability
+     *
+     * @param \DnDRules\AbilityBundle\Entity\Ability $ability
+     * @return CharacterAbility
+     */
+    public function setAbility(\DnDRules\AbilityBundle\Entity\Ability $ability)
+    {
+        $this->ability = $ability;
+
+        return $this;
+    }
+
+    /**
+     * Get ability
+     *
+     * @return \DnDRules\AbilityBundle\Entity\Ability 
+     */
+    public function getAbility()
+    {
+        return $this->ability;
     }
 
     /**
      * Set createUser
      *
-     * @param \PM\UserBundle\Entity\User $createUser
-     * @return ability
+     * @param \CAS\UserBundle\Entity\User $createUser
+     * @return CharacterAbility
      */
-    public function setCreateUser(\PM\UserBundle\Entity\User $createUser)
+    public function setCreateUser(\CAS\UserBundle\Entity\User $createUser)
     {
         $this->createUser = $createUser;
 
@@ -246,7 +253,7 @@ class CharacterAbility
     /**
      * Get createUser
      *
-     * @return \PM\UserBundle\Entity\User 
+     * @return \CAS\UserBundle\Entity\User 
      */
     public function getCreateUser()
     {
@@ -256,10 +263,10 @@ class CharacterAbility
     /**
      * Set updateUser
      *
-     * @param \PM\UserBundle\Entity\User $updateUser
-     * @return ability
+     * @param \CAS\UserBundle\Entity\User $updateUser
+     * @return CharacterAbility
      */
-    public function setUpdateUser(\PM\UserBundle\Entity\User $updateUser = null)
+    public function setUpdateUser(\CAS\UserBundle\Entity\User $updateUser = null)
     {
         $this->updateUser = $updateUser;
 
@@ -269,7 +276,7 @@ class CharacterAbility
     /**
      * Get updateUser
      *
-     * @return \PM\UserBundle\Entity\User 
+     * @return \CAS\UserBundle\Entity\User 
      */
     public function getUpdateUser()
     {

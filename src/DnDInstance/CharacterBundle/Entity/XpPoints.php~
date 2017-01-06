@@ -1,6 +1,6 @@
 <?php
 
-namespace PM\CharacterBundle\Entity;
+namespace DnDInstance\CharacterBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * XpPoints
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="PM\CharacterBundle\Entity\XpPointsRepository")
+ * @ORM\Entity(repositoryClass="DnDInstance\CharacterBundle\Entity\XpPointsRepository")
  */
 class XpPoints
 {
@@ -24,10 +24,10 @@ class XpPoints
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PM\CharacterBundle\Entity\CharacterUsed")
+     * @ORM\ManyToOne(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterUsed", inversedBy="xpPoints")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $characterUsed;
+    private $characterUsedDnDXpPoints;
 
     /**
      * @var integer
@@ -37,7 +37,7 @@ class XpPoints
     private $increase;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
     protected $createUser;
@@ -51,7 +51,7 @@ class XpPoints
     protected $createDate;
 
     /**
-     * @ORM\ManyToOne(targetEntity="PM\UserBundle\Entity\User")
+     * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=true)
      */
     protected $updateUser;
@@ -84,5 +84,173 @@ class XpPoints
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Set increase
+     *
+     * @param integer $increase
+     * @return XpPoints
+     */
+    public function setIncrease($increase)
+    {
+        $this->increase = $increase;
+
+        return $this;
+    }
+
+    /**
+     * Get increase
+     *
+     * @return integer 
+     */
+    public function getIncrease()
+    {
+        return $this->increase;
+    }
+
+    /**
+     * Set createDate
+     *
+     * @param \DateTime $createDate
+     * @return XpPoints
+     */
+    public function setCreateDate($createDate)
+    {
+        $this->createDate = $createDate;
+
+        return $this;
+    }
+
+    /**
+     * Get createDate
+     *
+     * @return \DateTime 
+     */
+    public function getCreateDate()
+    {
+        return $this->createDate;
+    }
+
+    /**
+     * Set updateDate
+     *
+     * @param \DateTime $updateDate
+     * @return XpPoints
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+
+        return $this;
+    }
+
+    /**
+     * Get updateDate
+     *
+     * @return \DateTime 
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * Set updateComment
+     *
+     * @param string $updateComment
+     * @return XpPoints
+     */
+    public function setUpdateComment($updateComment)
+    {
+        $this->updateComment = $updateComment;
+
+        return $this;
+    }
+
+    /**
+     * Get updateComment
+     *
+     * @return string 
+     */
+    public function getUpdateComment()
+    {
+        return $this->updateComment;
+    }
+
+    /**
+     * Set characterUsedDnDXpPoints
+     *
+     * @param \DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsedDnDXpPoints
+     * @return XpPoints
+     */
+    public function setCharacterUsedDnDXpPoints(\DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsedDnDXpPoints)
+    {
+        $this->characterUsedDnDXpPoints = $characterUsedDnDXpPoints;
+
+        return $this;
+    }
+
+    /**
+     * Get characterUsedDnDXpPoints
+     *
+     * @return \DnDInstance\CharacterBundle\Entity\CharacterUsed 
+     */
+    public function getCharacterUsedDnDXpPoints()
+    {
+        return $this->characterUsedDnDXpPoints;
+    }
+
+    /**
+     * Set createUser
+     *
+     * @param \CAS\UserBundle\Entity\User $createUser
+     * @return XpPoints
+     */
+    public function setCreateUser(\CAS\UserBundle\Entity\User $createUser)
+    {
+        $this->createUser = $createUser;
+
+        return $this;
+    }
+
+    /**
+     * Get createUser
+     *
+     * @return \CAS\UserBundle\Entity\User 
+     */
+    public function getCreateUser()
+    {
+        return $this->createUser;
+    }
+
+    /**
+     * Set updateUser
+     *
+     * @param \CAS\UserBundle\Entity\User $updateUser
+     * @return XpPoints
+     */
+    public function setUpdateUser(\CAS\UserBundle\Entity\User $updateUser = null)
+    {
+        $this->updateUser = $updateUser;
+
+        return $this;
+    }
+
+    /**
+     * Get updateUser
+     *
+     * @return \CAS\UserBundle\Entity\User 
+     */
+    public function getUpdateUser()
+    {
+        return $this->updateUser;
     }
 }

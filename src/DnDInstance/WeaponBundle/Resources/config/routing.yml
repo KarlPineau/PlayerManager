@@ -3,3 +3,11 @@ dndinstance_weapon_weapon_instanceforcharacter:
     defaults: { _controller: DnDInstanceWeaponBundle:Weapon:instanceForCharacter }
     requirements:
         characterSlug:  \S{0,255}
+
+dndinstance_weapon_weapon_removeCharacterFromInstance:
+    path:     /instance/arme/supprimer/{characterSlug}/{instance_id}/{gameSlug}
+    defaults: { _controller: DnDInstanceWeaponBundle:Weapon:removeCharacterFromInstance }
+    requirements:
+        characterSlug:  \S{0,255}
+        instance_id:  \d+
+        gameSlug:  \S{0,255}

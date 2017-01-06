@@ -59,6 +59,28 @@
                     <dl class="list-group-item dl-horizontal"><dt>Dé de vie</dt><dd>{% if classDnD.diceHealth != null %}d{{ classDnD.diceHealth.dice }}{% else %}Non spécifié{% endif %}</dd></dl>
                     <dl class="list-group-item dl-horizontal"><dt title="Points de compétences par niveau">Points de compétences par niveau</dt><dd>{% if classDnD.pointsSkillByLevel != null %}{{ classDnD.pointsSkillByLevel }} + <abbr title="modificateur d'intelligence">mod. Int.</abbr>{% else %}Non spécifié{% endif %}</dd></dl>
                     <dl class="list-group-item dl-horizontal"><dt title="Points de compétences au niveau 1">Points de compétences au niveau 1</dt><dd>{% if classDnD.pointsSkillFirstLevel != null %}({{ classDnD.pointsSkillFirstLevel }} + <abbr title="modificateur d'intelligence">mod. Int.</abbr>) x 4{% else %}Non spécifié{% endif %}</dd></dl>
+                    <dl class="list-group-item dl-horizontal">
+                        <dt title="Points de compétences au niveau 1">Armes maitrisées</dt>
+                        <dd>
+                            {% for weaponType in classDnD.allowWeaponType %}
+                                {% if loop.index > 1 %}, {% endif %}
+                                <a href="{{ path('dndrules_weapon_weapontype_view', {'slug': weaponType.slug}) }}" target="_blank">{{ weaponType.name }}</a>
+                            {% else %}
+                               Aucune arme maitrisée
+                            {% endfor %}
+                        </dd>
+                    </dl>
+                    <dl class="list-group-item dl-horizontal">
+                        <dt title="Points de compétences au niveau 1">Armures maitrisées</dt>
+                        <dd>
+                            {% for armorType in classDnD.allowArmorType %}
+                                {% if loop.index > 1 %}, {% endif %}
+                                <a href="{{ path('dndrules_armor_armortype_view', {'slug': armorType.slug}) }}" target="_blank">{{ armorType.name }}</a>
+                            {% else %}
+                            Aucune armure maitrisée
+                            {% endfor %}
+                        </dd>
+                    </dl>
                 </div>
             </div>
         

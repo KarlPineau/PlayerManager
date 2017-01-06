@@ -1,0 +1,27 @@
+{# src/DnDRules/MonsterBundle/Resources/views/Monster/register_content.html.twig #}
+
+<form class="form-horizontal" method="post" {{ form_enctype(form) }} role="form">
+    {% if not form.vars.valid %}
+    <div class="alert alert-error">
+        <strong>Votre formulaire contient les erreurs suivantes :</strong>
+        {{ form_errors(form) }}
+        {{ form_errors(form.attackExtremeDescription) }}
+    </div>
+    <br />
+    {% endif %}
+
+    <fieldset>
+        <legend>Monstre :</legend>
+        <div class="form-group">
+           <div class="col-md-3 control-label">
+                {{ form_label(form.attackExtremeDescription, "Description de l'Attaque à outrance :", {'label_attr': {'class': 'control-label'}}) }}
+            </div>
+            <div class="col-md-9">
+                {{ form_widget(form.attackExtremeDescription, {'attr': {'class': 'form-control', 'rows': '9'}}) }}
+            </div>
+        </div>
+    </fieldset>
+        <br />
+    {{ form_rest(form) }}
+    <div class="text-center"><input type="submit" class="btn btn-primary" /></div>
+</form>

@@ -11,13 +11,14 @@ class CharacterAbilityController extends Controller
     {
         if(isset($_GET['context']) and !empty($_GET['context'])) {$context = $_GET['context'];} else {$context = 'edit';}
 
-        // -- Récupération du personnage et de ses caractéristiques :
         $em = $this->getDoctrine()->getManager();
-        $repositoryCharacterUsed = $em->getRepository('DnDInstanceCharacterBundle:CharacterUsed');
         $repositoryAbility = $em->getRepository('DnDInstanceCharacterBundle:CharacterAbility');
  
-        $characterUsed = $repositoryCharacterUsed->findOneBySlug($slug);
-        $abilities = $repositoryAbility->findBy(array('characterUsed' => $characterUsed),
+        $characterUsed = $em->getRepository('DnDInstanceCharacterBundle:CharacterUsed')->findOneBySlug($slug);
+        if($characterUsed === null) {throw $this->createNotFoundException('CharacterUsed : [slug='.$slug.'] undefined.');}
+        if($characterUsed->getUser() != $this->getUser() AND !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('CharacterUsed : [slug='.$slug.'] undefined.');}
+
+        $abilities = $repositoryAbility->findBy(array('characterUsedDnDAbilities' => $characterUsed),
                                                 array('ability' => 'ASC'),
                                                 6,
                                                 0);

@@ -24,10 +24,10 @@ class XpPoints
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterUsed")
+     * @ORM\ManyToOne(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterUsed", inversedBy="xpPoints")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $characterUsed;
+    private $characterUsedDnDXpPoints;
 
     /**
      * @var integer
@@ -84,6 +84,13 @@ class XpPoints
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -179,26 +186,26 @@ class XpPoints
     }
 
     /**
-     * Set characterUsed
+     * Set characterUsedDnDXpPoints
      *
-     * @param \DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsed
+     * @param \DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsedDnDXpPoints
      * @return XpPoints
      */
-    public function setCharacterUsed(\DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsed)
+    public function setCharacterUsedDnDXpPoints(\DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsedDnDXpPoints)
     {
-        $this->characterUsed = $characterUsed;
+        $this->characterUsedDnDXpPoints = $characterUsedDnDXpPoints;
 
         return $this;
     }
 
     /**
-     * Get characterUsed
+     * Get characterUsedDnDXpPoints
      *
      * @return \DnDInstance\CharacterBundle\Entity\CharacterUsed 
      */
-    public function getCharacterUsed()
+    public function getCharacterUsedDnDXpPoints()
     {
-        return $this->characterUsed;
+        return $this->characterUsedDnDXpPoints;
     }
 
     /**
@@ -217,7 +224,7 @@ class XpPoints
     /**
      * Get createUser
      *
-     * @return \CAS\UserBundle\Entity\User
+     * @return \CAS\UserBundle\Entity\User 
      */
     public function getCreateUser()
     {
@@ -240,7 +247,7 @@ class XpPoints
     /**
      * Get updateUser
      *
-     * @return \CAS\UserBundle\Entity\User
+     * @return \CAS\UserBundle\Entity\User 
      */
     public function getUpdateUser()
     {

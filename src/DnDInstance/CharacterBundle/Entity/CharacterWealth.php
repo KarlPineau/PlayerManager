@@ -24,6 +24,12 @@ class CharacterWealth
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterUsed", inversedBy="wealth")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $characterUsedWealth;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="po", type="integer", options={"default" = 0}, nullable=false)
@@ -72,17 +78,6 @@ class CharacterWealth
      */
     protected $updateDate;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="updateComment", type="string", length=255, nullable=true)
-     * @Assert\Length(
-     *      max = "255",
-     *      maxMessage = "Le commentaire ne doit pas dépasser {{ limit }} caractères."
-     * )
-     */
-    protected $updateComment;
-
 
     /**
      * Get id
@@ -92,6 +87,13 @@ class CharacterWealth
     public function getId()
     {
         return $this->id;
+    }
+
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
     }
 
     /**
@@ -210,29 +212,6 @@ class CharacterWealth
     }
 
     /**
-     * Set updateComment
-     *
-     * @param string $updateComment
-     * @return CharacterWealth
-     */
-    public function setUpdateComment($updateComment)
-    {
-        $this->updateComment = $updateComment;
-
-        return $this;
-    }
-
-    /**
-     * Get updateComment
-     *
-     * @return string 
-     */
-    public function getUpdateComment()
-    {
-        return $this->updateComment;
-    }
-
-    /**
      * Set createUser
      *
      * @param \CAS\UserBundle\Entity\User $createUser
@@ -276,5 +255,28 @@ class CharacterWealth
     public function getUpdateUser()
     {
         return $this->updateUser;
+    }
+
+    /**
+     * Set characterUsedWealth
+     *
+     * @param \DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsedWealth
+     * @return CharacterWealth
+     */
+    public function setCharacterUsedWealth(\DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsedWealth = null)
+    {
+        $this->characterUsedWealth = $characterUsedWealth;
+
+        return $this;
+    }
+
+    /**
+     * Get characterUsedWealth
+     *
+     * @return \DnDInstance\CharacterBundle\Entity\CharacterUsed 
+     */
+    public function getCharacterUsedWealth()
+    {
+        return $this->characterUsedWealth;
     }
 }

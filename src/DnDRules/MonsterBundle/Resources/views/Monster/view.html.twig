@@ -7,20 +7,32 @@
 {% endblock %}
     
 {% block h1 %}
-    {{ monster.name }} :
+    {{ monster.name }}
 {% endblock %}
     
 {% block h1_extend %}
     {% if is_granted('ROLE_ADMIN') %}
-    <a class="btn btn-lg btn-primary" href="{{ path('dndrules_monster_monster_edit', {'slug': monster.slug}) }}" >Modifier</a>
-    <a class="btn btn-lg btn-danger main-JS-delete" href="{{ path('dndrules_monster_monster_delete', {'slug': monster.slug}) }}" >Supprimer</a>
+        <div class="btn-group">
+            <a class="btn btn-primary" href="{{ path('dndrules_monster_monster_edit', {'id': monster.id}) }}" >Modifier</a>
+            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="caret"></span>
+                <span class="sr-only">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+                <li><a href="{{ path('dndrules_monster_monster_edit_fight', {'id': monster.id}) }}" >Combat</a></li>
+                <li><a href="{{ path('dndrules_monster_monster_edit_attack', {'id': monster.id}) }}" >Attaques</a></li>
+                <li><a href="{{ path('dndrules_monster_monster_edit_ability', {'id': monster.id}) }}" >Caractéristiques</a></li>
+                <li><a href="{{ path('dndrules_monster_monster_edit_skill', {'id': monster.id}) }}" >Compétences</a></li>
+                <li><a href="{{ path('dndrules_monster_monster_edit_st', {'id': monster.id}) }}" >Jets de Sav.</a></li>
+                <li><a class="bg-danger main-JS-delete" href="{{ path('dndrules_monster_monster_delete', {'id': monster.id}) }}" ><i class="fa fa-trash" aria-hidden="true"></i> Supprimer</a></li>
+            </ul>
+        </div>
     {% endif %}
 {% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
     <li class="active">{{monster.name}}</li>
-    <li class="active">Voir</li>
 {% endblock %} 
 
 {% block PM_body %}
@@ -56,7 +68,9 @@
                     <!-- Nav tabs -->
                     <ul class="nav nav-tabs" role="tablist" id="UserTab">
                         <li role="presentation" class="active"><a href="#combat" aria-controls="combat" role="tab" data-toggle="tab">Combat</a></li>
-                        <li role="presentation"><a href="#caracteristiques" aria-controls="caracteristiques" role="tab" data-toggle="tab">Caractéristiques</a></li>
+                        <li role="presentation"><a href="#attacks" aria-controls="attacks" role="tab" data-toggle="tab">Attaques</a></li>
+                        <li role="presentation"><a href="#description" aria-controls="description" role="tab" data-toggle="tab">Description</a></li>
+                        <li role="presentation"><a href="#st" aria-controls="st" role="tab" data-toggle="tab">Jet de Sav.</a></li>
                         <li role="presentation"><a href="#rp" aria-controls="rp" role="tab" data-toggle="tab">RP</a></li>
                     </ul>
                 </div>
@@ -66,8 +80,14 @@
                     <div role="tabpanel" class="tab-pane active" id="combat">
                         {% include 'DnDRulesMonsterBundle:Monster:view/view_combat.html.twig' %}
                     </div>
-                    <div role="tabpanel" class="tab-pane" id="caracteristiques">
-                        {% include 'DnDRulesMonsterBundle:Monster:view/view_caracteristiques.html.twig' %}
+                    <div role="tabpanel" class="tab-pane" id="attacks">
+                        {% include 'DnDRulesMonsterBundle:Monster:view/view_attacks.html.twig' %}
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="description">
+                        {% include 'DnDRulesMonsterBundle:Monster:view/view_description.html.twig' %}
+                    </div>
+                    <div role="tabpanel" class="tab-pane" id="st">
+                        {% include 'DnDRulesMonsterBundle:Monster:view/view_st.html.twig' %}
                     </div>
                     <div role="tabpanel" class="tab-pane" id="rp">
                         {% include 'DnDRulesMonsterBundle:Monster:view/view_rp.html.twig' %}

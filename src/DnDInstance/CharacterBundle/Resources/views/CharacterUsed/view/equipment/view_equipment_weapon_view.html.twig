@@ -3,6 +3,10 @@
     {% for weaponInstance in characterUsed.weapons %}
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="heading{{characterUsed.slug}}{{weaponInstance.weapon.slug}}">
+            <div class="pull-right">
+                <a href="#"><i class="fa fa-edit"></i></a>
+                <a href="{{ path('dndinstance_weapon_weapon_removeCharacterFromInstance', {'characterSlug': characterUsed.slug, 'instance_id': weaponInstance.id, 'gameSlug': characterUsed.game.slug}) }}" class="main-JS-delete"><i class="fa fa-trash"></i></a>
+            </div>
             <h5 class="panel-title">
                 <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse{{characterUsed.slug}}{{weaponInstance.weapon.slug}}" aria-expanded="false" aria-controls="collapse{{characterUsed.slug}}{{weaponInstance.weapon.slug}}">
                 {{weaponInstance.weapon.name}} :

@@ -42,26 +42,33 @@
                     <dl class="list-group-item dl-horizontal"><dt>Facteur de portée</dt><dd>{% if weapon.scope is not empty %}{{weapon.scope}}{% endif %}</dd></dl>
                     <dl class="list-group-item dl-horizontal"><dt>Poids</dt><dd>{% if weapon.weight is not empty %}{{weapon.weight}}{% endif %}</dd></dl>
                     <dl class="list-group-item dl-horizontal"><dt>Type d'Arme</dt><dd>{% if weapon.weaponType is not empty %}{{weapon.weaponType.name}}{% endif %}</dd></dl>
-                    <dl class="list-group-item dl-horizontal"><dt>Catégorie d'Arme</dt><dd>{% if weapon.weaponCategory is not empty %}{{weapon.weaponCategory}}{% endif %}</dd></dl>
+                    <dl class="list-group-item dl-horizontal">
+                        <dt>Catégorie d'Arme</dt>
+                        <dd>{% if weapon.weaponCategory == 1 %}Corps à corps
+                            {% elseif weapon.weaponCategory == 2 %}Tir
+                            {% endif %}</dd></dl>
                     <dl class="list-group-item dl-horizontal"><dt>Nombre de mains nécessaires</dt><dd>{% if weapon.handsNumber is not empty %}{{weapon.handsNumber}}{% endif %}</dd></dl>
                     <dl class="list-group-item dl-horizontal"><dt>Dommages</dt><dd>
                         <ul>
-                        {% for damageWeapon in weapon.damages %}
+                        {% for damageWeapon in dndrules_weapon_weapon.getDamagePerSize(weapon) %}
                             <li>
                             {{damageWeapon.size.name}} :
-                            {% for damage in damageWeapon.damages %}
-                                {% for diceEntity in damage.diceEntities %}
-                                    {{ diceEntity.diceNumber }}d{{diceEntity.diceType.dice}}
+                            {% for damageInstance in damageWeapon.damages %}
+                                {% if loop.index > 1 %}/{% endif %}
+                                {% for damage in damageInstance.damages %}
+                                    {% for diceEntity in damage.diceEntities %}
+                                        {{ diceEntity.diceNumber }}d{{diceEntity.diceType.dice}}
+                                    {% else %}
+                                        diceEntity vide
+                                    {% endfor %}
+                                    {% for bonusNumber in damage.bonusNumbers %}
+                                        (Bonus : {{ bonusNumber.value }})
+                                    {% else %}
+                                        bonusNumber vide
+                                    {% endfor %}
                                 {% else %}
-                                    diceEntity vide
+                                    diceForm vide
                                 {% endfor %}
-                                {% for bonusNumber in damage.bonusNumbers %}
-                                    (Bonus : {{ bonusNumber.value }})
-                                {% else %}
-                                    bonusNumber vide
-                                {% endfor %}
-                            {% else %}
-                                diceForm vide
                             {% endfor %}
                             </li>
                         {% else %}
@@ -72,6 +79,8 @@
                     <dl class="list-group-item dl-horizontal"><dt>Critique</dt><dd>
                         {% for critical in weapon.criticals %}
                             {{critical.rangeCriticalBegin}}-{{critical.rangeCriticalEnd}} : x{{critical.multiplier}}
+                        {% else %}
+                            Pas de critique
                         {% endfor %}</dd>
                     </dl>
                 </div>

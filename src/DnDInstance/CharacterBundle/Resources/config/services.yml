@@ -17,7 +17,7 @@ services:
         
     dndinstance_character.characterusedaction:
         class: DnDInstance\CharacterBundle\Service\characterUsedAction
-        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context", "@dndinstance_armor.armorinstance", "@dndinstance_weapon.weaponinstance", "@dndinstance_character.characterusedwealth", "@dndinstance_character.characterusedskill", "@dndinstance_classdnd.classdndinstance", "@dndinstance_equipment.equipmentinstance", "@dndinstance_sort.sortinstance", "@dndinstance_character.characterusedability", "@dndinstance_character.characterusedxppoints"]
         
     dndinstance_character.characterusedxppoints:
         class: DnDInstance\CharacterBundle\Service\characterUsedXpPoints
@@ -29,4 +29,8 @@ services:
 
     dndinstance_character.characterusedhp:
         class: DnDInstance\CharacterBundle\Service\characterUsedHP
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]
+
+    dndinstance_character.characterusedwealth:
+        class: DnDInstance\CharacterBundle\Service\characterUsedWealth
         arguments: [ "@doctrine.orm.entity_manager", "@security.context"]

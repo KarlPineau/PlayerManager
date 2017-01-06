@@ -77,15 +77,23 @@ class Monster
      * @var integer
      * @Assert\NotBlank()
      *
-     * @ORM\Column(name="grappleModifier", type="smallint", nullable=false, options={"default" = 0})
+     * @ORM\Column(name="bab", type="smallint", nullable=true, options={"default" = 0})
      */
-    private $grappleModifier;
+    private $bab;
 
     /**
      * @var integer
      * @Assert\NotBlank()
      *
-     * @ORM\Column(name="ac", type="smallint", nullable=false, options={"default" = 0})
+     * @ORM\Column(name="bfb", type="smallint", nullable=true, options={"default" = 0})
+     */
+    private $bfb;
+
+    /**
+     * @var integer
+     * @Assert\NotBlank()
+     *
+     * @ORM\Column(name="ac", type="smallint", nullable=true, options={"default" = 0})
      */
     private $ac;
 
@@ -137,7 +145,7 @@ class Monster
      * @var integer
      * @Assert\NotBlank()
      *
-     * @ORM\Column(name="initiative", type="smallint", nullable=false, options={"default" = 0})
+     * @ORM\Column(name="initiative", type="smallint", nullable=true, options={"default" = 0})
      */
     private $initiative;
 
@@ -172,10 +180,10 @@ class Monster
     private $languages;
 
     /**
-     * @ORM\ManyToOne(targetEntity="DnDRules\AlignmentBundle\Entity\Alignment")
+     * @ORM\ManyToMany(targetEntity="DnDRules\AlignmentBundle\Entity\Alignment")
      * @ORM\JoinColumn(nullable=true)
      */
-    protected $alignment;
+    protected $alignments;
 
     /**
      * @ORM\ManyToOne(targetEntity="DnDRules\MonsterBundle\Entity\Environment")
@@ -200,6 +208,29 @@ class Monster
      * @ORM\JoinColumn(nullable=true)
      */
     private $abilityInstances;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DnDRules\MonsterBundle\Entity\MonsterAttacksExtremeInstance", mappedBy="monsterAttackExtremeInstances", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $attackExtremeInstances;
+
+    /**
+     * @var string
+     * @Assert\Length(
+     *      max = "5000",
+     *      maxMessage = "Votre description ne doit pas dépasser {{ limit }} caractères."
+     * )
+     *
+     * @ORM\Column(name="attackExtremeDescription", type="text", nullable=true)
+     */
+    private $attackExtremeDescription;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DnDRules\MonsterBundle\Entity\MonsterAttackInstance", mappedBy="monsterAttackInstances", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $attackInstances;
 
     /**
      * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
@@ -355,26 +386,26 @@ class Monster
     }
 
     /**
-     * Set grappleModifier
+     * Set bab
      *
-     * @param integer $grappleModifier
+     * @param integer $bab
      * @return Monster
      */
-    public function setGrappleModifier($grappleModifier)
+    public function setBab($bab)
     {
-        $this->grappleModifier = $grappleModifier;
+        $this->bab = $bab;
 
         return $this;
     }
 
     /**
-     * Get grappleModifier
+     * Get bab
      *
      * @return integer 
      */
-    public function getGrappleModifier()
+    public function getBab()
     {
-        return $this->grappleModifier;
+        return $this->bab;
     }
 
     /**
@@ -753,29 +784,6 @@ class Monster
     }
 
     /**
-     * Set alignment
-     *
-     * @param \DnDRules\AlignmentBundle\Entity\Alignment $alignment
-     * @return Monster
-     */
-    public function setAlignment(\DnDRules\AlignmentBundle\Entity\Alignment $alignment = null)
-    {
-        $this->alignment = $alignment;
-
-        return $this;
-    }
-
-    /**
-     * Get alignment
-     *
-     * @return \DnDRules\AlignmentBundle\Entity\Alignment 
-     */
-    public function getAlignment()
-    {
-        return $this->alignment;
-    }
-
-    /**
      * Set environment
      *
      * @param \DnDRules\MonsterBundle\Entity\Environment $environment
@@ -941,5 +949,150 @@ class Monster
     public function getUpdateUser()
     {
         return $this->updateUser;
+    }
+
+    /**
+     * Add attackInstances
+     *
+     * @param \DnDRules\MonsterBundle\Entity\MonsterAttackInstance $attackInstances
+     * @return Monster
+     */
+    public function addAttackInstance(\DnDRules\MonsterBundle\Entity\MonsterAttackInstance $attackInstances)
+    {
+        $this->attackInstances[] = $attackInstances;
+
+        return $this;
+    }
+
+    /**
+     * Remove attackInstances
+     *
+     * @param \DnDRules\MonsterBundle\Entity\MonsterAttackInstance $attackInstances
+     */
+    public function removeAttackInstance(\DnDRules\MonsterBundle\Entity\MonsterAttackInstance $attackInstances)
+    {
+        $this->attackInstances->removeElement($attackInstances);
+    }
+
+    /**
+     * Get attackInstances
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAttackInstances()
+    {
+        return $this->attackInstances;
+    }
+
+    /**
+     * Set bfb
+     *
+     * @param integer $bfb
+     * @return Monster
+     */
+    public function setBfb($bfb)
+    {
+        $this->bfb = $bfb;
+
+        return $this;
+    }
+
+    /**
+     * Get bfb
+     *
+     * @return integer 
+     */
+    public function getBfb()
+    {
+        return $this->bfb;
+    }
+
+    /**
+     * Add alignments
+     *
+     * @param \DnDRules\AlignmentBundle\Entity\Alignment $alignments
+     * @return Monster
+     */
+    public function addAlignment(\DnDRules\AlignmentBundle\Entity\Alignment $alignments)
+    {
+        $this->alignments[] = $alignments;
+
+        return $this;
+    }
+
+    /**
+     * Remove alignments
+     *
+     * @param \DnDRules\AlignmentBundle\Entity\Alignment $alignments
+     */
+    public function removeAlignment(\DnDRules\AlignmentBundle\Entity\Alignment $alignments)
+    {
+        $this->alignments->removeElement($alignments);
+    }
+
+    /**
+     * Get alignments
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAlignments()
+    {
+        return $this->alignments;
+    }
+
+    /**
+     * Add attackExtremeInstances
+     *
+     * @param \DnDRules\MonsterBundle\Entity\MonsterAttacksExtremeInstance $attackExtremeInstances
+     * @return Monster
+     */
+    public function addAttackExtremeInstance(\DnDRules\MonsterBundle\Entity\MonsterAttacksExtremeInstance $attackExtremeInstances)
+    {
+        $this->attackExtremeInstances[] = $attackExtremeInstances;
+
+        return $this;
+    }
+
+    /**
+     * Remove attackExtremeInstances
+     *
+     * @param \DnDRules\MonsterBundle\Entity\MonsterAttacksExtremeInstance $attackExtremeInstances
+     */
+    public function removeAttackExtremeInstance(\DnDRules\MonsterBundle\Entity\MonsterAttacksExtremeInstance $attackExtremeInstances)
+    {
+        $this->attackExtremeInstances->removeElement($attackExtremeInstances);
+    }
+
+    /**
+     * Get attackExtremeInstances
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAttackExtremeInstances()
+    {
+        return $this->attackExtremeInstances;
+    }
+
+    /**
+     * Set attackExtremeDescription
+     *
+     * @param string $attackExtremeDescription
+     * @return Monster
+     */
+    public function setAttackExtremeDescription($attackExtremeDescription)
+    {
+        $this->attackExtremeDescription = $attackExtremeDescription;
+
+        return $this;
+    }
+
+    /**
+     * Get attackExtremeDescription
+     *
+     * @return string 
+     */
+    public function getAttackExtremeDescription()
+    {
+        return $this->attackExtremeDescription;
     }
 }

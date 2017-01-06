@@ -18,7 +18,7 @@ class characterUsedAbility
     
     public function getAbility ($characterUsed, $ability, $detail=false) {
         $repositoryCharacterAbility = $this->em->getRepository('DnDInstanceCharacterBundle:CharacterAbility');
-	$abilityBase = $repositoryCharacterAbility->findOneBy(array('characterUsed' => $characterUsed, 'ability' => $ability));
+	$abilityBase = $repositoryCharacterAbility->findOneBy(array('characterUsedDnDAbilities' => $characterUsed, 'ability' => $ability));
         $repositoryRaceAbility = $this->em->getRepository('DnDRulesRaceBundle:RaceAbility');
 	$abilityRace = $repositoryRaceAbility->findOneBy(array('race' => $characterUsed->getRace(), 'ability' => $ability));
 
@@ -205,5 +205,17 @@ class characterUsedAbility
         }
         
         return $abilities;
+    }
+
+    public function cloneCharacterUsedAbility($characterUsedAbility, $characterUsed)
+    {
+        $newCharacterUsedAbility = clone $characterUsedAbility;
+        $newCharacterUsedAbility->setCharacterUsed($characterUsed);
+        $newCharacterUsedAbility->setId(null);
+
+        $this->em->persist($newCharacterUsedAbility);
+        $this->em->flush();
+
+        return $newCharacterUsedAbility;
     }
 }

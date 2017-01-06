@@ -1,4 +1,4 @@
 services:
-#    dn_d_instance_armor.example:
-#        class: DnDInstance\ArmorBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+    dndinstance_armor.armorinstance:
+        class: DnDInstance\ArmorBundle\Service\armorInstance
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context"]
