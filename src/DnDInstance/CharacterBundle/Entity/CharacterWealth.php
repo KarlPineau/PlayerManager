@@ -24,7 +24,7 @@ class CharacterWealth
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterUsed", inversedBy="wealth")
+     * @ORM\ManyToOne(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterUsed")
      * @ORM\JoinColumn(nullable=true)
      */
     private $characterUsedWealth;

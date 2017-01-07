@@ -1,0 +1,117 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/View/view_content.html.twig #}
+{% if app.user == characterUsed.user or is_granted('ROLE_ADMIN') %}
+    {% set allowEdit = true %}
+{% else %}
+    {% set allowEdit = false %}
+{% endif %}
+
+{% set abilities = dndinstance_character_characterusedability.getAbilities(characterUsed) %}
+{% set babs = dndinstance_character_characteruseddnd.getBAB(characterUsed) %}
+{% set grappleModifiers = dndinstance_character_characteruseddnd.getGrappleModifier(characterUsed) %}
+{% set ac = dndinstance_character_characteruseddnd.getAC(characterUsed) %}
+{% set touchAC = dndinstance_character_characteruseddnd.getTouchAC(characterUsed) %}
+{% set fFAC = dndinstance_character_characteruseddnd.getFFAC(characterUsed) %}
+{% set fortitude = dndinstance_character_characterusedst.getFortitude(characterUsed) %}
+{% set reflex = dndinstance_character_characterusedst.getRefLex(characterUsed) %}
+{% set will = dndinstance_character_characterusedst.getWill(characterUsed) %}
+{% set speed = dndinstance_character_characteruseddnd.getSpeed(characterUsed) %}
+{% set initiative = dndinstance_character_characteruseddnd.getInitiativeModifier(characterUsed) %}
+{% set xpForLevelUp = dndinstance_character_characteruseddnd.getXpPointsForLevelUp(characterUsed) %}
+{% set xpPoints = dndinstance_character_characterusedxppoints.getXpPoints(characterUsed) %}
+
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        <div class="jumbotron">
+            <h2>{{characterUsed.name}}</h2>
+            {% if allowEdit == true and profile == 'short' %}<a href="{{ path('dndinstance_characterused_characterused_view', {'slug': characterUsed.slug, 'inline': false, 'profile': 'full'}) }}" target="_blank">Profil complet</a>{% endif %}
+            <div class="row">
+                <div class="col-md-3">
+                    <dl class="dl-horizontal">
+                        <dt><small>Joueur :</small></dt>
+                        <dd><small><a href="{{path('cas_administration_user_view', { 'id' : characterUsed.user.id})}}" target="_blank">{{characterUsed.user.username}}</a></small></dd>
+                    </dl>
+                    <dl class="dl-horizontal">
+                        <dt>Partie :</dt>
+                        <dd>
+                            {% if characterUsed.game != null %}{{ characterUsed.game.name }}
+                            {% else %}<span class="text-warning">Personnage orphelin</span>
+                            {% endif %}
+                        </dd>
+                    </dl>
+                </div>
+                <div class="col-md-3">
+                    <dl class="dl-horizontal"><dt>Race :</dt><dd><a href="{{path('dndrules_race_race_view', {'slug': characterUsed.race.slug})}}" target="_blank">{{characterUsed.race.name}}</a></dd></dl>
+                </div>
+                <div class="col-md-3">
+                    {% for instance in characterUsed.classDnDInstances %}
+                    <dl class="dl-horizontal"><dt>Classe :</dt><dd><a href="{{path('dndrules_classdnd_classdnd_view', {'slug': instance.classDnD.slug})}}" target="_blank">{{instance.classDnD.name}}</a></dd></dl>
+                    <dl class="dl-horizontal"><dt>Niveau :</dt><dd>{{instance.level.level}}</dd></dl>
+                    {% endfor %}
+                    <dl class="dl-horizontal">
+                        <dt>{% if allowEdit == true %}<a href="{{ path('dndinstance_characterused_characterused_edit_xppoints', {'id': characterUsed.id}) }}" title="Modifier votre niveau d'expérience">{% endif %}Exp. :{% if allowEdit == true %}</a>{% endif %}</dt>
+                        <dd>{{xpPoints.increase|number_format(0, ',', '.')}}/{{xpForLevelUp|number_format(0, ',', '.')}}XP</dd>
+                    </dl>
+                    {% if dndinstance_character_characteruseddnd.isNewLevel(characterUsed) %}<div class="text-center"><a href="{{ path('dndinstance_characterused_characterused_edit_upgradelevel', {'id': characterUsed.id}) }}"><strong>Upgrade disponible !</strong></a></div>{% endif %}
+                </div>
+                <div class="col-md-3">
+                    {% include 'DnDInstanceCharacterBundle:CharacterUsed:View/view_wealth.html.twig' %}
+                </div>
+            </div>
+        </div>
+
+        {# if allowEdit == true and is_granted('ROLE_ADMIN') %}
+            <div class="panel panel-warning">
+                <div class="panel-heading">Info personnage</div>
+                <div class="panel-body">
+                    Ici les info du type :
+                    - "Vous avez le droit à 1 point de plus sur tel cara"
+                    - "Telle et telle cara sont trop haute pour votre niveau" ...
+                </div>
+            </div>
+        {% endif #}
+
+        <div role="tabpanel">
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist" id="UserTab">
+                <li role="presentation" class="active"><a href="#home{{characterUsed.slug}}" aria-controls="home{{characterUsed.slug}}" role="tab" data-toggle="tab">Présentation</a></li>
+                <li role="presentation"><a href="#rp{{characterUsed.slug}}" aria-controls="rp{{characterUsed.slug}}" role="tab" data-toggle="tab">Role Play</a></li>
+                <li role="presentation"><a href="#equipment{{characterUsed.slug}}" aria-controls="equipment{{characterUsed.slug}}" role="tab" data-toggle="tab">Equipement</a></li>
+                <li role="presentation"><a href="#skills{{characterUsed.slug}}" aria-controls="skills{{characterUsed.slug}}" role="tab" data-toggle="tab">Compétences</a></li>
+                <li role="presentation"><a href="#magic{{characterUsed.slug}}" aria-controls="magic{{characterUsed.slug}}" role="tab" data-toggle="tab">Magie</a></li>
+                <li role="presentation"><a href="#gifts{{characterUsed.slug}}" aria-controls="gifts{{characterUsed.slug}}" role="tab" data-toggle="tab">Dons</a></li>
+                <li role="presentation"><a href="#statistics{{characterUsed.slug}}" aria-controls="statistics{{characterUsed.slug}}" role="tab" data-toggle="tab">Statistiques</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="home{{characterUsed.slug}}">
+                    {% include 'DnDInstanceCharacterBundle:CharacterUsed:View/view_home.html.twig' %}
+                </div>
+                <div role="tabpanel" class="tab-pane" id="rp{{characterUsed.slug}}">
+                    {% include 'DnDInstanceCharacterBundle:CharacterUsed:View/view_rp.html.twig' %}
+                </div>
+                <div role="tabpanel" class="tab-pane" id="equipment{{characterUsed.slug}}">
+                    {% include 'DnDInstanceCharacterBundle:CharacterUsed:View/view_equipment.html.twig' %}
+                </div>
+                <div role="tabpanel" class="tab-pane" id="skills{{characterUsed.slug}}">
+                    {% include 'DnDInstanceCharacterBundle:CharacterUsed:View/view_skills.html.twig' %}
+                </div>
+                <div role="tabpanel" class="tab-pane" id="magic{{characterUsed.slug}}">
+                    {% include 'DnDInstanceCharacterBundle:CharacterUsed:View/view_magic.html.twig' %}
+                </div>
+                <div role="tabpanel" class="tab-pane" id="gifts{{characterUsed.slug}}">
+                    {% include 'DnDInstanceCharacterBundle:CharacterUsed:View/view_gifts.html.twig' %}
+                </div>
+                <div role="tabpanel" class="tab-pane" id="statistics{{characterUsed.slug}}">
+                    {% include 'DnDInstanceCharacterBundle:CharacterUsed:View/view_statistics.html.twig' %}
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

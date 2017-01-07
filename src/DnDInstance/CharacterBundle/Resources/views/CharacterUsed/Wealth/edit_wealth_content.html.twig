@@ -1,0 +1,54 @@
+<form class="form-horizontal" method="post" action="{{ path('dndinstance_characterused_characterused_edit_wealth', {'id': characterUsed.id, 'context': context}) }}" {{ form_enctype(form) }} role="form">
+    {% if not form.vars.valid %}
+    <div class="alert alert-error">
+        <strong>Votre formulaire contient les erreurs suivantes :</strong>
+        {{ form_errors(form.poAdd) }}
+        {{ form_errors(form.paAdd) }}
+        {{ form_errors(form.paAdd) }}
+    </div>
+    <br />
+    {% endif %}
+
+    <fieldset>
+        <legend>Richesse de {{characterUsed.name}} :</legend>
+
+        {% if context == 'edit' %}<h4>Combien souhaitez-vous ajouter/retirer de pièces ?</h4>
+        {% elseif context == 'register' %}<p class="text-info"><strong>Demandez à votre M.J. de vous indiquer votre richesse initiale</strong></p>
+        {% endif %}
+        <div class="form-group">
+            {{ form_label(form.poAdd, "Pièces d'or :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-3">
+                {{ form_widget(form.poAdd, {'attr': {'class': 'form-control', 'value': 0}}) }}
+            </div>
+            {% if context == 'edit' %}
+            <div class="col-md-3">
+                <small>(actuellement, {{ dndinstance_character_characterusedwealth.findByCharacterUsed(characterUsed).po|number_format(0, ',', '.') }} PO)</small>
+            </div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.paAdd, "Pièces d'argent :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-3">
+                {{ form_widget(form.paAdd, {'attr': {'class': 'form-control', 'value': 0}}) }}
+            </div>
+            {% if context == 'edit' %}
+                <div class="col-md-3">
+                    <small>(actuellement, {{ dndinstance_character_characterusedwealth.findByCharacterUsed(characterUsed).pa|number_format(0, ',', '.') }} PA)</small>
+                </div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.pcAdd, "Pièces de cuivre :", {'label_attr': {'class': 'col-md-3 control-label'}}) }}
+            <div class="col-md-3">
+                {{ form_widget(form.pcAdd, {'attr': {'class': 'form-control', 'value': 0}}) }}
+            </div>
+            {% if context == 'edit' %}
+                <div class="col-md-3">
+                    <small>(actuellement, {{ dndinstance_character_characterusedwealth.findByCharacterUsed(characterUsed).pc|number_format(0, ',', '.') }} PC)</small>
+                </div>
+            {% endif %}
+        </div>
+    </fieldset>
+    {{ form_rest(form) }}
+    <div class="text-center"><input type="submit" class="btn btn-default" /></div>
+</form>

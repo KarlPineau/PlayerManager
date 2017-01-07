@@ -8,18 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 class XpPointsController extends Controller
 {
-    public function editXpPointsAction($slug, Request $request)
+    public function editXpPointsAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $repositoryCharacterUsed = $em->getRepository('DnDInstanceCharacterBundle:CharacterUsed');
-        $repositoryXpPoint = $em->getRepository('DnDInstanceCharacterBundle:XpPoints');
- 
-        $characterUsed = $repositoryCharacterUsed->findOneBySlug($slug);
-        $xpPoints = $repositoryXpPoint->findOneBy(array('characterUsedDnDXpPoints' => $characterUsed));
-        if ($characterUsed === null) {throw $this->createNotFoundException('Personnage : [slug='.$slug.'] inexistant.');}
-        if($characterUsed->getUser() != $this->getUser() AND !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Personnage : [slug='.$slug.'] inexistant.');}
+        $characterUsed = $em->getRepository('DnDInstanceCharacterBundle:CharacterUsed')->findOneById($id);
+        $xpPoints = $em->getRepository('DnDInstanceCharacterBundle:XpPoints')->findOneBy(array('characterUsedDnDXpPoints' => $characterUsed));
+        if($characterUsed === null or ($characterUsed->getUser() != $this->getUser() AND !$this->get('security.context')->isGranted('ROLE_ADMIN'))) {throw $this->createNotFoundException('CharacterUsed [id='.$id.'] undefined');}
 
-        
         $form = $this->createForm(new XpPointsType, $xpPoints);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -30,7 +25,7 @@ class XpPointsController extends Controller
             $this->get('session')->getFlashBag()->add('notice', 'Félicitations, vos XP ont bien été édités.' );
             return $this->redirect($this->generateUrl('dndinstance_characterused_characterused_view', array('slug' => $characterUsed->getSlug())));
         }
-        return $this->render('DnDInstanceCharacterBundle:CharacterUsed:xpPoints/edit_xpPoints.html.twig', array(
+        return $this->render('DnDInstanceCharacterBundle:CharacterUsed:XpPoints/edit_xpPoints.html.twig', array(
                                 'xpPoints' => $xpPoints,
                                 'characterUsed' => $characterUsed,
                                 'form' => $form->createView(),

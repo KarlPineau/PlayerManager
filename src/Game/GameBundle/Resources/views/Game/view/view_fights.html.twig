@@ -9,10 +9,10 @@
     <!-- Tab panes -->
     <div class="tab-content">
         <div role="tabpanel" class="tab-pane active" id="fights-list">
-            {{ render(controller('DnDInstanceFightBundle:Fight:listForGame', {'slug': game.slug})) }}
+            {{ render(controller('DnDInstanceFightBundle:Fight:listForGame', {'id': game.id})) }}
         </div>
         <div role="tabpanel" class="tab-pane" id="fights-add">
-            {{ render(controller('DnDInstanceFightBundle:Fight:generate', {'slug': game.slug})) }}
+            {{ render(controller('DnDInstanceFightBundle:Fight:generate', {'id': game.id})) }}
         </div>
     </div>
 </div>

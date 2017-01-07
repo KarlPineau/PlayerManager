@@ -7,18 +7,22 @@
 {% endblock %}
     
 {% block h1 %}
-    Edition :
+    Edition
 {% endblock %}
 
 {% block breadcrumb %}
     {{ parent() }}
+    {% if gift.name != null %}
     <li><a href="{{ path('dndrules_gift_gift_view', {'slug': gift.slug}) }}">{{gift.name}}</a></li>
     <li class="active">Edition</li>
+    {% else %}
+    <li class="active">Insertion</li>
+    {% endif %}
 {% endblock %} 
 
 {% block PM_body %}
 <div class="row">
-    <section id="content" class="col-lg-12">
+    <section id="content" class="col-sm-7">
         {% for flashMessage in app.session.flashbag.get('notice') %}
             <div class="alert alert-success">
                 {{ flashMessage }}
@@ -29,6 +33,31 @@
             {% include "DnDRulesGiftBundle:Gift:Edit/edit_content.html.twig" %}
         </div>
     </section>
+    <aside class="col-sm-5">
+        <div class="well">
+            <h3>Les dons</h3>
+            <dl>
+                <dt>Conditions</dt>
+                <dd>La valeur de caractéristique minimale, le (ou les) dons préalables, le bonus de base à l'attaque minimal,
+                    le degré de maitrise minimal dans une (ou des) compétence ou le niveau de classe que le personnage doit
+                    avoir pour prétendre au don. Cette ligne est absente si le don ne s'accompagne d'aucune condition. Certains
+                    dons s'accompagnent de plusieurs conditions.</dd>
+            </dl>
+            <dl>
+                <dt>Avantages</dt>
+                <dd>Ce que le personnage peut faire grâce au don. Sauf indication contraire dans la description, les avantages
+                apportés par un don ne sont pas cumulatifs. En règle générale, prendre un don plusieurs fois revient à ne l'avoir qu'une seule fois.</dd>
+            </dl>
+            <dl>
+                <dt>Normal</dt>
+                <dd>Les restrictions rencontrés par un individu n'ayant pas le don dans le même cas de figure. Si l'absence de don n'entraine aucun handicap, ce paragraphe est absent.</dd>
+            </dl>
+            <dl>
+                <dt>Spécial</dt>
+                <dd>Des informations supplémentaires sur le don qui peuvent vous aider à faire votre choix.</dd>
+            </dl>
+        </div>
+    </aside>
 </div>
 {% endblock %}
     

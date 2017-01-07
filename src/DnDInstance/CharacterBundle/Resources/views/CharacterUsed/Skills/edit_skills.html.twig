@@ -1,0 +1,81 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/register_skills.html.twig #}
+ 
+{% extends "DnDInstanceCharacterBundle:CharacterUsed:layout.html.twig" %}
+
+{% block title %}
+    Compétences - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    Compétences
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('dndinstance_characterused_characterused_view', {'slug': characterUsed.slug}) }}">{{characterUsed.name}}</a></li>
+    <li class="active">Compétences</li>
+{% endblock %}
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-8">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="well">
+            {% include "DnDInstanceCharacterBundle:CharacterUsed:Skills/edit_skills_content.html.twig" %}
+        </div>
+    </section>
+    <aside class="col-lg-4">
+        <div class="well">
+            <h3>Répartir vos points de compétence</h3>
+
+            <p>Les compétences vous permettent de spécifier les domaines d'expertise de votre personnage.</p>
+
+            {% if context == 'register' %}
+            <p>Au niveau 1, vous pouvez attribuer {{ dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).pointsSkillFirstLevel }}
+                (pour la classe {{ dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).name }}) +
+            {{ dndinstance_character_characterusedability.getIntelligenceModifier(characterUsed) }} (<abbr title="modificateur d'intelligence">mod. Int.</abbr>),
+            x 4 points de compétence.</p>
+            <p>Pour votre personnage, cela donne :</p>
+            <p class="text-center text-info"><strong>({{ dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).pointsSkillFirstLevel }}+{{ dndinstance_character_characterusedability.getIntelligenceModifier(characterUsed) }})x4 =
+                    {{ (dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).pointsSkillFirstLevel+dndinstance_character_characterusedability.getIntelligenceModifier(characterUsed))*4 }} points</strong>
+            </p>
+            {% elseif context == 'edit' %}
+                <p>Vous avez attribué {{ dndinstance_character_characterusedskill.getTotalCountPointCurrent(characterUsed) }} sur
+                        {{ dndinstance_character_characterusedskill.getTotalCountPointMax(characterUsed) }} points.</p>
+
+                <p class="text-center text-info">Il vous reste <strong>{{ dndinstance_character_characterusedskill.getTotalCountPointMax(characterUsed)-dndinstance_character_characterusedskill.getTotalCountPointCurrent(characterUsed) }}
+                        points</strong> à attribuer.</p>
+            {% endif %}
+
+            <hr />
+            <h4>Distinguez :</h4>
+            <ul>
+                <li>les compétences de classe (1 point attribué = 1 point d'expertise)</li>
+                <li>les compétences hors classe (1 point attribué = 0.5 point d'expertise)</li>
+            </ul>
+            <p>Au niveau {{ dndinstance_character_characterusedclassdnd.getMainLevel(characterUsed) }}, vous pouvez attribuer :</p>
+            <ul>
+                <li>{{ dndinstance_character_characterusedclassdnd.getMainLevelInstance(characterUsed).classSkillModifier }} points par compétence de classe</li>
+                <li>{{ dndinstance_character_characterusedclassdnd.getMainLevelInstance(characterUsed).ofClassSkillModifier }} points par compétence hors classe</li>
+            </ul>
+            <p>Les compétences de classe d'un {{ dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).name }} sont :</p>
+            <ul>
+                {% for skill in dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).skills %}
+                    <li>{{ skill.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </aside>
+</div>
+{% endblock %}
+    
+{% block javascripts_block %}
+    {% javascripts  '@DnDInstanceCharacterBundle/Resources/public/js/characterUsedAddSkill.js'  %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

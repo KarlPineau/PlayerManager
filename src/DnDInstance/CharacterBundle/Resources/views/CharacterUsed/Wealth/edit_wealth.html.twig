@@ -1,0 +1,50 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/register_skills.html.twig #}
+ 
+{% extends "DnDInstanceCharacterBundle:CharacterUsed:layout.html.twig" %}
+
+{% block title %}
+    Richesse - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    Richesse
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('dndinstance_characterused_characterused_view', {'slug': characterUsed.slug}) }}">{{characterUsed.name}}</a></li>
+    <li class="active">Richesse</li>
+{% endblock %}
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-8">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="well">
+            {% include "DnDInstanceCharacterBundle:CharacterUsed:Wealth/edit_wealth_content.html.twig" %}
+        </div>
+    </section>
+    <aside class="col-lg-4">
+        <div class="well">
+            <h3>La richesse dans D&D</h3>
+
+            <p>Il est utile de savoir que :</p>
+            <ul>
+                <li>1 PO (pièce d'or) vaut 100 PA (pièce d'argent)</li>
+                <li>1 PA (pièce d'argent) vaut 100 PC (pièce de cuivre)</li>
+            </ul>
+        </div>
+    </aside>
+</div>
+{% endblock %}
+    
+{% block javascripts_block %}
+    {# javascripts  '@DnDInstanceCharacterBundle/Resources/public/js/characterUsedAddSkill.js'  %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts #}
+{% endblock %}

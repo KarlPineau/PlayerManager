@@ -1,6 +1,6 @@
 {# src/DnDRules/MonsterBundle/Resources/views/Monster/register_content.html.twig #}
 
-<form class="form-horizontal" method="post" {{ form_enctype(form) }} role="form">
+<form class="form-horizontal" method="post" action="{{ path('dndrules_monster_monster_edit_fight', {'id': monster.id, 'context': context}) }}" {{ form_enctype(form) }} role="form">
     {% if not form.vars.valid %}
     <div class="alert alert-error">
         <strong>Votre formulaire contient les erreurs suivantes :</strong>

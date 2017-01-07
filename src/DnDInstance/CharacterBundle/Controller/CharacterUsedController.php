@@ -36,7 +36,7 @@ class CharacterUsedController extends Controller
 
         // -- Info de base
         $characterUsed->setCreateUser($this->getUser());
-        $characterUsed->setHpCurrent(0); $characterUsed->setHpMax(0); $characterUsed->addWealth($characterWealth);
+        $characterUsed->setHpCurrent(0); $characterUsed->setHpMax(0); $characterUsed->setWealth($characterWealth);
 
         // -- Création des XpPoints :
         $xpPoints = new XpPoints;
@@ -91,9 +91,7 @@ class CharacterUsedController extends Controller
 
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre personnage a bien été créé.' );
-            //Renvoie vers la page de gestion des Caractéristiques :
-            return $this->redirect($this->generateUrl('dndinstance_characterused_characterused_edit_abilities', array('slug' => $characterUsed->getSlug(), 'context' => 'register')));
+            return $this->redirect($this->generateUrl('dndinstance_characterused_characterused_edit_abilities', array('id' => $characterUsed->getId(), 'context' => 'register')));
         }
         return $this->render('DnDInstanceCharacterBundle:CharacterUsed:Register/register.html.twig', array(
                                 'form' => $form->createView(),
@@ -119,7 +117,7 @@ class CharacterUsedController extends Controller
             array_push($sortsByClasses, $sortsByClass);
         }
 
-        if($context == 'inline') {$fileRender = 'DnDInstanceCharacterBundle:CharacterUsed:view/view_content.html.twig';}
+        if($context == 'inline') {$fileRender = 'DnDInstanceCharacterBundle:CharacterUsed:View/view_content.html.twig';}
         else {$fileRender = 'DnDInstanceCharacterBundle:CharacterUsed:view.html.twig';}
         
         return $this->render($fileRender, array(
@@ -131,23 +129,17 @@ class CharacterUsedController extends Controller
                             ));
     }
     
-    public function editAction($slug, Request $request)
+    public function editAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $characterUsed = $em->getRepository('DnDInstanceCharacterBundle:CharacterUsed')->findOneBySlug($slug);
-        if($characterUsed === null) {throw $this->createNotFoundException('CharacterUsed : [slug='.$slug.'] undefined.');}
-        if($characterUsed->getUser() != $this->getUser() AND !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('CharacterUsed : [slug='.$slug.'] undefined.');}
+        $characterUsed = $em->getRepository('DnDInstanceCharacterBundle:CharacterUsed')->findOneById($id);
+        if($characterUsed === null or ($characterUsed->getUser() != $this->getUser() AND !$this->get('security.context')->isGranted('ROLE_ADMIN'))) {throw $this->createNotFoundException('CharacterUsed [id='.$id.'] undefined.');}
 
         // -- Calcul des droits de l'utilisateur
-        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) {
-            $role_user = 'admin';
-        } else {
-            $role_user = 'public';
-        }
+        if ($this->get('security.context')->isGranted('ROLE_ADMIN')) { $role_user = 'admin';}
+        else {$role_user = 'public';}
 
-        $form = $this->createForm(new CharacterUsedEditType, $characterUsed, array(
-                'attr' => array('user_id' => $this->getUser()->getId(), 'role' => $role_user))
-        );
+        $form = $this->createForm(new CharacterUsedEditType, $characterUsed, array('attr' => array('user_id' => $this->getUser()->getId(), 'role' => $role_user)));
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $characterUsed->setUpdateUser($this->getUser());
@@ -164,11 +156,10 @@ class CharacterUsedController extends Controller
                             ));
     }
     
-    public function deleteAction($slug)
+    public function deleteAction($id)
     {
-        $characterUsed = $this->getDoctrine()->getManager()->getRepository('DnDInstanceCharacterBundle:CharacterUsed')->findOneBySlug($slug);
-        if ($characterUsed === null) {throw $this->createNotFoundException('Personnage : [slug='.$slug.'] inexistant.');}
-        if($characterUsed->getUser() != $this->getUser() AND !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Personnage : [slug='.$slug.'] inexistant.');}
+        $characterUsed = $this->getDoctrine()->getManager()->getRepository('DnDInstanceCharacterBundle:CharacterUsed')->findOneById($id);
+        if($characterUsed === null or ($characterUsed->getUser() != $this->getUser() AND !$this->get('security.context')->isGranted('ROLE_ADMIN'))) {throw $this->createNotFoundException('CharacterUsed [id='.$id.'] undefined.');}
 
         $serviceCharacterUsedAction = $this->container->get('dndinstance_character.characterusedaction');
         $serviceCharacterUsedAction->deleteCharacterUsed($characterUsed);
@@ -177,11 +168,10 @@ class CharacterUsedController extends Controller
         return $this->redirectToRoute('dndinstance_characterused_characterused_home');
     }
 
-    public function upgradeLevelAction($slug)
+    public function upgradeLevelAction($id)
     {
-        $characterUsed = $this->getDoctrine()->getManager()->getRepository('DnDInstanceCharacterBundle:CharacterUsed')->findOneBySlug($slug);
-        if($characterUsed === null) {throw $this->createNotFoundException('Personnage : [slug='.$slug.'] inexistant.');}
-        if($characterUsed->getUser() != $this->getUser() AND !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Personnage : [slug='.$slug.'] inexistant.');}
+        $characterUsed = $this->getDoctrine()->getManager()->getRepository('DnDInstanceCharacterBundle:CharacterUsed')->findOneById($id);
+        if($characterUsed === null or ($characterUsed->getUser() != $this->getUser() AND !$this->get('security.context')->isGranted('ROLE_ADMIN'))) {throw $this->createNotFoundException('CharacterUsed [id='.$id.'] undefined.');}
 
         if($this->get('dndinstance_character.characteruseddnd')->isNewLevel($characterUsed)) {
             $level = $this->get('dndinstance_character.characteruseddnd')->setUpgradeLevel($characterUsed);
@@ -191,11 +181,10 @@ class CharacterUsedController extends Controller
         return $this->redirectToRoute('dndinstance_characterused_characterused_view', array('slug' => $characterUsed->getSlug(), 'newLevel' => true));
     }
 
-    public function cloneAction($slug)
+    public function cloneAction($id)
     {
-        $characterUsed = $this->getDoctrine()->getManager()->getRepository('DnDInstanceCharacterBundle:CharacterUsed')->findOneBySlug($slug);
-        if($characterUsed === null) {throw $this->createNotFoundException('Personnage : [slug='.$slug.'] inexistant.');}
-        if($characterUsed->getUser() != $this->getUser() AND !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Personnage : [slug='.$slug.'] inexistant.');}
+        $characterUsed = $this->getDoctrine()->getManager()->getRepository('DnDInstanceCharacterBundle:CharacterUsed')->findOneById($id);
+        if($characterUsed === null or ($characterUsed->getUser() != $this->getUser() AND !$this->get('security.context')->isGranted('ROLE_ADMIN'))) {throw $this->createNotFoundException('CharacterUsed [id='.$id.'] undefined.');}
 
         $newCharacterUsed = $this->container->get('dndinstance_character.characterusedaction')->cloneCharacterUsed($characterUsed);
 

@@ -32,6 +32,9 @@ class MonsterController extends Controller
     
     public function editAction($id=null, Request $request)
     {
+        if(isset($_GET['context']) AND $_GET['context'] == 'register') {$context = 'register';}
+        else {$context = 'edit';}
+
         $em = $this->getDoctrine()->getManager();
         if($id != null and $id != "null") {
             $monster = $em->getRepository('DnDRulesMonsterBundle:Monster')->findOneById($id);
@@ -39,10 +42,11 @@ class MonsterController extends Controller
         } else {
             $monster = new Monster();
             $monster->setCreateUser($this->getUser());
+            $context = 'register';
         }
         if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Page not found.');}
         
-        $form = $this->createForm(new MonsterEditType, $monster);
+        $form = $this->createForm(new MonsterEditType(), $monster);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             foreach($monster->getHpForm() as $HpForm) {
@@ -66,17 +70,23 @@ class MonsterController extends Controller
             $em->persist($monster);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre monstre a bien été édité.' );
-            return $this->redirect($this->generateUrl('dndrules_monster_monster_view', array('slug' => $monster->getSlug())));
+            if($context == 'edit') {
+                $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre monstre a bien été édité.' );
+                return $this->redirect($this->generateUrl('dndrules_monster_monster_view', array('slug' => $monster->getSlug())));
+            } elseif($context == 'register') {
+                return $this->redirect($this->generateUrl('dndrules_monster_monster_edit_fight', array('id' => $monster->getId(), 'context' => 'register')));
+            }
+
         }
         
         return $this->render('DnDRulesMonsterBundle:Monster:Edit/edit.html.twig', array(
                                 'monster' => $monster,
                                 'form' => $form->createView(),
+                                'context' => $context
                             ));
     }
 
-    public function editFightAction($id, Request $request)
+    public function editFightAction($id, $context, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $monster = $em->getRepository('DnDRulesMonsterBundle:Monster')->findOneById($id);
@@ -89,13 +99,19 @@ class MonsterController extends Controller
             $em->persist($monster);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre monstre a bien été édité.' );
-            return $this->redirect($this->generateUrl('dndrules_monster_monster_view', array('slug' => $monster->getSlug())));
+            if($context == 'edit') {
+                $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre monstre a bien été édité.' );
+                return $this->redirect($this->generateUrl('dndrules_monster_monster_view', array('slug' => $monster->getSlug())));
+            } elseif($context == 'register') {
+                return $this->redirect($this->generateUrl('dndrules_monster_monster_edit_ability', array('id' => $monster->getId(), 'context' => $context)));
+            }
+
         }
 
         return $this->render('DnDRulesMonsterBundle:Monster:EditFight/edit.html.twig', array(
             'monster' => $monster,
             'form' => $form->createView(),
+            'context' => $context
         ));
     }
     
@@ -109,5 +125,21 @@ class MonsterController extends Controller
              
         $this->get('session')->getFlashBag()->add('notice', 'Votre monstre a bien été supprimé.' );
         return $this->redirectToRoute('dndrules_monster_monster_home');
+    }
+
+    public function deleteHpFormAction($id_monster, $id_HpForm)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $HpForm = $em->getRepository('PMHomeBundle:DiceForm')->findOneById($id_HpForm);
+        $monster = $em->getRepository('DnDRulesMonsterBundle:Monster')->findOneById($id_monster);
+        if($HpForm === null or $monster === null or !$this->get('security.context')->isGranted('ROLE_ADMIN') or $HpForm->getMonsterHpForm() != $monster) {throw $this->createNotFoundException('HpForm : [id='.$id_HpForm.'] undefined.');}
+
+        $monster->removeHpForm($HpForm);
+        $em->persist($monster);
+        $em->remove($HpForm);
+        $em->flush();
+
+        $this->get('session')->getFlashBag()->add('notice', 'Félicitations, le dé de vie a bien été supprimé.');
+        return $this->redirect($this->generateUrl('dndrules_monster_monster_view', array('slug' => $monster->getSlug())));
     }
 }

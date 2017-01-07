@@ -1,6 +1,6 @@
 {# src/DnDRules/WeaponBundle/Resources/views/Weapon/register_content.html.twig #}
 
-<form class="form-horizontal"  action="{{ path('dndinstance_weapon_weapon_instanceforcharacter', {'characterSlug': characterUsed.slug}) }}" method="post" {{ form_enctype(form) }} role="form">
+<form class="form-horizontal"  action="{{ path('dndinstance_weapon_weapon_instanceforcharacter', {'id': characterUsed.id}) }}" method="post" {{ form_enctype(form) }} role="form">
     {% if not form.vars.valid %}
     <div class="alert alert-error">
         <strong>Votre formulaire contient les erreurs suivantes :</strong>

@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class MonsterAttackController extends Controller
 {
-    public function editAction($id, Request $request)
+    public function editAction($id, $context, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $monster = $em->getRepository('DnDRulesMonsterBundle:Monster')->findOneById($id);
@@ -25,9 +25,10 @@ class MonsterAttackController extends Controller
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $monster->setUpdateUser($this->getUser());
-            foreach($form->get('attackInstances')->getData() as $attackInstances) {
-                foreach($attackInstances->getDamageForms() as $damageForm) {
-                    $damageForm->setMonsterAttackDamage($attackInstances);
+
+            foreach($monster->getAttackInstances() as $attackInstance) {
+                foreach($attackInstance->getDamageForms() as $damageForm) {
+                    $damageForm->setMonsterAttackDamage($attackInstance);
                     $em->persist($damageForm);
 
                     $diceEntities = $damageForm->getDiceEntities();
@@ -43,23 +44,29 @@ class MonsterAttackController extends Controller
                     }
                 }
 
-                foreach($attackInstances->getDamageCriticForms() as $damageCriticForm) {
-                    $damageCriticForm->setMonsterAttackCritic($attackInstances);
+                foreach($attackInstance->getDamageCriticForms() as $damageCriticForm) {
+                    $damageCriticForm->setMonsterAttackCritic($attackInstance);
                     $em->persist($damageCriticForm);
                 }
 
-                $attackInstances->setMonsterAttackInstances($monster);
-                $em->persist($attackInstances);
+                $attackInstance->setMonsterAttackInstances($monster);
+                $em->persist($attackInstance);
             }
+
             $em->persist($monster);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, les attaques ont bien été mises à jour.' );
-            return $this->redirect($this->generateUrl('dndrules_monster_monster_view', array('slug' => $monster->getSlug())));
+            if($context == 'edit') {
+                $this->get('session')->getFlashBag()->add('notice', 'Félicitations, les attaques ont bien été mises à jour.' );
+                return $this->redirect($this->generateUrl('dndrules_monster_monster_view', array('slug' => $monster->getSlug())));
+            } elseif($context == 'register') {
+                return $this->redirect($this->generateUrl('dndrules_monster_monster_edit_attack_extreme', array('id' => $monster->getId(), 'context' => $context)));
+            }
         }
         return $this->render('DnDRulesMonsterBundle:Monster:Attack/edit.html.twig', array(
             'monster' => $monster,
             'form' => $form->createView(),
+            'context' => $context
         ));
     }
 
@@ -111,7 +118,7 @@ class MonsterAttackController extends Controller
         return $this->redirect($this->generateUrl('dndrules_monster_monster_view', array('slug' => $monsterAttack->getMonsterAttackInstances()->getSlug())));
     }
 
-    public function editExtremeAction($id, Request $request)
+    public function editExtremeAction($id, $context, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $monster = $em->getRepository('DnDRulesMonsterBundle:Monster')->findOneById($id);
@@ -124,12 +131,18 @@ class MonsterAttackController extends Controller
             $em->persist($monster);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, les attaques ont bien été mises à jour.' );
-            return $this->redirect($this->generateUrl('dndrules_monster_monster_view', array('slug' => $monster->getSlug())));
+            if($context == 'edit') {
+                $this->get('session')->getFlashBag()->add('notice', 'Félicitations, les attaques ont bien été mises à jour.' );
+                return $this->redirect($this->generateUrl('dndrules_monster_monster_view', array('slug' => $monster->getSlug())));
+            } elseif($context == 'register') {
+                $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre monstre est à présent généré.' );
+                return $this->redirect($this->generateUrl('dndrules_monster_monster_view', array('slug' => $monster->getSlug())));
+            }
         }
         return $this->render('DnDRulesMonsterBundle:Monster:Attack/editExtreme.html.twig', array(
             'monster' => $monster,
             'form' => $form->createView(),
+            'context' => $context
         ));
     }
 }

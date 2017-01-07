@@ -58,7 +58,8 @@ class characterUsedAction
         $weapons = $this->em->getRepository('DnDInstanceWeaponBundle:WeaponInstance')->findBy(array('characterUsedWeapons' => $characterUsed));
         $equipments = $this->em->getRepository('DnDInstanceSortBundle:SortInstance')->findBy(array('characterUsedSorts' => $characterUsed));
         $sorts = $this->em->getRepository('DnDInstanceEquipmentBundle:EquipmentInstance')->findBy(array('characterUsedEquipments' => $characterUsed));
-        $entities = array_merge($abilities, $skills, $instances, $xpPoints, $armors, $weapons, $equipments, $sorts);
+        $wealth = $this->em->getRepository('DnDInstanceCharacterBundle:CharacterWealth')->findBy(array('characterUsedWealth' => $characterUsed));
+        $entities = array_merge($abilities, $skills, $instances, $xpPoints, $armors, $weapons, $equipments, $sorts, $wealth);
 
         foreach ($entities as $entity) {
             $this->em->remove($entity);

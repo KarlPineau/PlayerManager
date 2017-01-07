@@ -40,6 +40,30 @@ class classDnDAction
         return $sorts;
     }
 
+    public function getSortsForLevelMaxByLevel($classDnD, $levelMax) {
+        $sorts = array();
+        $repositoryLevel = $this->em->getRepository('DnDRulesLevelBundle:Level');
+        $levels = $repositoryLevel->findBy(array(), array('level' => 'asc'));
+        foreach ($levels as $level) {
+            if($level->getLevel() <= $levelMax) {
+                array_push($sorts, $this->getSortsByLevel($classDnD, $level));
+            }
+        }
+        return $sorts;
+    }
+
+    public function getSortsForLevelMax($classDnD, $levelMax) {
+        $sorts = array();
+        $repositoryLevel = $this->em->getRepository('DnDRulesLevelBundle:Level');
+        $levels = $repositoryLevel->findBy(array(), array('level' => 'asc'));
+        foreach ($levels as $level) {
+            if($level->getLevel() <= $levelMax) {
+                $sorts = array_merge($sorts, $this->getSortsByLevel($classDnD, $level));
+            }
+        }
+        return $sorts;
+    }
+
     public function generateLevel($classDnD) {
         $count = 0;
         foreach($this->em->getRepository('DnDRulesLevelBundle:Level')->findAll() as $level) {

@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class GiftEditType extends GiftRegisterType
+class GiftEditType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -14,10 +14,13 @@ class GiftEditType extends GiftRegisterType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-        
         $builder
-            ->add('updateComment',    'text',   array('required' => false))
+            ->add('name',           'text',     array('required' => true))
+            ->add('conditions',     'textarea', array('required' => false))
+            ->add('avantage',       'textarea', array('required' => false))
+            ->add('normal',         'textarea', array('required' => false))
+            ->add('special',        'textarea', array('required' => false))
+            ->add('description',    'textarea', array('required' => false))
         ;
     }
     

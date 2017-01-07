@@ -17,6 +17,9 @@ class ArmorInstanceType extends AbstractType
         $builder
             ->add('armor',   'entity',  array(  'class' => 'DnDRulesArmorBundle:Armor',
                                                 'property' => 'name',
+                                                'group_by' => function($val, $key, $index) {
+                                                    return $val->getType()->getName();
+                                                },
                                                 'required' => true,
                                                 'empty_value' => 'Armure',
                                                 'empty_data'  => null))

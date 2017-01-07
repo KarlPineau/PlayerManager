@@ -173,12 +173,6 @@ class CharacterUsed
     private $race;
 
     /**
-     * @ORM\OneToMany(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterWealth", mappedBy="characterUsedWealth", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $wealth;
-
-    /**
      * @ORM\OneToMany(targetEntity="DnDInstance\WeaponBundle\Entity\WeaponInstance", mappedBy="characterUsedWeapons", cascade={"persist"})
      * @ORM\JoinColumn(nullable=true)
      */
@@ -700,29 +694,6 @@ class CharacterUsed
     }
 
     /**
-     * Set wealth
-     *
-     * @param \DnDInstance\CharacterBundle\Entity\CharacterWealth $wealth
-     * @return CharacterUsed
-     */
-    public function setWealth(\DnDInstance\CharacterBundle\Entity\CharacterWealth $wealth)
-    {
-        $this->wealth = $wealth;
-
-        return $this;
-    }
-
-    /**
-     * Get wealth
-     *
-     * @return \DnDInstance\CharacterBundle\Entity\CharacterWealth 
-     */
-    public function getWealth()
-    {
-        return $this->wealth;
-    }
-
-    /**
      * Add weapons
      *
      * @param \DnDInstance\WeaponBundle\Entity\WeaponInstance $weapons
@@ -1010,28 +981,5 @@ class CharacterUsed
     public function getXpPoints()
     {
         return $this->xpPoints;
-    }
-
-    /**
-     * Add wealth
-     *
-     * @param \DnDInstance\CharacterBundle\Entity\CharacterWealth $wealth
-     * @return CharacterUsed
-     */
-    public function addWealth(\DnDInstance\CharacterBundle\Entity\CharacterWealth $wealth)
-    {
-        $this->wealth[] = $wealth;
-
-        return $this;
-    }
-
-    /**
-     * Remove wealth
-     *
-     * @param \DnDInstance\CharacterBundle\Entity\CharacterWealth $wealth
-     */
-    public function removeWealth(\DnDInstance\CharacterBundle\Entity\CharacterWealth $wealth)
-    {
-        $this->wealth->removeElement($wealth);
     }
 }

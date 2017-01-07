@@ -1,0 +1,66 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/register_abilities.html.twig #}
+ 
+{% extends "DnDInstanceCharacterBundle:CharacterUsed:layout.html.twig" %}
+
+{% block title %}
+    Caractéristiques - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    Caractéristiques
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('dndinstance_characterused_characterused_view', {'slug': characterUsed.slug}) }}">{{characterUsed.name}}</a></li>
+    <li class="active">Caractéristiques</li>
+{% endblock %}
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-8">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="well">
+            {% include "DnDInstanceCharacterBundle:CharacterUsed:Abilities/edit_abilities_content.html.twig" %}
+        </div>
+    </section>
+    <aside class="col-lg-4">
+        {% if context == 'register' %}
+            <div class="well">
+                <h3>Comment calculer vos points de caractéristiques ?</h3>
+                <p class="text-center"><small><a href="{{ path('dndrules_ability_ability_home') }}" target="_blank">Aide sur les caractéristiques</a></small></p>
+
+                <ul>
+                    <li>Lancez 5d6</li>
+                    <li>Retirez le plus faible des 5</li>
+                    <li>Additionnez les 4 restants</li>
+                    <li>Reservez le chiffre</li>
+                    <li>Répétez l'opération 5 fois</li>
+                </ul>
+
+                <p>Une fois que vous avez obtenu 6 valeurs, distribuez-les sur les caractéristiques en fonction de votre stratégie.</p>
+                <p><small>Un chiffre plus élevé en <strong>Force</strong> accentuera le caractère physique de votre personnage quand le <strong>Charisme</strong> favorisera le Role Play.</small></p>
+            </div>
+        {% elseif context == 'edit' %}
+            <div class="well">
+                <h3>Modification de vos points de caractéristiques</h3>
+                <p>
+                    Attention, la modification des points de caractéristique ne se fait qu'au passage des niveaux 4, 8, 12, 16 et 20.
+                </p>
+                <p>Si vous passez actuellement l'un de ces niveaux, <strong>vous pouvez ajouter 1 point à la caractéristique de votre choix.</strong></p>
+            </div>
+        {% endif %}
+    </aside>
+</div>
+{% endblock %}
+    
+{% block javascripts_block %}
+    {% javascripts  '@DnDInstanceCharacterBundle/Resources/public/js/*'  %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

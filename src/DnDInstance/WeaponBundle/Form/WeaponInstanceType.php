@@ -17,6 +17,9 @@ class WeaponInstanceType extends AbstractType
         $builder
             ->add('weapon',     'entity',       array(  'class' => 'DnDRulesWeaponBundle:Weapon',
                                                         'property' => 'name',
+                                                        'group_by' => function($val, $key, $index) {
+                                                            return $val->getWeaponType()->getName();
+                                                        },
                                                         'required' => true,
                                                         'empty_value' => 'Sélectionnez ...',
                                                         'attr' => array(

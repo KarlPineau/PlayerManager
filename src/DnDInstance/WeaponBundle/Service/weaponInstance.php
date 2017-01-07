@@ -5,7 +5,10 @@ namespace DnDInstance\WeaponBundle\Service;
 use CAS\UserBundle\Service\remove;
 use DnDRules\WeaponBundle\Entity\WeaponDamage;
 use Doctrine\ORM\EntityManager;
+use PM\HomeBundle\Entity\BonusNumber;
 use PM\HomeBundle\Entity\Critical;
+use PM\HomeBundle\Entity\DiceEntity;
+use PM\HomeBundle\Entity\DiceForm;
 use Symfony\Component\Security\Core\SecurityContext;
 
 class weaponInstance
@@ -25,9 +28,11 @@ class weaponInstance
         $this->em->flush();
     }
 
-    public function loadInstanceFromWeapon($weaponInstance)
+    public function instanceWeapon($weaponInstance)
     {
         $weapon = $weaponInstance->getWeapon();
+
+        $weaponInstance->setName($weapon->getName());
 
         $weaponInstance->setScope($weapon->getScope());
         $weaponInstance->setWeight($weapon->getWeight());
@@ -40,16 +45,40 @@ class weaponInstance
             $criticalInstance->setMultiplier($critical->getMultiplier());
             $criticalInstance->setRangeCriticalBegin($critical->getRangeCriticalBegin());
             $criticalInstance->setRangeCriticalEnd($critical->getRangeCriticalEnd());
-            $criticalInstance->setWeapon($critical->getWeapon());
+            $criticalInstance->setWeaponInstance($weaponInstance);
             $this->em->persist($criticalInstance);
         }
 
         foreach($weapon->getDamages() as $weaponDamage) {
             $weaponDamageInstance = new WeaponDamage();
-            $weaponDamageInstance->setWeapon($weaponDamage->getWeapon());
-            $weaponDamageInstance->setSize($weaponDamage->getSize());
-            foreach($weaponDamage->getDamages() as $damage) {
-                $weaponDamageInstance->addDamage($damage);
+            $weaponDamageInstance->setWeaponInstance($weaponInstance);
+            $weaponInstance->addDamage($weaponDamageInstance);
+
+            $diceForms = $weaponDamage->getDamages();
+            foreach ($diceForms as $diceForm) {
+                $diceFormInstance = new DiceForm();
+                $diceFormInstance->setWeaponDamage($weaponDamageInstance);
+                $weaponDamageInstance->addDamage($diceFormInstance);
+
+                $diceEntities = $diceForm->getDiceEntities();
+                foreach ($diceEntities as $diceEntity) {
+                    $diceEntityInstance = new DiceEntity();
+                    $diceFormInstance->addDiceEntity($diceEntityInstance);
+                    $diceEntityInstance->setDiceForm($diceFormInstance);
+                    $diceEntityInstance->setDiceNumber($diceEntity->getDiceNumber());
+                    $diceEntityInstance->setDiceType($diceEntity->getDiceType());
+                    $this->em->persist($diceEntityInstance);
+                }
+
+                $bonusNumbers = $diceForm->getBonusNumbers();
+                foreach ($bonusNumbers as $bonusNumber) {
+                    $bonusNumberInstance = new BonusNumber();
+                    $diceFormInstance->addBonusNumber($bonusNumberInstance);
+                    $bonusNumberInstance->setDiceForm($diceFormInstance);
+                    $bonusNumberInstance->setValue($bonusNumber->getValue());
+                    $this->em->persist($bonusNumberInstance);
+                }
+                $this->em->persist($diceForm);
             }
             $this->em->persist($weaponDamageInstance);
         }
@@ -70,14 +99,20 @@ class weaponInstance
         return $newWeaponInstance;
     }
 
-    public function removeCharacterFromInstance($weaponInstance, $game)
+    public function removeFromCharacter($weaponInstance, $characterUsed, $game)
     {
         if($game != null) {
-            $weaponInstance->setCharacterUsedWeapons(null);
             $weaponInstance->setGame($game);
+            $characterUsed->removeWeapon($weaponInstance);
+            $weaponInstance->setCharacterUsedWeapons(null);
+            $this->em->persist($weaponInstance);
+            $this->em->persist($characterUsed);
+            $this->em->flush();
             return $weaponInstance;
         } elseif($game == null) {
+            $characterUsed->removeWeapon($weaponInstance);
             $this->em->remove($weaponInstance);
+            $this->em->flush();
             return null;
         }
 

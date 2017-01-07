@@ -2,10 +2,6 @@
 dndrules_gift_gift_home:
     path:     /dons
     defaults: { _controller: DnDRulesGiftBundle:Gift:index }
-
-dndrules_gift_gift_insert:
-    path:     /don/insertion
-    defaults: { _controller: DnDRulesGiftBundle:Gift:register }
     
 dndrules_gift_gift_view:
     path:     /don/vue/{slug}
@@ -14,13 +10,13 @@ dndrules_gift_gift_view:
         slug:  \S{0,255}
     
 dndrules_gift_gift_edit:
-    path:     /don/editer/{slug}
-    defaults: { _controller: DnDRulesGiftBundle:Gift:edit }
+    path:     /don/editer/{id}
+    defaults: { _controller: DnDRulesGiftBundle:Gift:edit, id: 0 }
     requirements:
-        slug:  \S{0,255}
+        id:  \d+
     
 dndrules_gift_gift_delete:
-    path:     /don/supprimer/{slug}
+    path:     /don/supprimer/{id}
     defaults: { _controller: DnDRulesGiftBundle:Gift:delete }
     requirements:
-        slug:  \S{0,255}
+        id:  \S{0,255}

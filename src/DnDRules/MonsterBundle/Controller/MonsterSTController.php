@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class MonsterSTController extends Controller
 {
-    public function editAction($id, Request $request)
+    public function editAction($id, $context, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $monster = $em->getRepository('DnDRulesMonsterBundle:Monster')->findOneById($id);
@@ -30,12 +30,17 @@ class MonsterSTController extends Controller
             $em->persist($monsterST);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, les jets de sauvegarde ont bien été mises à jour.' );
-            return $this->redirect($this->generateUrl('dndrules_monster_monster_view', array('slug' => $monster->getSlug())));
+            if($context == 'edit') {
+                $this->get('session')->getFlashBag()->add('notice', 'Félicitations, les jets de sauvegarde ont bien été mises à jour.' );
+                return $this->redirect($this->generateUrl('dndrules_monster_monster_view', array('slug' => $monster->getSlug())));
+            } elseif($context == 'register') {
+                return $this->redirect($this->generateUrl('dndrules_monster_monster_edit_attack', array('id' => $monster->getId(), 'context' => $context)));
+            }
         }
         return $this->render('DnDRulesMonsterBundle:Monster:ST/edit.html.twig', array(
             'monster' => $monster,
             'form' => $form->createView(),
+            'context' => $context
         ));
     }
 }

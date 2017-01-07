@@ -46,10 +46,10 @@ class MonsterEditType extends AbstractType
                                                             'required' => false,
                                                             'empty_value' => 'Langues',
                                                             'empty_data'  => null))
-            ->add('speedSpecialInstances','collection',array( 'type' => new SpeedSpecialInstanceType(),
-                                                            'allow_add'    => true,
-                                                            'allow_delete' => true,
-                                                            'required' => false))
+            //->add('speedSpecialInstances','collection',array( 'type' => new SpeedSpecialInstanceType(),
+            //                                                'allow_add'    => true,
+            //                                                'allow_delete' => true,
+            //                                                'required' => false))
         ;
     }
     

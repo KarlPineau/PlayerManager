@@ -8,30 +8,38 @@ dndinstance_characterused_characterused_insert:
     defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:register }
 
 dndinstance_characterused_characterused_edit_abilities:
-    path:     /personnage/edition/caracteristiques/{slug}
+    path:     /personnage/edition/caracteristiques/{id}/{context}
     defaults: { _controller: DnDInstanceCharacterBundle:CharacterAbility:editAbilities, context: edit }
     requirements:
-        slug:  \S{0,255}
+        id:  \d+
         context: register|edit
 
 dndinstance_characterused_characterused_edit_skills:
-    path:     /personnage/edition/competences/{slug}
+    path:     /personnage/edition/competences/{id}/{context}
     defaults: { _controller: DnDInstanceCharacterBundle:CharacterSkill:editSkills, context: edit }
     requirements:
-        slug:  \S{0,255}
+        id:  \d+
+        context: register|edit
+
+dndinstance_characterused_characterused_edit_gift:
+    path:     /personnage/edition/dons/{id}/{context}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterGift:editGifts, context: edit }
+    requirements:
+        id:  \d+
         context: register|edit
 
 dndinstance_characterused_characterused_edit_hpcurrent:
-    path:     /personnage/edition/point-de-vie/{slug}
+    path:     /personnage/edition/point-de-vie/{id}
     defaults: { _controller: DnDInstanceCharacterBundle:CharacterHp:editHpCurrent }
     requirements:
-        slug:  \S{0,255}
+        id:  \d+
 
 dndinstance_characterused_characterused_edit_hpmax:
-    path:     /personnage/edition/point-de-vie-max/{slug}
-    defaults: { _controller: DnDInstanceCharacterBundle:CharacterHp:editHpMax }
+    path:     /personnage/edition/point-de-vie-max/{id}/{context}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterHp:editHpMax, context: edit }
     requirements:
-        slug:  \S{0,255}
+        id:  \d+
+        context: register|edit|levelUp
     
 dndinstance_characterused_characterused_view:
     path:     /personnage/vue/{slug}
@@ -43,37 +51,38 @@ dndinstance_characterused_characterused_view:
         newLevel: 1|0
     
 dndinstance_characterused_characterused_edit:
-    path:     /personnage/editer/{slug}
+    path:     /personnage/editer/{id}
     defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:edit }
     requirements:
-        slug:  \S{0,255}
+        id:  \d+
     
 dndinstance_characterused_characterused_delete:
-    path:     /personnage/supprimer/{slug}
+    path:     /personnage/supprimer/{id}
     defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:delete }
     requirements:
-        slug:  \S{0,255}
+        id:  \d+
 
 dndinstance_characterused_characterused_clone:
-    path:     /personnage/clone/{slug}
+    path:     /personnage/clone/{id}
     defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:clone }
     requirements:
-        slug:  \S{0,255}
+        id:  \d+
 
 dndinstance_characterused_characterused_edit_xppoints:
-    path:     /personnage/edition/points-experience/{slug}
+    path:     /personnage/edition/points-experience/{id}
     defaults: { _controller: DnDInstanceCharacterBundle:XpPoints:editXpPoints }
     requirements:
-        slug:  \S{0,255}
+        id:  \d+
 
 dndinstance_characterused_characterused_edit_wealth:
-    path:     /personnage/edition/richesse/{slug}
-    defaults: { _controller: DnDInstanceCharacterBundle:CharacterWealth:editWealth }
+    path:     /personnage/edition/richesse/{id}/{context}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterWealth:editWealth, context: edit }
     requirements:
-        slug:  \S{0,255}
+        id:  \d+
+        context: register|edit
 
 dndinstance_characterused_characterused_edit_upgradelevel:
-    path:     /personnage/edition/upgrade-niveau/{slug}
+    path:     /personnage/edition/upgrade-niveau/{id}
     defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:upgradeLevel }
     requirements:
-        slug:  \S{0,255}
+        id:  \d+

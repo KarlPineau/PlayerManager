@@ -1,0 +1,42 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/register_skills.html.twig #}
+ 
+{% extends "DnDInstanceCharacterBundle:CharacterUsed:layout.html.twig" %}
+
+{% block title %}
+    Points d'expérience - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    Points d'expérience
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('dndinstance_characterused_characterused_view', {'slug': characterUsed.slug}) }}">{{characterUsed.name}}</a></li>
+    <li class="active">Points d'expérience</li>
+{% endblock %}
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-8">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="well">
+            {% include "DnDInstanceCharacterBundle:CharacterUsed:XpPoints/edit_xpPoints_content.html.twig" %}
+        </div>
+    </section>
+    <aside class="col-lg-4">
+        Ici, contrôle live des infos ?
+    </aside>
+</div>
+{% endblock %}
+    
+{% block javascripts_block %}
+    {# javascripts  '@DnDInstanceCharacterBundle/Resources/public/js/characterUsedAddSkill.js'  %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts #}
+{% endblock %}

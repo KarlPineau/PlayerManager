@@ -97,13 +97,13 @@ class WeaponInstance
     private $weight;
 
     /**
-     * @ORM\OneToMany(targetEntity="DnDRules\WeaponBundle\Entity\WeaponDamage", mappedBy="weapon", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="DnDRules\WeaponBundle\Entity\WeaponDamage", mappedBy="weaponInstance", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $damages;
 
     /**
-     * @ORM\OneToMany(targetEntity="PM\HomeBundle\Entity\Critical", mappedBy="weapon", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="PM\HomeBundle\Entity\Critical", mappedBy="weaponInstance", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $criticals;
@@ -173,145 +173,6 @@ class WeaponInstance
         $this->id = $id;
 
         return $this;
-    }
-
-
-    /**
-     * Set createDate
-     *
-     * @param \DateTime $createDate
-     * @return WeaponInstance
-     */
-        public function setCreateDate($createDate)
-    {
-        $this->createDate = $createDate;
-
-        return $this;
-    }
-
-    /**
-     * Get createDate
-     *
-     * @return \DateTime 
-     */
-    public function getCreateDate()
-    {
-        return $this->createDate;
-    }
-
-    /**
-     * Set updateDate
-     *
-     * @param \DateTime $updateDate
-     * @return WeaponInstance
-     */
-    public function setUpdateDate($updateDate)
-    {
-        $this->updateDate = $updateDate;
-
-        return $this;
-    }
-
-    /**
-     * Get updateDate
-     *
-     * @return \DateTime 
-     */
-    public function getUpdateDate()
-    {
-        return $this->updateDate;
-    }
-
-    /**
-     * Set weapon
-     *
-     * @param \DnDRules\WeaponBundle\Entity\Weapon $weapon
-     * @return WeaponInstance
-     */
-    public function setWeapon(\DnDRules\WeaponBundle\Entity\Weapon $weapon)
-    {
-        $this->weapon = $weapon;
-
-        return $this;
-    }
-
-    /**
-     * Get weapon
-     *
-     * @return \DnDRules\WeaponBundle\Entity\Weapon 
-     */
-    public function getWeapon()
-    {
-        return $this->weapon;
-    }
-
-    /**
-     * Set characterUsedWeapons
-     *
-     * @param \DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsedWeapons
-     * @return WeaponInstance
-     */
-    public function setCharacterUsedWeapons(\DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsedWeapons)
-    {
-        $this->characterUsedWeapons = $characterUsedWeapons;
-
-        return $this;
-    }
-
-    /**
-     * Get characterUsedWeapons
-     *
-     * @return \DnDInstance\CharacterBundle\Entity\CharacterUsed 
-     */
-    public function getCharacterUsedWeapons()
-    {
-        return $this->characterUsedWeapons;
-    }
-
-    /**
-     * Set createUser
-     *
-     * @param \CAS\UserBundle\Entity\User $createUser
-     * @return WeaponInstance
-     */
-    public function setCreateUser(\CAS\UserBundle\Entity\User $createUser = null)
-    {
-        $this->createUser = $createUser;
-
-        return $this;
-    }
-
-    /**
-     * Get createUser
-     *
-     * @return \CAS\UserBundle\Entity\User
-     */
-    public function getCreateUser()
-    {
-        return $this->createUser;
-    }
-
-    /**
-     * Set updateUser
-     *
-     * @param \CAS\UserBundle\Entity\User $updateUser
-     * @return WeaponInstance
-     */
-    public function setUpdateUser(\CAS\UserBundle\Entity\User $updateUser = null)
-    {
-        $this->updateUser = $updateUser;
-
-        return $this;
-    }
-
-    /**
-     * Get updateUser
-     *
-     * @return \CAS\UserBundle\Entity\User
-     */
-    public function getUpdateUser()
-    {
-        return $this->updateUser;
     }
     /**
      * Constructor
@@ -484,6 +345,121 @@ class WeaponInstance
     }
 
     /**
+     * Set createDate
+     *
+     * @param \DateTime $createDate
+     * @return WeaponInstance
+     */
+    public function setCreateDate($createDate)
+    {
+        $this->createDate = $createDate;
+
+        return $this;
+    }
+
+    /**
+     * Get createDate
+     *
+     * @return \DateTime 
+     */
+    public function getCreateDate()
+    {
+        return $this->createDate;
+    }
+
+    /**
+     * Set updateDate
+     *
+     * @param \DateTime $updateDate
+     * @return WeaponInstance
+     */
+    public function setUpdateDate($updateDate)
+    {
+        $this->updateDate = $updateDate;
+
+        return $this;
+    }
+
+    /**
+     * Get updateDate
+     *
+     * @return \DateTime 
+     */
+    public function getUpdateDate()
+    {
+        return $this->updateDate;
+    }
+
+    /**
+     * Set weapon
+     *
+     * @param \DnDRules\WeaponBundle\Entity\Weapon $weapon
+     * @return WeaponInstance
+     */
+    public function setWeapon(\DnDRules\WeaponBundle\Entity\Weapon $weapon)
+    {
+        $this->weapon = $weapon;
+
+        return $this;
+    }
+
+    /**
+     * Get weapon
+     *
+     * @return \DnDRules\WeaponBundle\Entity\Weapon 
+     */
+    public function getWeapon()
+    {
+        return $this->weapon;
+    }
+
+    /**
+     * Set characterUsedWeapons
+     *
+     * @param \DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsedWeapons
+     * @return WeaponInstance
+     */
+    public function setCharacterUsedWeapons(\DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsedWeapons = null)
+    {
+        $this->characterUsedWeapons = $characterUsedWeapons;
+
+        return $this;
+    }
+
+    /**
+     * Get characterUsedWeapons
+     *
+     * @return \DnDInstance\CharacterBundle\Entity\CharacterUsed 
+     */
+    public function getCharacterUsedWeapons()
+    {
+        return $this->characterUsedWeapons;
+    }
+
+    /**
+     * Set game
+     *
+     * @param \Game\GameBundle\Entity\Game $game
+     * @return WeaponInstance
+     */
+    public function setGame(\Game\GameBundle\Entity\Game $game = null)
+    {
+        $this->game = $game;
+
+        return $this;
+    }
+
+    /**
+     * Get game
+     *
+     * @return \Game\GameBundle\Entity\Game 
+     */
+    public function getGame()
+    {
+        return $this->game;
+    }
+
+    /**
      * Add damages
      *
      * @param \DnDRules\WeaponBundle\Entity\WeaponDamage $damages
@@ -555,7 +531,7 @@ class WeaponInstance
      * @param \DnDRules\WeaponBundle\Entity\WeaponType $weaponType
      * @return WeaponInstance
      */
-    public function setWeaponType(\DnDRules\WeaponBundle\Entity\WeaponType $weaponType)
+    public function setWeaponType(\DnDRules\WeaponBundle\Entity\WeaponType $weaponType = null)
     {
         $this->weaponType = $weaponType;
 
@@ -573,25 +549,48 @@ class WeaponInstance
     }
 
     /**
-     * Set game
+     * Set createUser
      *
-     * @param \Game\GameBundle\Entity\Game $game
+     * @param \CAS\UserBundle\Entity\User $createUser
      * @return WeaponInstance
      */
-    public function setGame(\Game\GameBundle\Entity\Game $game = null)
+    public function setCreateUser(\CAS\UserBundle\Entity\User $createUser = null)
     {
-        $this->game = $game;
+        $this->createUser = $createUser;
 
         return $this;
     }
 
     /**
-     * Get game
+     * Get createUser
      *
-     * @return \Game\GameBundle\Entity\Game 
+     * @return \CAS\UserBundle\Entity\User 
      */
-    public function getGame()
+    public function getCreateUser()
     {
-        return $this->game;
+        return $this->createUser;
+    }
+
+    /**
+     * Set updateUser
+     *
+     * @param \CAS\UserBundle\Entity\User $updateUser
+     * @return WeaponInstance
+     */
+    public function setUpdateUser(\CAS\UserBundle\Entity\User $updateUser = null)
+    {
+        $this->updateUser = $updateUser;
+
+        return $this;
+    }
+
+    /**
+     * Get updateUser
+     *
+     * @return \CAS\UserBundle\Entity\User 
+     */
+    public function getUpdateUser()
+    {
+        return $this->updateUser;
     }
 }

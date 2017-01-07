@@ -1,0 +1,70 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/register_skills.html.twig #}
+ 
+{% extends "DnDInstanceCharacterBundle:CharacterUsed:layout.html.twig" %}
+
+{% block title %}
+    Points de Vie Maximum - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    Points de Vie Maximum
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('dndinstance_characterused_characterused_view', {'slug': characterUsed.slug}) }}">{{characterUsed.name}}</a></li>
+    <li class="active">Points de Vie</li>
+{% endblock %}
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        <div class="panel-group" id="accordionHpMaxExplanations" role="tablist" aria-multiselectable="true">
+            <div class="panel panel-info">
+                <div class="panel-heading" role="tab" id="headingHpMaxExplanations">
+                    <div class="pull-right"><i class="fa fa-info-circle"></i></div>
+                    <h4 class="panel-title">
+                        <a role="button" data-toggle="collapse" href="#collapseHpMaxExplanations" data-parent="#accordionHpMaxExplanations" aria-expanded="false" aria-controls="collapseHpMaxExplanations">
+                            Calculer vos P.V.
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseHpMaxExplanations" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingHpMaxExplanations">
+                    <div class="panel-body">
+                        {% if dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).diceHealth != null %}
+                            <p>Votre nombre maximum de point de vie est actuellement de {{ characterUsed.hpMax }}PV. Votre classe
+                                {{ dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).name }} vous donne droit à un dé
+                                {{ dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).diceHealth.dice }} de vie par niveau.<br />
+                                Lancez un dé {{ dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).diceHealth.dice }} et saisissez sa valeur.</p>
+                        {% else %}
+                            <p>Oups ... Le dé de vie de votre classe n'est pas défini. Demandez à votre MJ préféré :).</p>
+                        {% endif %}
+                        <p>
+                            Chaque classe offre des DV d'une taille déterminé, indiquée dans la description technique de la classe en
+                            question ; le personnage possède autant de DV de cette taille que de niveau(x) dans la classe considérée.<br/>
+                            <br />
+                            Pour déterminer son nombre de PV, il faut effectuer un jet avec chacun des DV possédés et ajouter à chaque
+                            lancer le modificateur de Constitution du personnage.<br />
+                            <br />
+                            Supposons enfin qu'un Magicien niveau 4 possède une Constitution de 16 (soit un modificateur de +3). Ses DV sont
+                            les suivants : 4d6. Ses PV seront donc
+                            quant à eux déterminés par le résultat du tirage de 4d6 auquel on ajoutera 16 (4 x modificateur
+                            de Constitution).
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="well">
+            {% include "DnDInstanceCharacterBundle:CharacterUsed:Hp/edit_hpMax_content.html.twig" %}
+        </div>
+    </section>
+</div>
+{% endblock %}

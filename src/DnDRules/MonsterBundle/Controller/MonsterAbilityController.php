@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class MonsterAbilityController extends Controller
 {
-    public function editAction($id, Request $request)
+    public function editAction($id, $context, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $monster = $em->getRepository('DnDRulesMonsterBundle:Monster')->findOneById($id);
@@ -28,12 +28,17 @@ class MonsterAbilityController extends Controller
             $em->persist($monster);
             $em->flush();
 
-            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, les caractéristiques ont bien été mises à jour.' );
-            return $this->redirect($this->generateUrl('dndrules_monster_monster_view', array('slug' => $monster->getSlug())));
+            if($context == 'edit') {
+                $this->get('session')->getFlashBag()->add('notice', 'Félicitations, les caractéristiques ont bien été mises à jour.' );
+                return $this->redirect($this->generateUrl('dndrules_monster_monster_view', array('slug' => $monster->getSlug())));
+            } elseif($context == 'register') {
+                return $this->redirect($this->generateUrl('dndrules_monster_monster_edit_skill', array('id' => $monster->getId(), 'context' => $context)));
+            }
         }
         return $this->render('DnDRulesMonsterBundle:Monster:Ability/edit.html.twig', array(
             'monster' => $monster,
             'form' => $form->createView(),
+            'context' => $context
         ));
     }
 

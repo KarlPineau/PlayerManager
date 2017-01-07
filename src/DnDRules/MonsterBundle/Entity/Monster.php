@@ -75,7 +75,6 @@ class Monster
 
     /**
      * @var integer
-     * @Assert\NotBlank()
      *
      * @ORM\Column(name="bab", type="smallint", nullable=true, options={"default" = 0})
      */
@@ -83,7 +82,6 @@ class Monster
 
     /**
      * @var integer
-     * @Assert\NotBlank()
      *
      * @ORM\Column(name="bfb", type="smallint", nullable=true, options={"default" = 0})
      */
@@ -91,7 +89,6 @@ class Monster
 
     /**
      * @var integer
-     * @Assert\NotBlank()
      *
      * @ORM\Column(name="ac", type="smallint", nullable=true, options={"default" = 0})
      */
@@ -124,7 +121,7 @@ class Monster
     /**
      * @Assert\Range(
      *      min = "0",
-     *      minMessage = "Votre monstre ne peut pas avoir une taille négative."
+     *      minMessage = "Votre monstre ne peut pas avoir une taille d'espace occupé négative."
      * )
      *
      * @ORM\Column(name="spaceOccupied", type="float", nullable=true)
@@ -143,7 +140,6 @@ class Monster
 
     /**
      * @var integer
-     * @Assert\NotBlank()
      *
      * @ORM\Column(name="initiative", type="smallint", nullable=true, options={"default" = 0})
      */
@@ -259,17 +255,6 @@ class Monster
      * @ORM\Column(name="updateDate", type="datetime", nullable=true)
      */
     protected $updateDate;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="updateComment", type="string", length=255, nullable=true)
-     * @Assert\Length(
-     *      max = "255",
-     *      maxMessage = "Le commentaire ne doit pas dépasser {{ limit }} caractères."
-     * )
-     */
-    protected $updateComment;
 
     /**
      * Get id
@@ -659,29 +644,6 @@ class Monster
     public function getUpdateDate()
     {
         return $this->updateDate;
-    }
-
-    /**
-     * Set updateComment
-     *
-     * @param string $updateComment
-     * @return Monster
-     */
-    public function setUpdateComment($updateComment)
-    {
-        $this->updateComment = $updateComment;
-
-        return $this;
-    }
-
-    /**
-     * Get updateComment
-     *
-     * @return string 
-     */
-    public function getUpdateComment()
-    {
-        return $this->updateComment;
     }
 
     /**

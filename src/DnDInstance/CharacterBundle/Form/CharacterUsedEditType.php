@@ -16,6 +16,10 @@ class CharacterUsedEditType extends CharacterUsedRegisterType
     {
         parent::buildForm($builder, $options);
 
+        $builder
+            ->remove('game')
+            ->remove('user')
+        ;
     }
     
     /**

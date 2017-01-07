@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use DnDRules\GiftBundle\Entity\Gift;
 use DnDRules\GiftBundle\Form\GiftRegisterType;
 use DnDRules\GiftBundle\Form\GiftEditType;
+use Symfony\Component\HttpFoundation\Request;
 
 class GiftController extends Controller
 {
@@ -18,30 +19,6 @@ class GiftController extends Controller
         ));
     }
     
-    public function registerAction()
-    {
-        $em = $this->getDoctrine()->getManager();
-        if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Page inexistante.');}
-        $gift = new Gift;
-        $form = $this->createForm(new GiftRegisterType, $gift);
-        $request = $this->get('request');
-            if ($request->getMethod() == 'POST') {
-                $form->bind($request);
-                
-                if ($form->isValid()) {
-                    $gift->setCreateUser($this->getUser());
-                    $em->persist($gift);
-                    $em->flush();
-                    
-                    $this->get('session')->getFlashBag()->add('notice', 'Félicitations, le don a bien été créé.' );
-                    return $this->redirect($this->generateUrl('dndrules_gift_gift_view', array('slug' => $gift->getSlug())));
-                }
-            }
-        return $this->render('DnDRulesGiftBundle:Gift:Register/register.html.twig', array(
-                                'form' => $form->createView(),
-                            ));
-    }
-    
     public function viewAction($slug)
     {
         $gift = $this->getDoctrine()->getManager()->getRepository('DnDRulesGiftBundle:Gift')->findOneBySlug($slug);
@@ -52,27 +29,29 @@ class GiftController extends Controller
                             ));
     }
     
-    public function editAction($slug)
+    public function editAction($id=null, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $gift = $em->getRepository('DnDRulesGiftBundle:Gift')->findOneBySlug($slug);
-        if ($gift === null or !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Gift : [slug='.$slug.'] inexistant.');}
+
+        if($id != null) {
+            $gift = $em->getRepository('DnDRulesGiftBundle:Gift')->findOneById($id);
+            if($gift === null or !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Gift [id='.$id.'] undefined.');}
+        } else {
+            $gift = new Gift();
+            $gift->setCreateUser($this->getUser());
+        }
         
         $form = $this->createForm(new GiftEditType, $gift);
-        $request = $this->get('request');
-            if ($request->getMethod() == 'POST') {
-                $form->bind($request);
-                
-                if ($form->isValid()) {
-                    $gift->setUpdateUser($this->getUser());
-                    $em->persist($gift);
-                    $em->flush();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $gift->setUpdateUser($this->getUser());
+            $em->persist($gift);
+            $em->flush();
 
-                    $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre don a bien été édité.' );
-                    return $this->redirect($this->generateUrl('dndrules_gift_gift_view', array('slug' => $gift->getSlug())));
-                }
-            }
-        
+            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre don a bien été édité.' );
+            return $this->redirect($this->generateUrl('dndrules_gift_gift_view', array('slug' => $gift->getSlug())));
+        }
+
         return $this->render('DnDRulesGiftBundle:Gift:Edit/edit.html.twig', array(
                                 'gift' => $gift,
                                 'form' => $form->createView(),

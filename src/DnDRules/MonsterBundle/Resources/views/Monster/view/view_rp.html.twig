@@ -17,7 +17,7 @@
         <dt>Alignements autorisés</dt>
         <dd>
             <ul>
-            {% for alignement in monster.alignments %}
+            {% for alignment in monster.alignments %}
                 <li><a href="{{path('dndrules_alignment_alignment_view', {'slug': alignment.slug})}}" target="_blank">{{alignment.name}}</a></li>
             {% else %}
                 <li>Pas d'alignement connu</li>

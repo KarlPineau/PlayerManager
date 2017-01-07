@@ -1,0 +1,11 @@
+<dl class="dl-horizontal">
+    <dt>{% if allowEdit == true %}<a href="{{ path('dndinstance_characterused_characterused_edit_hpcurrent', {'id': characterUsed.id}) }}" title="Modifier votre nombre de points de vie">{% endif %}PV :{% if allowEdit == true %}</a>{% endif %}</dt>
+    <dd><span class="{% if characterUsed.hpCurrent <= 0 %}text-danger{% elseif characterUsed.hpCurrent > 0 and characterUsed.hpCurrent <= 5 %}text-warning{% endif %}">{{characterUsed.hpCurrent}}</span>/{{characterUsed.hpMax}}</dd></dl>
+<dl class="dl-horizontal">
+    <dt>{% if allowEdit == true %}<a href="{{ path('dndinstance_characterused_characterused_edit_wealth', {'id': characterUsed.id}) }}" title="Modifier votre richesse">{% endif %}Richesse :{% if allowEdit == true %}</a>{% endif %}</dt>
+    <dd>
+        <div {% if dndinstance_character_characterusedwealth.findByCharacterUsed(characterUsed).po < 0 %}class="text-danger" title="Attention ! vous êtes endetté"{% endif %}>{{ dndinstance_character_characterusedwealth.findByCharacterUsed(characterUsed).po|number_format(0, ',', '.') }} PO</div>
+        <div {% if dndinstance_character_characterusedwealth.findByCharacterUsed(characterUsed).pa < 0 %}class="text-danger" title="Attention ! vous êtes endetté"{% endif %}>{{ dndinstance_character_characterusedwealth.findByCharacterUsed(characterUsed).pa|number_format(0, ',', '.') }} PA</div>
+        <div {% if dndinstance_character_characterusedwealth.findByCharacterUsed(characterUsed).pa < 0 %}class="text-danger" title="Attention ! vous êtes endetté"{% endif %}>{{ dndinstance_character_characterusedwealth.findByCharacterUsed(characterUsed).pc|number_format(0, ',', '.') }} PC</div>
+    </dd>
+</dl>

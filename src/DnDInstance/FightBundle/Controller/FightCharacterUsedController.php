@@ -7,14 +7,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class FightCharacterUsedController extends Controller
 {
-    public function editAction($id, $game_slug)
+    public function editAction($fightCharacterUsedInstance_id, $game_id)
     {
         $em = $this->getDoctrine()->getManager();
-        $fightCharacterUsed = $em->getRepository('DnDInstanceFightBundle:FightCharacterUsed')->findOneById($id);
-        if($fightCharacterUsed === null) {throw $this->createNotFoundException('Instance du fightcharacter : [slug='.$id.'] inexistante.');}
-        $game = $em->getRepository('GameGameBundle:Game')->findOneBySlug($game_slug);
-        if($game === null) {throw $this->createNotFoundException('Game : [slug='.$game_slug.'] inexistant.');}
-        if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Page inexistante.');}
+        $fightCharacterUsed = $em->getRepository('DnDInstanceFightBundle:FightCharacterUsed')->findOneById($fightCharacterUsedInstance_id);
+        if($fightCharacterUsed === null) {throw $this->createNotFoundException('FightCharacterUsedInstance [id='.$fightCharacterUsedInstance_id.'] undefined.');}
+        $game = $em->getRepository('GameGameBundle:Game')->findOneById($game_id);
+        if($game === null or !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Game [id='.$game_id.'] undefined.');}
 
         $form = $this->createForm(new FightCharacterUsedEditType(), $fightCharacterUsed);
         $request = $this->get('request');

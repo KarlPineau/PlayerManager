@@ -1,6 +1,6 @@
 {# src/DnDInstance/FightBundle/Resources/views/Fight/generate_content.html.twig #}
 
-<form class="form-horizontal"  action="{{ path('dndinstance_fight_fight_generatefight', {'slug': game.slug}) }}" method="post" {{ form_enctype(form) }} role="form">
+<form class="form-horizontal"  action="{{ path('dndinstance_fight_fight_generate', {'id': game.id}) }}" method="post" {{ form_enctype(form) }} role="form">
     {% if not form.vars.valid %}
     <div class="alert alert-error">
         <strong>Votre formulaire contient les erreurs suivantes :</strong>

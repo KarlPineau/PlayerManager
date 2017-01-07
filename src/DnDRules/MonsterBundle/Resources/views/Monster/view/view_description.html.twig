@@ -9,7 +9,7 @@
                     {% if loop.index > 1 %}<br />{% endif %}
                     {% if is_granted('ROLE_ADMIN') %}
                         <div class="pull-right">
-                            <a href=""><i class="fa fa-remove"></i></a>
+                            <a href="{{ path('dndrules_monster_monster_delete_hpForm', {'id_monster': monster.id, 'id_HpForm': diceForm.id}) }}"><i class="fa fa-remove"></i></a>
                         </div>
                     {% endif %}
                     {% for diceEntity in diceForm.diceEntities %}

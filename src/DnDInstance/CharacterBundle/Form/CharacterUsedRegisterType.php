@@ -30,7 +30,10 @@ class CharacterUsedRegisterType extends AbstractType
                                                             },
                                                             'required' => true,
                                                             'empty_value' => 'Choisissez un propriétaire',))
-                
+            ->add('game',               'entity',   array(  'class' => 'GameGameBundle:Game',
+                                                            'property' => 'name',
+                                                            'required' => true,
+                                                            'empty_value' => 'Choisissez une Partie',))
             ->add('name',               'text',     array(  'required' => true,
                                                             'max_length' => 45))
             ->add('story',              'ckeditor', array(  'required' => false,
@@ -62,13 +65,6 @@ class CharacterUsedRegisterType extends AbstractType
                                                             'multiple' => true,
                                                             'required' => false,
                                                             'empty_value' => 'Langues',
-                                                            'empty_data'  => null))
-            ->add('gifts',              'entity',   array(  'class' => 'DnDRulesGiftBundle:Gift',
-                                                            'property'    => 'name',
-                                                            'expanded' => false,
-                                                            'multiple' => true,
-                                                            'required' => false,
-                                                            'empty_value' => 'Dons',
                                                             'empty_data'  => null))
         ;
     }

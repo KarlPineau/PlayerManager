@@ -37,7 +37,7 @@ class WeaponController extends Controller
 
                 $diceForms = $weaponDamage->getDamages();
                 foreach ($diceForms as $diceForm) {
-                    $diceForm->setWeapondamage($weaponDamage);
+                    $diceForm->setWeaponDamage($weaponDamage);
                     $em->persist($diceForm);
 
                     $diceEntities = $diceForm->getDiceEntities();

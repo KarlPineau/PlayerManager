@@ -24,8 +24,14 @@ class WeaponDamage
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="DnDInstance\WeaponBundle\Entity\WeaponInstance", inversedBy="damages")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $weaponInstance;
+
+    /**
      * @ORM\ManyToOne(targetEntity="DnDRules\WeaponBundle\Entity\Weapon", inversedBy="damages")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $weapon;
 
@@ -299,5 +305,28 @@ class WeaponDamage
     public function getUpdateUser()
     {
         return $this->updateUser;
+    }
+
+    /**
+     * Set weaponInstance
+     *
+     * @param \DnDInstance\WeaponBundle\Entity\WeaponInstance $weaponInstance
+     * @return WeaponDamage
+     */
+    public function setWeaponInstance(\DnDInstance\WeaponBundle\Entity\WeaponInstance $weaponInstance)
+    {
+        $this->weaponInstance = $weaponInstance;
+
+        return $this;
+    }
+
+    /**
+     * Get weaponInstance
+     *
+     * @return \DnDInstance\WeaponBundle\Entity\WeaponInstance 
+     */
+    public function getWeaponInstance()
+    {
+        return $this->weaponInstance;
     }
 }

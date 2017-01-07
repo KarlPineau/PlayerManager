@@ -1,6 +1,6 @@
 {# src/DnDRules/SortBundle/Resources/views/Sort/register_content.html.twig #}
 
-<form class="form-horizontal"  action="{{ path('dndinstance_sort_sort_instanceforcharacter', {'characterSlug': characterUsed.slug}) }}" method="post" {{ form_enctype(form) }} role="form">
+<form class="form-horizontal"  action="{{ path('dndinstance_sort_sort_generateInstance', {'id': characterUsed.id}) }}" method="post" {{ form_enctype(form) }} role="form">
     {% if not form.vars.valid %}
     <div class="alert alert-error">
         <strong>Votre formulaire contient les erreurs suivantes :</strong>

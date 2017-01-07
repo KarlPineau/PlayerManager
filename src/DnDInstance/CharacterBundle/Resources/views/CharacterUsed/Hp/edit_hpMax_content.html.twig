@@ -1,0 +1,33 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/register_content.html.twig #}
+
+<form class="form-horizontal" method="post" action="{{ path('dndinstance_characterused_characterused_edit_hpmax', {'id': characterUsed.id, 'context': context}) }}" {{ form_enctype(form) }} role="form">
+    {% if not form.vars.valid %}
+    <div class="alert alert-error">
+        <strong>Votre formulaire contient les erreurs suivantes :</strong>
+        {{ form_errors(form.hpMaxAdd) }}
+    </div>
+    <br />
+    {% endif %}
+
+    <fieldset>
+        <legend>Points de Vie de {{characterUsed.name}} :</legend>
+
+        {% if context == "register" or context == "levelUp" %}
+            <p class="alert alert-info text-center">Lancez un dé {{ dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).diceHealth.dice }}</p>
+        {% endif %}
+        <div class="form-group">
+            {{ form_label(form.hpMaxAdd, "Valeur du dé :", {'label_attr': {'class': 'col-sm-offset-2 col-sm-3 control-label'}}) }}
+            <div class="col-sm-3">
+                {{ form_widget(form.hpMaxAdd, {'attr': {'class': 'form-control', 'style': 'display: inline-block;'}}) }}
+            </div>
+            <div class="col-sm-3" style="padding-top: 9px;">
+                {% if context == "register" or context == "levelUp" %}
+                    <abbr title="Valeur de votre Modificateur de Constitution. (Ne PAS ajouter cette valeur à votre dé)"><i class="fa fa-plus"></i> <strong>{{ dndinstance_character_characterusedability.getConstitutionModifier(characterUsed) }}</strong></abbr>
+                {% endif %}
+            </div>
+        </div>
+    </fieldset>
+    {{ form_rest(form) }}
+    <br />
+    <div class="text-center"><input type="submit" class="btn btn-primary" /></div>
+</form>

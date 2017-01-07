@@ -106,7 +106,7 @@ class Gift
 
     /**
      * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     protected $createUser;
 
@@ -131,17 +131,6 @@ class Gift
      * @ORM\Column(name="updateDate", type="datetime", nullable=true)
      */
     protected $updateDate;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="updateComment", type="string", length=255, nullable=true)
-     * @Assert\Length(
-     *      max = "255",
-     *      maxMessage = "Le commentaire ne doit pas dépasser {{ limit }} caractères."
-     * )
-     */
-    protected $updateComment;
 
 
     /**
@@ -267,29 +256,6 @@ class Gift
     public function getUpdateDate()
     {
         return $this->updateDate;
-    }
-
-    /**
-     * Set updateComment
-     *
-     * @param string $updateComment
-     * @return Gift
-     */
-    public function setUpdateComment($updateComment)
-    {
-        $this->updateComment = $updateComment;
-
-        return $this;
-    }
-
-    /**
-     * Get updateComment
-     *
-     * @return string 
-     */
-    public function getUpdateComment()
-    {
-        return $this->updateComment;
     }
 
     /**

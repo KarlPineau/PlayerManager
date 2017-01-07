@@ -1,30 +1,30 @@
-dndinstance_fight_fight_generatefight:
-    path:     /combat/instance/generer/{slug}
+dndinstance_fight_fight_generate:
+    path:     /combat/instance/generer/{id}
     defaults: { _controller: DnDInstanceFightBundle:Fight:generate }
     requirements:
-        slug:  \S{0,255}
+        id:  \d+
         
 dndinstance_fight_fight_listforgame:
-    path:     /combat/instance/liste/{slug}
+    path:     /combat/instance/liste/{id}
     defaults: { _controller: DnDInstanceFightBundle:Fight:listForGame }
     requirements:
-        slug:  \S{0,255}
+        id:  \d+
         
 dndinstance_fight_fight_edit:
-    path:     /combat/instance/editer/{slug}
+    path:     /combat/instance/editer/{id}
     defaults: { _controller: DnDInstanceFightBundle:Fight:edit }
     requirements:
-        slug:  \S{0,255}
+        id:  \d+
         
 dndinstance_fight_fight_delete:
     path:     /combat/instance/supprimer/{id}
     defaults: { _controller: DnDInstanceFightBundle:Fight:delete }
     requirements:
-        id:  \d*
+        id:  \d+
         
-dndinstance_fight_fightcharacterused_edit:
-    path:     /combat/instance/personnage/editer/{game_slug}/{id}
+dndinstance_fight_edit_characterUsed:
+    path:     /combat/instance/editer/personnage/{game_id}/{fightCharacterUsedInstance_id}
     defaults: { _controller: DnDInstanceFightBundle:FightCharacterUsed:edit }
     requirements:
-        id:  \d*
+        fightCharacterUsedInstance_id:  \d+
         game_slug:  \S{0,255}

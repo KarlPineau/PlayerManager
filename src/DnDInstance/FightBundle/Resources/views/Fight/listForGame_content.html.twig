@@ -8,6 +8,6 @@
 <strong>Personnages :</strong>
 <ul>
 {% for fightCharacter in fight.fightCharacters %}
-    <li>{{fightCharacter.characterUsed.name}} : {{fightCharacter.initiative}} <a href="{{path('dndinstance_fight_fightcharacterused_edit', {'id': fightCharacter.id, 'game_slug': game.slug})}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></li>
+    <li>{{fightCharacter.characterUsed.name}} : {{fightCharacter.initiative}} <a href="{{path('dndinstance_fight_edit_characterUsed', {'fightCharacterUsedInstance_id': fightCharacter.id, 'game_slug': game.slug})}}"><span class="glyphicon glyphicon-edit" aria-hidden="true"></span></a></li>
 {% endfor %}
 </ul>

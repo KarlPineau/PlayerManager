@@ -1,0 +1,31 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/Language/register_content.html.twig #}
+
+<form class="form-horizontal" method="post" action="{{ path('dndinstance_characterused_characterused_edit_gift', {'id': characterUsed.id, 'context': context}) }}" {{ form_enctype(form) }} role="form">
+    {% if not form.vars.valid %}
+    <div class="alert alert-error">
+        <strong>Votre formulaire contient les erreurs suivantes :</strong>
+        {{ form_errors(form) }}
+        {{ form_errors(form.gifts) }}
+    </div>
+    <br />
+    {% endif %}
+
+    <fieldset>
+        <legend>Dons :</legend>
+        <div class="form-group">
+            <div class="col-md-3 control-label">
+                {{ form_label(form.gifts, "Dons :", {'label_attr': {'class': 'control-label'}}) }}
+            </div>
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-md-8">
+                        {{ form_widget(form.gifts, {'attr': {'class': 'form-control'}}) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+        <br />
+    {{ form_rest(form) }}
+    <div class="text-center"><input type="submit" class="btn btn-primary" /></div>
+</form>

@@ -39,8 +39,8 @@
                     <td><a href="{{ path('dndinstance_characterused_characterused_view', { 'slug' : characterused.slug} ) }}">{{ characterused.name }}</a> {% if app.user == characterused.user %}<i class="fa fa-user" aria-hidden="true" title="{{ characterused.name }} est un de vos personnages"></i>{% endif %}</td>
                     <td>
                         {% if is_granted("ROLE_ADMIN") %}
-                        <a class="btn btn-danger main-JS-delete" href="{{ path('dndinstance_characterused_characterused_delete', { 'slug' : characterused.slug} ) }}"><i class="fa fa-trash" aria-hidden="true"></i></a>
-                        <a class="btn btn-warning main-JS-delete" href="{{ path('dndinstance_characterused_characterused_clone', { 'slug' : characterused.slug} ) }}"><i class="fa fa-clone" aria-hidden="true"></i></a>
+                        <a class="btn btn-danger main-JS-delete" href="{{ path('dndinstance_characterused_characterused_delete', { 'id' : characterused.id} ) }}"><i class="fa fa-trash" aria-hidden="true"></i></a>
+                        <a class="btn btn-warning main-JS-delete" href="{{ path('dndinstance_characterused_characterused_clone', { 'id' : characterused.id} ) }}"><i class="fa fa-clone" aria-hidden="true"></i></a>
                         {% endif %}
                     </td>
                 </tr>

@@ -1,0 +1,22 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/register_content.html.twig #}
+
+<form class="form-horizontal" method="post" action="{{ path('dndinstance_characterused_characterused_edit_skills', {'id': characterUsed.id, 'context': context}) }}" {{ form_enctype(form) }} role="form">
+    {% if not form.vars.valid %}
+    <div class="alert alert-error">
+        <strong>Votre formulaire contient les erreurs suivantes :</strong>
+        {{ form_errors(form.skills) }}
+        {% for skillFields in form.skills %}
+            {{ form_errors(skillFields) }}
+        {% endfor %}  
+    </div>
+    <br />
+    {% endif %}
+
+    <fieldset>
+        <legend>Compétences de {{characterUsed.name}} :</legend>
+
+        {{form_row(form.skills)}} 
+    </fieldset>
+    {{ form_rest(form) }}
+    <div class="text-center"><input type="submit" class="btn btn-default" /></div>
+</form>

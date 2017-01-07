@@ -1,0 +1,41 @@
+{# src/DnDRules/WeaponBundle/Resources/views/Weapon/register.html.twig #}
+ 
+{% extends "DnDInstanceWeaponBundle:Weapon:layout.html.twig" %}
+
+{% block title %}
+    Edition - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    Edition
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    {% if weaponInstance.characterUsedWeapons != null %}<li><a href="{{ path('dndinstance_characterused_characterused_view', {'slug': weaponInstance.characterUsedWeapons.slug}) }}">{{weaponInstance.characterUsedWeapons.name}}</a></li>
+    {% elseif weaponInstance.game != null %}<li><a href="{{ path('game_game_game_view', {'slug': weaponInstance.game.slug}) }}">{{weaponInstance.game.name}}</a></li>
+    {% endif %}
+    <li class="active">Edition</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="well">
+            {% include "DnDInstanceWeaponBundle:Weapon:Edit/edit_content.html.twig" %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+    
+{% block javascripts_block %}
+    {% javascripts  '@DnDInstanceWeaponBundle/Resources/public/js/weapon_editInstance.js'  %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

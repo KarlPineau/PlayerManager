@@ -45,6 +45,12 @@ class Critical
     private $multiplier;
 
     /**
+     * @ORM\ManyToOne(targetEntity="DnDInstance\WeaponBundle\Entity\WeaponInstance", inversedBy="criticals")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $weaponInstance;
+
+    /**
      * @ORM\ManyToOne(targetEntity="DnDRules\WeaponBundle\Entity\Weapon", inversedBy="criticals")
      * @ORM\JoinColumn(nullable=true)
      */
@@ -211,5 +217,28 @@ class Critical
     public function getMonsterAttackCritic()
     {
         return $this->monsterAttackCritic;
+    }
+
+    /**
+     * Set weaponInstance
+     *
+     * @param \DnDInstance\WeaponBundle\Entity\WeaponInstance $weaponInstance
+     * @return Critical
+     */
+    public function setWeaponInstance(\DnDInstance\WeaponBundle\Entity\WeaponInstance $weaponInstance = null)
+    {
+        $this->weaponInstance = $weaponInstance;
+
+        return $this;
+    }
+
+    /**
+     * Get weaponInstance
+     *
+     * @return \DnDInstance\WeaponBundle\Entity\WeaponInstance 
+     */
+    public function getWeaponInstance()
+    {
+        return $this->weaponInstance;
     }
 }

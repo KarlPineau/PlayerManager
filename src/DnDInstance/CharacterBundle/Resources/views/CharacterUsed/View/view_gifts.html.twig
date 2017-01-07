@@ -1,0 +1,19 @@
+{% for gift in characterUsed.gifts %}
+<div class="panel-group" id="gift-{{ loop.index }}" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="git-{{ loop.index }}-heading">
+            <div class="pull-right">
+                <a href="{{ path('dndrules_gift_gift_view', {'slug': gift.slug}) }}" target="_blank"><i class="fa fa-plus"></i> infos</a>
+            </div>
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#gift-{{ loop.index }}-accordion" href="#gift-{{ loop.index }}-accordion" aria-expanded="true" aria-controls="gift-{{ loop.index }}-accordion">
+                    #{{ loop.index }}: {{ gift.name }}
+                </a>
+            </h4>
+        </div>
+        <div id="gift-{{ loop.index }}-accordion" class="panel-collapse collapse" role="tabpanel" aria-labelledby="git-{{ loop.index }}-heading">
+            {% include 'DnDRulesGiftBundle:Gift:View/view_infos.html.twig' %}
+        </div>
+    </div>
+</div>
+{% endfor %}
