@@ -2,6 +2,7 @@
 
 namespace DnDInstance\CharacterBundle\Service;
 
+use DnDRules\RaceBundle\Service\race;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\SecurityContext;
 
@@ -10,12 +11,14 @@ class characterUsedST
     protected $em;
     protected $security;
     protected $characterusedability;
+    protected $race;
 
-    public function __construct(EntityManager $EntityManager, SecurityContext $security_context, CharacterUsedAbility $characterusedability)
+    public function __construct(EntityManager $EntityManager, SecurityContext $security_context, CharacterUsedAbility $characterusedability, race $race)
     {
         $this->em = $EntityManager;
         $this->security = $security_context;
         $this->characterusedability = $characterusedability;
+        $this->race = $race;
     }
     
     public function getFortitude($characterUsed) { 
@@ -41,6 +44,10 @@ class characterUsedST
         $modMagic = 0;
         $modDivers = 0;
         $modTempo = 0;
+
+        if($this->race->getST($characterUsed->getRace()) != null) {
+            $modDivers += $this->race->getST($characterUsed->getRace())->getFortitude();
+        }
 
         $fortitude = $modBase + $modAbility + $modMagic + $modDivers + $modTempo;
         return $fortitude;
@@ -70,8 +77,12 @@ class characterUsedST
         $modDivers = 0;
         $modTempo = 0;
 
-        $fortitude = $modBase + $modAbility + $modMagic + $modDivers + $modTempo;
-        return $fortitude;
+        if($this->race->getST($characterUsed->getRace()) != null) {
+            $modDivers += $this->race->getST($characterUsed->getRace())->getReflex();
+        }
+
+        $reflex = $modBase + $modAbility + $modMagic + $modDivers + $modTempo;
+        return $reflex;
     }
 
     public function getWill($characterUsed) { 
@@ -98,7 +109,11 @@ class characterUsedST
         $modDivers = 0;
         $modTempo = 0;
 
-        $fortitude = $modBase + $modAbility + $modMagic + $modDivers + $modTempo;
-        return $fortitude;
+        if($this->race->getST($characterUsed->getRace()) != null) {
+            $modDivers += $this->race->getST($characterUsed->getRace())->getWill();
+        }
+
+        $will = $modBase + $modAbility + $modMagic + $modDivers + $modTempo;
+        return $will;
     }
 }

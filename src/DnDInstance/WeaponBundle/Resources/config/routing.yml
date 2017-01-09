@@ -1,19 +1,26 @@
-dndinstance_weapon_weapon_instanceforcharacter:
+dndinstance_weapon_weapon_instance_forCharacter:
     path:     /instance/arme/ajouter/{id}
     defaults: { _controller: DnDInstanceWeaponBundle:Weapon:instanceForCharacter }
     requirements:
-        id:  \S{0,255}
+        id:  \d+
 
-dndinstance_weapon_weapon_instance_remove_fromCharacter:
-    path:     /instance/arme/supprimer/{characterUsed_id}/{instance_id}/{game_id}
-    defaults: { _controller: DnDInstanceWeaponBundle:Weapon:removeCharacterFromInstance }
+dndinstance_weapon_weapon_edit:
+    path:     /instance/arme/modifier/{id}
+    defaults: { _controller: DnDInstanceWeaponBundle:Weapon:edit }
+    requirements:
+        id:  \d+
+
+dndinstance_weapon_weapon_remove_fromCharacter:
+    path:     /instance/arme/supprimer/{instance_id}/de/{characterUsed_id}/{game_id}
+    defaults: { _controller: DnDInstanceWeaponBundle:Weapon:removeFromCharacter }
     requirements:
         characterUsed_id:  \d+
         instance_id:  \d+
         game_id:  \d+
 
-dndinstance_weapon_weapon_instance_edit:
-    path:     /instance/arme/modifier/{id}
-    defaults: { _controller: DnDInstanceWeaponBundle:Weapon:editInstance }
+dndinstance_weapon_weapon_remove:
+    path:     /instance/arme/supprimer/{instance_id}/{game_id}
+    defaults: { _controller: DnDInstanceWeaponBundle:Weapon:remove }
     requirements:
-        id:  \d+
+        instance_id:  \d+
+        game_id:  \d+

@@ -117,18 +117,6 @@ class Game
     private $openClasses;
 
     /**
-     * @ORM\OneToMany(targetEntity="DnDInstance\WeaponBundle\Entity\WeaponInstance", mappedBy="game", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $weaponInstances;
-
-    /**
-     * @ORM\OneToMany(targetEntity="DnDInstance\ArmorBundle\Entity\ArmorInstance", mappedBy="game", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $armorInstances;
-
-    /**
      * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -155,17 +143,6 @@ class Game
      * @ORM\Column(name="updateDate", type="datetime", nullable=true)
      */
     protected $updateDate;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="updateComment", type="string", length=255, nullable=true)
-     * @Assert\Length(
-     *      max = "255",
-     *      maxMessage = "Le commentaire ne doit pas dépasser {{ limit }} caractères."
-     * )
-     */
-    protected $updateComment;
 
     /**
      * Constructor
@@ -347,29 +324,6 @@ class Game
     public function getUpdateDate()
     {
         return $this->updateDate;
-    }
-
-    /**
-     * Set updateComment
-     *
-     * @param string $updateComment
-     * @return Game
-     */
-    public function setUpdateComment($updateComment)
-    {
-        $this->updateComment = $updateComment;
-
-        return $this;
-    }
-
-    /**
-     * Get updateComment
-     *
-     * @return string 
-     */
-    public function getUpdateComment()
-    {
-        return $this->updateComment;
     }
 
     /**
@@ -617,71 +571,5 @@ class Game
     public function getOpenClasses()
     {
         return $this->openClasses;
-    }
-
-    /**
-     * Add weaponInstances
-     *
-     * @param \DnDInstance\WeaponBundle\Entity\WeaponInstance $weaponInstances
-     * @return Game
-     */
-    public function addWeaponInstance(\DnDInstance\WeaponBundle\Entity\WeaponInstance $weaponInstances)
-    {
-        $this->weaponInstances[] = $weaponInstances;
-
-        return $this;
-    }
-
-    /**
-     * Remove weaponInstances
-     *
-     * @param \DnDInstance\WeaponBundle\Entity\WeaponInstance $weaponInstances
-     */
-    public function removeWeaponInstance(\DnDInstance\WeaponBundle\Entity\WeaponInstance $weaponInstances)
-    {
-        $this->weaponInstances->removeElement($weaponInstances);
-    }
-
-    /**
-     * Get weaponInstances
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getWeaponInstances()
-    {
-        return $this->weaponInstances;
-    }
-
-    /**
-     * Add armorInstances
-     *
-     * @param \DnDInstance\ArmorBundle\Entity\ArmorInstance $armorInstances
-     * @return Game
-     */
-    public function addArmorInstance(\DnDInstance\ArmorBundle\Entity\ArmorInstance $armorInstances)
-    {
-        $this->armorInstances[] = $armorInstances;
-
-        return $this;
-    }
-
-    /**
-     * Remove armorInstances
-     *
-     * @param \DnDInstance\ArmorBundle\Entity\ArmorInstance $armorInstances
-     */
-    public function removeArmorInstance(\DnDInstance\ArmorBundle\Entity\ArmorInstance $armorInstances)
-    {
-        $this->armorInstances->removeElement($armorInstances);
-    }
-
-    /**
-     * Get armorInstances
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getArmorInstances()
-    {
-        return $this->armorInstances;
     }
 }

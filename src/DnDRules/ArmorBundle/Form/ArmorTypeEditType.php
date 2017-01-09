@@ -17,7 +17,6 @@ class ArmorTypeEditType extends ArmorTypeRegisterType
         parent::buildForm($builder, $options);
         
         $builder
-            ->add('updateComment',    'text',   array('required' => false))
         ;
     }
     

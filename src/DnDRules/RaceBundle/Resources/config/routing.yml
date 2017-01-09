@@ -14,13 +14,31 @@ dndrules_race_race_view:
         slug:  \S{0,255}
     
 dndrules_race_race_edit:
-    path:     /race/editer/{slug}
+    path:     /race/editer/{id}
     defaults: { _controller: DnDRulesRaceBundle:Race:edit }
     requirements:
-        slug:  \S{0,255}
-    
+        id:  \d+
+
+dndrules_race_race_edit_st:
+    path:     /race/editer/jets-de-sauvegarde/{id}
+    defaults: { _controller: DnDRulesRaceBundle:RaceST:edit }
+    requirements:
+        id:  \d+
+
+dndrules_race_race_edit_skill:
+    path:     /race/editer/compétences/{id}
+    defaults: { _controller: DnDRulesRaceBundle:RaceSkill:edit }
+    requirements:
+        id:  \d+
+
+dndrules_race_race_edit_level:
+    path:     /race/editer/niveaux/{id}
+    defaults: { _controller: DnDRulesRaceBundle:RaceLevel:edit }
+    requirements:
+        id:  \d+
+
 dndrules_race_race_delete:
-    path:     /race/supprimer/{slug}
+    path:     /race/supprimer/{id}
     defaults: { _controller: DnDRulesRaceBundle:Race:delete }
     requirements:
-        slug:  \S{0,255}
+        id:  \d+

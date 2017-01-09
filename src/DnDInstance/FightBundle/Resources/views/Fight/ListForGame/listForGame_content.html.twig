@@ -1,0 +1,13 @@
+{# src/DnDInstance/FightBundle/Resources/views/Fight/listForGame.html.twig #}
+<strong>Monstres :</strong>
+<ul>
+{% for fightMonsterInstance in dndinstance_fight_fightinstance.getMonsters(fight) %}
+    <li>{{fightMonsterInstance.monsterInstance.name}} : {{fightMonsterInstance.initiative}}</li>
+{% endfor %}
+</ul>
+<strong>Personnages :</strong>
+<ul>
+{% for fightCharacter in dndinstance_fight_fightinstance.getCharacters(fight) %}
+    <li>{{fightCharacter.characterUsed.name}} : {{fightCharacter.initiative}} <a href="{{path('dndinstance_fight_edit_characterUsed', {'fightCharacterUsedInstance_id': fightCharacter.id, 'game_id': game.id})}}"><i class="fa fa-edit"></i></a></li>
+{% endfor %}
+</ul>

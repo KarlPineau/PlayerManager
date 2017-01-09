@@ -1,0 +1,39 @@
+{# src/DnDRules/RaceBundle/Resources/views/Race/register.html.twig #}
+ 
+{% extends "DnDRulesRaceBundle:Race:layout.html.twig" %}
+
+{% block title %}
+    Niveau - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    Niveau
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li><a href="{{ path('dndrules_race_race_view', {'slug': race.slug}) }}">{{race.name}}</a></li>
+    <li class="active">Niveau</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="well">
+            {% include "DnDRulesRaceBundle:Race:Level/edit_content.html.twig" %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+    
+{% block javascripts_block %}
+    {% javascripts  '@DnDRulesRaceBundle/Resources/public/js/level_edit.js'  %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+{% endblock %}

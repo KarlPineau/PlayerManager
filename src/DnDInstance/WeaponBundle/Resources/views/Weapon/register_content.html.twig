@@ -1,6 +1,6 @@
 {# src/DnDRules/WeaponBundle/Resources/views/Weapon/register_content.html.twig #}
 
-<form class="form-horizontal"  action="{{ path('dndinstance_weapon_weapon_instanceforcharacter', {'id': characterUsed.id}) }}" method="post" {{ form_enctype(form) }} role="form">
+<form class="form-horizontal"  action="{{ path('dndinstance_weapon_weapon_instance_forCharacter', {'id': characterUsed.id}) }}" method="post" {{ form_enctype(form) }} role="form">
     {% if not form.vars.valid %}
     <div class="alert alert-error">
         <strong>Votre formulaire contient les erreurs suivantes :</strong>
@@ -11,7 +11,7 @@
     {% endif %}
 
     <fieldset>
-
+        <p class="text-center"><a href="{{ path('dndrules_weapon_weapon_home') }}" target="_blank">Voir la liste complète</a></p>
         <div class="form-group">
            <div class="col-md-3 control-label">
                 {{ form_label(form.weapon, "Arme :", {'label_attr': {'class': 'control-label'}}) }}

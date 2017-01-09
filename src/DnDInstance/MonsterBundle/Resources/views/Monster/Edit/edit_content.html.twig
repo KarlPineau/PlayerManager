@@ -1,12 +1,13 @@
 {# src/DnDInstance/CharacterBundle/Resources/views/Language/register_content.html.twig #}
 
-<form class="form-horizontal" method="post" action="{{ path('dndinstance_monster_monster_edit', {'slug': monsterInstance.slug}) }}" {{ form_enctype(form) }} role="form">
+<form class="form-horizontal" method="post" action="{{ path('dndinstance_monster_monster_edit', {'id': monsterInstance.id}) }}" {{ form_enctype(form) }} role="form">
     {% if not form.vars.valid %}
     <div class="alert alert-error">
         <strong>Votre formulaire contient les erreurs suivantes :</strong>
         {{ form_errors(form) }}
         {{ form_errors(form.name) }}
         {{ form_errors(form.hpCurrent) }}
+        {{ form_errors(form.hpMax) }}
     </div>
     <br />
     {% endif %}
@@ -27,12 +28,18 @@
             <div class="col-md-3 control-label">
                 {{ form_label(form.hpCurrent, "PV :", {'label_attr': {'class': 'control-label'}}) }}
             </div>
-            <div class="col-md-9">
-                {{ form_widget(form.hpCurrent, {'attr': {'placeholder': 'Nom de votre personnage', 'class': 'form-control'}}) }}
+            <div class="col-md-3">
+                {{ form_widget(form.hpCurrent, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-1 control-label">
+                <strong>sur :</strong>
+            </div>
+            <div class="col-md-3">
+                {{ form_widget(form.hpMax, {'attr': {'class': 'form-control'}}) }}
             </div>
          </div>
     </fieldset>
         <br />
     {{ form_rest(form) }}
-    <div class="text-center"><input type="submit" class="btn btn-default" /></div>
+    <div class="text-center"><input type="submit" class="btn btn-primary" /></div>
 </form>

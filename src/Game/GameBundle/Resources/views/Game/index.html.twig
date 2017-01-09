@@ -15,7 +15,7 @@
 {% endblock %}
 
 {% block h1_extend %}
-    {% if is_granted("ROLE_ADMIN") %}<a href="{{ path('game_game_game_insert') }}" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Créer</a>{% endif %}
+    {% if is_granted("ROLE_ADMIN") %}<a href="{{ path('game_game_game_edit') }}" class="btn btn-primary"><i class="fa fa-plus" aria-hidden="true"></i> Créer</a>{% endif %}
 {% endblock %}
     
 {% block PM_body %}

@@ -24,6 +24,12 @@ class FightMonsterInstance
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="DnDInstance\FightBundle\Entity\Fight")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $fight;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="initiative", type="integer")
@@ -63,18 +69,6 @@ class FightMonsterInstance
      * @ORM\Column(name="updateDate", type="datetime", nullable=true)
      */
     protected $updateDate;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="updateComment", type="string", length=255, nullable=true)
-     * @Assert\Length(
-     *      max = "255",
-     *      maxMessage = "Le commentaire ne doit pas dépasser {{ limit }} caractères."
-     * )
-     */
-    protected $updateComment;
-
 
     /**
      * Get id
@@ -156,29 +150,6 @@ class FightMonsterInstance
     }
 
     /**
-     * Set updateComment
-     *
-     * @param string $updateComment
-     * @return FightMonsterInstance
-     */
-    public function setUpdateComment($updateComment)
-    {
-        $this->updateComment = $updateComment;
-
-        return $this;
-    }
-
-    /**
-     * Get updateComment
-     *
-     * @return string 
-     */
-    public function getUpdateComment()
-    {
-        return $this->updateComment;
-    }
-
-    /**
      * Set monsterInstance
      *
      * @param \DnDInstance\MonsterBundle\Entity\MonsterInstance $monsterInstance
@@ -245,5 +216,35 @@ class FightMonsterInstance
     public function getUpdateUser()
     {
         return $this->updateUser;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->fight = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set fight
+     *
+     * @param \DnDInstance\FightBundle\Entity\Fight $fight
+     * @return FightMonsterInstance
+     */
+    public function setFight(\DnDInstance\FightBundle\Entity\Fight $fight = null)
+    {
+        $this->fight = $fight;
+
+        return $this;
+    }
+
+    /**
+     * Get fight
+     *
+     * @return \DnDInstance\FightBundle\Entity\Fight 
+     */
+    public function getFight()
+    {
+        return $this->fight;
     }
 }

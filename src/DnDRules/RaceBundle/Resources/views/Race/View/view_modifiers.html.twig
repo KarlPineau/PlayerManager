@@ -1,0 +1,72 @@
+<div class="col-sm-6">
+    <h2>Modificateurs de Caractéristiques :</h2>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Caractéristique</th>
+                <th>Modificateur</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for raceAbility in race.abilities %}
+            <tr>
+                <th>{{raceAbility.ability.name}}</th>
+                <td>{{raceAbility.value}}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Modificateurs par Niveau :</h2>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>Niveau</th>
+                <th><abbr title="Don Supplémentaire">DS</abbr></th>
+                <th><abbr title="Point de Compétence Supplémentaire">PCS</abbr></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for raceLevel in dndrules_race_race.getLevels(race) %}
+            <tr>
+                <td>{{ raceLevel.level.level }}</td>
+                <td>{% if raceLevel.gift == true %}Oui{% else %}Non{% endif %}</td>
+                <td>{{ raceLevel.additionalSkillPoints }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="col-sm-6">
+    {% if dndrules_race_race.getST(race) != null %}
+        <h2>Modificateurs de Jets de Sauvegarde</h2>
+        <div class="list-group">
+            <dl class="list-group-item dl-horizontal"><dt>Réflexe</dt><dd>{{ dndrules_race_race.getST(race).fortitude }}</dd></dl>
+            <dl class="list-group-item dl-horizontal"><dt>Vigueur</dt><dd>{{ dndrules_race_race.getST(race).reflex }}</dd></dl>
+            <dl class="list-group-item dl-horizontal"><dt>Volonté</dt><dd>{{ dndrules_race_race.getST(race).will }}</dd></dl>
+            <dl class="list-group-item dl-horizontal"><dt>Particularités</dt><dd>{{ dndrules_race_race.getST(race).specificity }}</dd></dl>
+        </div>
+    {% else %}
+        <div class="alert alert-warning"><p>Pas de Jets de Sauvegarde pour cette race.</p></div>
+    {% endif %}
+
+    <h2>Modificateurs de Compétence</h2>
+    <div class="list-group">
+        {% for raceSkill in dndrules_race_race.getSkills(race) %}
+            <dl class="list-group-item dl-horizontal">
+                <dt>
+                    <a href="{{ path('dndrules_skill_skill_view', {'slug': raceSkill.skill.slug}) }}" target="_blank">
+                        {{ raceSkill.skill.name }}
+                    </a>
+                </dt>
+                <dd>
+                    {{ raceSkill.value }}
+                </dd>
+            </dl>
+        {% else %}
+            <div class="list-group-item list-group-item-info">Pas de Compétences pour cette race.</div>
+        {% endfor %}
+    </div>
+</div>
+
+

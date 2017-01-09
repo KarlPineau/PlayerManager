@@ -1,0 +1,41 @@
+{# src/DnDRules/ArmorBundle/Resources/views/Armor/register.html.twig #}
+ 
+{% extends "DnDInstanceArmorBundle::layout.html.twig" %}
+
+{% block title %}
+    Edition - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    Edition :
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    {% if armorInstance.characterUsed != null %}<li><a href="{{ path('dndinstance_characterused_characterused_view', {'slug': armorInstance.characterUsed.slug}) }}">{{armorInstance.characterUsed.name}}</a></li>
+    {% elseif armorInstance.game != null %}<li><a href="{{ path('game_game_game_view', {'slug': armorInstance.game.slug}) }}">{{armorInstance.game.name}}</a></li>
+    {% endif %}
+    <li class="active">Edition</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-lg-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+        
+        <div class="well">
+            {% include "DnDInstanceArmorBundle:Armor:Edit/edit_content.html.twig" %}
+        </div>
+    </section>
+</div>
+{% endblock %}
+    
+{% block javascripts_block %}
+    {# javascripts  '@DnDRulesArmorBundle/Resources/public/js/*'  %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts #}
+{% endblock %}

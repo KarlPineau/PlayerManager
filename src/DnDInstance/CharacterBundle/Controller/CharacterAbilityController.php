@@ -52,6 +52,8 @@ class CharacterAbilityController extends Controller
                 return $this->redirectToRoute('dndinstance_characterused_characterused_view', array('slug' => $characterUsed->getSlug()));
             } elseif($context == 'register') {
                 return $this->redirectToRoute('dndinstance_characterused_characterused_edit_skills', array('id' => $characterUsed->getId(), 'context' => 'register'));
+            } elseif($context == 'levelUp') {
+                return $this->redirectToRoute('dndinstance_characterused_characterused_edit_skills', array('id' => $characterUsed->getId(), 'context' => 'levelUp'));
             }
         }
         

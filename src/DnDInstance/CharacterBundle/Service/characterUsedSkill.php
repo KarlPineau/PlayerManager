@@ -33,10 +33,16 @@ class characterUsedSkill
         
         // -- Obtention du degré de maitrise de la compétence en cours :
         $skillRanks = $characterSkill->getRanks();
+
+        // -- Obtention du modificateur de race :
+        $skillRaceAdditional = 0;
+        if($this->em->getRepository('DnDRulesRaceBundle:RaceSkill')->findOneBy(array('race' =>  $characterSkill->getCharacterUsedSkills()->getRace(), 'skill' => $characterSkill->getSkill())) != null) {
+            $skillRaceAdditional += $this->em->getRepository('DnDRulesRaceBundle:RaceSkill')->findOneBy(array('race' =>  $characterSkill->getCharacterUsedSkills()->getRace(), 'skill' => $characterSkill->getSkill()))->getValue();
+        }
         
         // -- Addition finale :
-        if($detail == false) {$skillModifier = $skillRanks + $abilityCharacterModifier;}
-        elseif($detail == true) {$skillModifier = "<abbr title=\"Degré de Maitrise\">" . $skillRanks . "</abbr> + <abbr title=\"Mod. de Caractéristique (". $abilitySkill->getName() .")\">" . $abilityCharacterModifier . "</abbr>";}
+        if($detail == false) {$skillModifier = $skillRanks + $abilityCharacterModifier + $skillRaceAdditional;}
+        elseif($detail == true) {$skillModifier = "<abbr title=\"Degré de Maitrise\">" . $skillRanks . "</abbr> + <abbr title=\"Mod. de Caractéristique (". $abilitySkill->getName() .")\">" . $abilityCharacterModifier . "</abbr> + <abbr title=\"Autres modific. (race ...)\">" . $skillRaceAdditional . "</abbr>";}
         return $skillModifier;
     }
     
@@ -97,7 +103,16 @@ class characterUsedSkill
         $pointByLevel = $this->characterusedclassdnd->getMainClassDnD($characterUsed)->getPointsSkillByLevel();
         $level = $this->characterusedclassdnd->getMainLevel($characterUsed);
 
-        return (($pointForLevel1+$modInt)*4)+(($pointByLevel+$modInt)*($level-1));
+        $maxPoints = (($pointForLevel1+$modInt)*4)+(($pointByLevel+$modInt)*($level-1));
+
+        // Ajout des points attribués par la race
+        for($levelI = 0; $levelI <= $level; $levelI++) {
+            if($this->em->getRepository('DnDRulesRaceBundle:RaceLevel')->findOneBy(array('race' => $characterUsed->getRace(), 'level' => $levelI)) != null) {
+                $maxPoints += $this->em->getRepository('DnDRulesRaceBundle:RaceLevel')->findOneBy(array('race' => $characterUsed->getRace(), 'level' => $levelI))->getAdditionalSkillPoints();
+            }
+        }
+
+        return $maxPoints;
     }
 
     public function cloneCharacterUsedSkill($characterUsedSkill, $characterUsed)

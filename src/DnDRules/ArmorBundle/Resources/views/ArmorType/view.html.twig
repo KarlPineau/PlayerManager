@@ -39,6 +39,11 @@
         {% else %}
             <div class="alert alert-warning" role="alert">Aucune description fournie pour cette type d'armure.</div>
         {% endif %}
+
+        <dl>
+            <dt>Type</dt>
+            <dd>{{ armortype.type }}</dd>
+        </dl>
     </section>
 </div>
 {% endblock %}

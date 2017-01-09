@@ -36,23 +36,19 @@
             <p>Les compétences vous permettent de spécifier les domaines d'expertise de votre personnage.</p>
 
             {% if context == 'register' %}
-            <p>Au niveau 1, vous pouvez attribuer {{ dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).pointsSkillFirstLevel }}
-                (pour la classe {{ dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).name }}) +
-            {{ dndinstance_character_characterusedability.getIntelligenceModifier(characterUsed) }} (<abbr title="modificateur d'intelligence">mod. Int.</abbr>),
-            x 4 points de compétence.</p>
-            <p>Pour votre personnage, cela donne :</p>
-            <p class="text-center text-info"><strong>({{ dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).pointsSkillFirstLevel }}+{{ dndinstance_character_characterusedability.getIntelligenceModifier(characterUsed) }})x4 =
-                    {{ (dndinstance_character_characterusedclassdnd.getMainClassDnD(characterUsed).pointsSkillFirstLevel+dndinstance_character_characterusedability.getIntelligenceModifier(characterUsed))*4 }} points</strong>
-            </p>
-            {% elseif context == 'edit' %}
+            <p>Au niveau 1, vous pouvez attribuer <strong class="text-info">{{ dndinstance_character_characterusedskill.getTotalCountPointMax(characterUsed)-dndinstance_character_characterusedskill.getTotalCountPointCurrent(characterUsed) }}
+                    points</strong> à votre personnage.</p>
+            {% elseif context == 'edit' or context == 'levelUp' %}
                 <p>Vous avez attribué {{ dndinstance_character_characterusedskill.getTotalCountPointCurrent(characterUsed) }} sur
                         {{ dndinstance_character_characterusedskill.getTotalCountPointMax(characterUsed) }} points.</p>
 
                 <p class="text-center text-info">Il vous reste <strong>{{ dndinstance_character_characterusedskill.getTotalCountPointMax(characterUsed)-dndinstance_character_characterusedskill.getTotalCountPointCurrent(characterUsed) }}
                         points</strong> à attribuer.</p>
             {% endif %}
-
-            <hr />
+            <br />
+            <p><small>Pour plus de détails, consultez le <a href="http://documents.karl-pineau.fr/d&d/Manuels/MdJ.pdf" target="_blank">Manuel des Joueurs</a>.</small></p>
+        </div>
+        <div class="well">
             <h4>Distinguez :</h4>
             <ul>
                 <li>les compétences de classe (1 point attribué = 1 point d'expertise)</li>

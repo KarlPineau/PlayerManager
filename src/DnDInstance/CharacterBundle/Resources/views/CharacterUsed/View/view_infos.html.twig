@@ -1,0 +1,37 @@
+{% set arrayInfo = [] %}
+
+{% if characterUsed.gifts|length < dndinstance_character_characterusedgift.getAllowedGiftsNumber(characterUsed) %}
+    {% set arrayInfo = arrayInfo|merge({'Dons': 'Vous disposez de dons supplémentaires non attribués'}) %}
+{% endif %}
+
+{% if dndinstance_character_characterusedskill.getTotalCountPointMax(characterUsed)-dndinstance_character_characterusedskill.getTotalCountPointCurrent(characterUsed) > 0 %}
+    {% set arrayInfo = arrayInfo|merge({'Compétences': 'Il vous reste ' ~ (dndinstance_character_characterusedskill.getTotalCountPointMax(characterUsed)-dndinstance_character_characterusedskill.getTotalCountPointCurrent(characterUsed)) ~ ' points de compétence à attribuer'}) %}
+{% endif %}
+
+{% if dndinstance_character_characterusedskill.getTotalCountPointMax(characterUsed)-dndinstance_character_characterusedskill.getTotalCountPointCurrent(characterUsed) < 0 %}
+    {% set arrayInfo = arrayInfo|merge({'Compétences': 'Vous avez attribué trop de points de compétence à votre personnage'}) %}
+{% endif %}
+
+{% if arrayInfo|length > 0 %}
+<div class="panel panel-warning">
+    <div class="panel-heading">Information notable</div>
+    <div class="panel-body">
+        <ul>
+            {% for title, info in arrayInfo %}
+            <li><strong>{{ title }} :</strong> {{ info }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{% endif %}
+
+{% if dndinstance_character_characteruseddnd.isNewLevel(characterUsed) %}
+<div class="panel panel-warning">
+    <div class="panel-heading">Niveau supérieur disponible</div>
+    <div class="panel-body">
+        <div class="text-center">
+            <strong><a href="{{ path('dndinstance_characterused_characterused_edit_upgradelevel', {'id': characterUsed.id}) }}">Niveau supérieur disponible !</a></strong>
+        </div>
+    </div>
+</div>
+{% endif %}

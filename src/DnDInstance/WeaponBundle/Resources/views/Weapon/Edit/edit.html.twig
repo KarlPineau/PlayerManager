@@ -12,7 +12,7 @@
 
 {% block breadcrumb %}
     {{ parent() }}
-    {% if weaponInstance.characterUsedWeapons != null %}<li><a href="{{ path('dndinstance_characterused_characterused_view', {'slug': weaponInstance.characterUsedWeapons.slug}) }}">{{weaponInstance.characterUsedWeapons.name}}</a></li>
+    {% if weaponInstance.characterUsed != null %}<li><a href="{{ path('dndinstance_characterused_characterused_view', {'slug': weaponInstance.characterUsed.slug}) }}">{{weaponInstance.characterUsed.name}}</a></li>
     {% elseif weaponInstance.game != null %}<li><a href="{{ path('game_game_game_view', {'slug': weaponInstance.game.slug}) }}">{{weaponInstance.game.name}}</a></li>
     {% endif %}
     <li class="active">Edition</li>

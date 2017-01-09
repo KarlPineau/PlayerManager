@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class GameEditType extends GameRegisterType
+class GameEditType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -14,10 +14,41 @@ class GameEditType extends GameRegisterType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        parent::buildForm($builder, $options);
-        
         $builder
-            ->add('updateComment',    'text',   array('required' => false))
+            ->add('name',           'text',     array(  'required' => true))
+            ->add('synopsis',       'textarea', array(  'required' => true))
+            ->add('importChara',    'choice',   array(  'required' => true,
+                                                        'choices'  => array(true => 'Oui', false => 'Non'),
+                                                        'multiple' => false,
+                                                        'expanded' => true))
+            ->add('lvlMin',         'integer',  array(  'required' => false))
+            ->add('lvlMax',         'integer',  array(  'required' => false))
+            ->add('wealthFactor',   'integer',  array(  'required' => false))
+            ->add('active',         'choice',   array(  'required' => true,
+                                                        'choices'  => array(true => 'Oui', false => 'Non'),
+                                                        'multiple' => false,
+                                                        'expanded' => true))
+            ->add('gameMasters',    'entity',   array(  'class' => 'CASUserBundle:User',
+                                                        'property'    => 'username',
+                                                        'expanded' => false,
+                                                        'multiple' => true,
+                                                        'required' => false,
+                                                        'empty_value' => 'Utilisateur',
+                                                        'empty_data'  => null))
+            ->add('openRaces',      'entity',   array(  'class' => 'DnDRulesRaceBundle:Race',
+                                                        'property'    => 'name',
+                                                        'expanded' => false,
+                                                        'multiple' => true,
+                                                        'required' => false,
+                                                        'empty_value' => 'Races',
+                                                        'empty_data'  => null))
+            ->add('openClasses',    'entity',   array(  'class' => 'DnDRulesClassDnDBundle:ClassDnD',
+                                                        'property'    => 'name',
+                                                        'expanded' => false,
+                                                        'multiple' => true,
+                                                        'required' => false,
+                                                        'empty_value' => 'Classes',
+                                                        'empty_data'  => null))
         ;
     }
     
@@ -36,6 +67,6 @@ class GameEditType extends GameRegisterType
      */
     public function getName()
     {
-        return 'game_gamebundle_game_edit';
+        return 'game_game_game_edit';
     }
 }

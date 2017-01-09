@@ -37,6 +37,13 @@ class ClassDnDLevel
     private $level;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="gift", type="boolean")
+     */
+    private $gift;
+
+    /**
      * @ORM\OneToMany(targetEntity="DnDRules\ClassDnDBundle\Entity\ClassST", mappedBy="classDnDLevelST", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */

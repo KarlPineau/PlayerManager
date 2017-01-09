@@ -1,6 +1,6 @@
 {# src/DnDInstance/CharacterBundle/Resources/views/Language/register_content.html.twig #}
 
-<form class="form-horizontal" method="post" action="{{ path('dndinstance_characterused_characterused_edit', {'id': characterUsed.id}) }}" {{ form_enctype(form) }} role="form">
+<form class="form-horizontal" method="post" action="{{ path('dndinstance_characterused_characterused_edit', {'id': characterUsed.id, 'context': context}) }}" {{ form_enctype(form) }} role="form">
     {% if not form.vars.valid %}
     <div class="alert alert-error">
         <strong>Votre formulaire contient les erreurs suivantes :</strong>
@@ -23,53 +23,52 @@
         <legend>Personnage :</legend>
 
         <div class="form-group">
-            <div class="col-md-3 control-label">
+            <div class="col-sm-3 control-label">
                 {{ form_label(form.name, "Nom :", {'label_attr': {'class': 'control-label'}}) }}
             </div>
-            <div class="col-md-9">
-                <div class="row">
-                    <div class="col-md-5">
-                        {{ form_widget(form.name, {'attr': {'placeholder': 'Nom de votre personnage', 'class': 'form-control'}}) }}
-                    </div>
-                    <div class="col-md-3 control-label">
-                        {{ form_label(form.race, "Race :", {'label_attr': {'class': 'control-label'}}) }}
-                    </div>
-                    <div class="col-md-4">
-                        {{ form_widget(form.race, {'attr': {'class': 'form-control'}}) }}
-                    </div>
-                </div>
+            <div class="col-sm-4">
+                {{ form_widget(form.name, {'attr': {'placeholder': 'Nom de votre personnage', 'class': 'form-control'}}) }}
+            </div>
+            <div class="col-sm-2 control-label">
+                {{ form_label(form.race, "Race :", {'label_attr': {'class': 'control-label'}}) }}
+            </div>
+            <div class="col-sm-3">
+                {{ form_widget(form.race, {'attr': {'class': 'form-control'}}) }}
             </div>
          </div>
 
         <div class="form-group">
             {{ form_row(form.classDnDInstances) }}
         </div>
+    </fieldset>
+    <fieldset>
+        <legend>Role Play :</legend>
                    
         <div class="form-group">
-            <div class="col-md-3 control-label">
+            <div class="col-sm-3 control-label">
                 <span class="glyphicon glyphicon-question-sign" style="cursor: pointer;" data-content="Sa vie, son oeuvre. D'où vient-il ? Quelles sont ses motivations ? C'est ici que ça se passe." data-toggle="popover" data-container="body" data-original-title="Histoire" ></span>
                 {{ form_label(form.story, "Histoire :", {'label_attr': {'class': 'control-label'}}) }}
             </div>
-            <div class="col-md-9">
+            <div class="col-sm-9">
                 {{ form_widget(form.story, {'attr': {'class': 'form-control', 'rows': '9'}}) }}
             </div>
         </div>
 
         <div class="form-group">
-            <div class="col-md-3 control-label">
+            <div class="col-sm-3 control-label">
                 <span class="glyphicon glyphicon-question-sign" style="cursor: pointer;" data-content="L'Age de votre personnage est le plus souvent facteur de son niveau de départ. Un personnage niveau 1 aura entre 15 et 20 ans quand un niveau 15, une cinquantaine d'année." data-toggle="popover" data-container="body" data-original-title="Age" ></span>
                 {{ form_label(form.age, "Age :", {'label_attr': {'class': 'control-label'}}) }}
             </div>
-            <div class="col-md-9">
+            <div class="col-sm-9">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-sm-4">
                         {{ form_widget(form.age, {'attr': {'class': 'form-control'}}) }}
                     </div>
 
-                    <div class="col-md-4 control-label">
+                    <div class="col-sm-4 control-label">
                         {{ form_label(form.gender, "Genre :", {'label_attr': {'class': 'control-label'}}) }}
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-sm-4">
                         {{ form_widget(form.gender, {'attr': {'class': 'form-control'}}) }}
                     </div>
                 </div>
@@ -77,19 +76,19 @@
         </div>
 
         <div class="form-group">
-            <div class="col-md-3 control-label">
+            <div class="col-sm-3 control-label">
                 {{ form_label(form.height, "Taille :", {'label_attr': {'class': 'control-label'}}) }}
             </div>
-            <div class="col-md-9">
+            <div class="col-sm-9">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-sm-4">
                         {{ form_widget(form.height, {'attr': {'class': 'form-control'}}) }}
                     </div>
 
-                    <div class="col-md-4 control-label">
+                    <div class="col-sm-4 control-label">
                         {{ form_label(form.weight, "Poids :", {'label_attr': {'class': 'control-label'}}) }}
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-sm-4">
                         {{ form_widget(form.weight, {'attr': {'class': 'form-control'}}) }}
                     </div>
                 </div>
@@ -97,19 +96,19 @@
         </div>
         
         <div class="form-group">
-            <div class="col-md-3 control-label">
+            <div class="col-sm-3 control-label">
                 {{ form_label(form.alignment, "Alignement :", {'label_attr': {'class': 'control-label'}}) }}
             </div>
-            <div class="col-md-9">
+            <div class="col-sm-9">
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-sm-4">
                         {{ form_widget(form.alignment, {'attr': {'class': 'form-control'}}) }}
                     </div>
 
-                    <div class="col-md-4 control-label">
+                    <div class="col-sm-4 control-label">
                         {{ form_label(form.languages, "Langues :", {'label_attr': {'class': 'control-label'}}) }}
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-sm-4">
                         {{ form_widget(form.languages, {'attr': {'class': 'form-control'}}) }}
                     </div>
                 </div>

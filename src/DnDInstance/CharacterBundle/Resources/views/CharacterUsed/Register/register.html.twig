@@ -17,7 +17,7 @@
 
 {% block PM_body %}
 <div class="row">
-    <section id="content" class="col-lg-8">
+    <section id="content" class="col-sm-8">
         {% for flashMessage in app.session.flashbag.get('notice') %}
             <div class="alert alert-success">
                 {{ flashMessage }}
@@ -28,13 +28,13 @@
             {% include "DnDInstanceCharacterBundle:CharacterUsed:Register/register_content.html.twig" %}
         </div>
     </section>
-    <aside class="col-lg-4">
+    <aside class="col-sm-4">
         <div class="well">
-            <h3>Aide et documentation</h3>
-            <p>Pour plus d'information sur le choix des races et des classes, reportez-vous à :</p>
+            <h3>1<sup>ère</sup> étape</h3>
             <ul>
-                <li><a href="http://documents.karl-pineau.fr/d&d/" target="_blank">la documentation de Donjons et Dragons</a></li>
-                <li><a href="{{ path('pm_help_public_home') }}" target="_blank">l'aide du jeu</a></li>
+                <li>Sélectionnez le joueur propriétaire de ce nouveau personnage.</li>
+                <li>Sélectionnez la partie que vous souhaitez rejoindre (<span class="text-warning">attention, cette action est irréversible</span>,
+                    demandez à votre M.J en cas de doute).</li>
             </ul>
         </div>
     </aside>
@@ -42,7 +42,7 @@
 {% endblock %}
     
 {% block javascripts_block %}
-    {% javascripts '@DnDInstanceCharacterBundle/Resources/public/js/registerCharacterUsed.js'  %}
+    {# javascripts '@DnDInstanceCharacterBundle/Resources/public/js/registerCharacterUsed.js'  %}
         <script type="text/javascript" src="{{ asset_url }}"></script>
-    {% endjavascripts %}
+    {% endjavascripts #}
 {% endblock %}

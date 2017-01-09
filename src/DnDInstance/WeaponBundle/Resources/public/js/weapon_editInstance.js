@@ -70,11 +70,14 @@ $(document).ready(function() {
         if($('#dndinstance_weapon_weapon_edit_damages_'+index+'_damage_'+index_Damage).prev().is('label')) {
             $('#dndinstance_weapon_weapon_edit_damages_'+index+'_damage_'+index_Damage).prev().hide();
         }
+        $('#dndinstance_weapon_weapon_edit_damages_'+index+'_damage_'+index_Damage).addClass('row');
+
+
         var container_damage_diceEntities =     $('#dndinstance_weapon_weapon_edit_damages_'+index+'_damage_'+index_Damage+'_diceEntities');
                                                 $('#dndinstance_weapon_weapon_edit_damages_'+index+'_damage_'+index_Damage+'_diceEntities').prev().hide();
         var index_damages_damage_diceEntities = container_damage_diceEntities.children().length;
         if(index_damages_damage_diceEntities == 0) {
-            addDiceEntities(index_damages_damage_diceEntities, index, index_Damage, index_damages_damage_diceEntities);
+            addDiceEntities(container_damage_diceEntities, index, index_Damage, index_damages_damage_diceEntities);
             index_damages_damage_diceEntities++;
         } else {
             $.each(container_damage_diceEntities.children(), function() {
@@ -94,30 +97,39 @@ $(document).ready(function() {
             });
         }
 
+        $('#dndinstance_weapon_weapon_edit_damages_'+index+'_damage_'+index_Damage).append('' +
+            '<div class="col-sm-1">' +
+            '   <button type="button" class="btn btn-warning" id="remove-'+index+'-'+index_Damage+'"><i class="fa fa-remove"></i></button>' +
+            '</div>');
+
+        $('#remove-'+index+'-'+index_Damage).on('click', function() {
+            $(this).parent().parent().parent().parent().parent().parent().parent().remove();
+        });
+
     }
-    function addDiceEntities(index_damages_damage_diceEntities, index, index_Damage, index_damages_damage_diceEntities) {
-        addPrototypeDiceEntities(index_damages_damage_diceEntities, index, index_Damage, index_damages_damage_diceEntities);
+    function addDiceEntities(container_damage_diceEntities, index, index_Damage, index_damages_damage_diceEntities) {
+        addPrototypeDiceEntities(container_damage_diceEntities, index, index_Damage, index_damages_damage_diceEntities);
         formatDiceEntities(index, index_Damage, index_damages_damage_diceEntities);
     }
     function formatDiceEntities(index, index_Damage, index_damages_damage_diceEntities) {
         if($('#dndinstance_weapon_weapon_edit_damages_'+index+'_damage_'+index_Damage+'_diceEntities_'+index_damages_damage_diceEntities).prev().is('label')) {
             $('#dndinstance_weapon_weapon_edit_damages_'+index+'_damage_'+index_Damage+'_diceEntities_'+index_damages_damage_diceEntities).prev().hide();
         }
-        $('#dndinstance_weapon_weapon_edit_damages_'+index+'_damage_'+index_Damage+'_diceEntities_'+index_damages_damage_diceEntities+'_diceNumber').prev().wrap('<div class="col-md-2 control-label"></div>');
+        $('#dndinstance_weapon_weapon_edit_damages_'+index+'_damage_'+index_Damage+'_diceEntities_'+index_damages_damage_diceEntities+'_diceNumber').prev().wrap('<div class="col-md-1 control-label"></div>');
         $('#dndinstance_weapon_weapon_edit_damages_'+index+'_damage_'+index_Damage+'_diceEntities_'+index_damages_damage_diceEntities+'_diceNumber').wrap('<div class="col-md-2"></div>');
-        $('#dndinstance_weapon_weapon_edit_damages_'+index+'_damage_'+index_Damage+'_diceEntities_'+index_damages_damage_diceEntities+'_diceType').prev().wrap('<div class="col-md-2 control-label"></div>');
+        $('#dndinstance_weapon_weapon_edit_damages_'+index+'_damage_'+index_Damage+'_diceEntities_'+index_damages_damage_diceEntities+'_diceType').prev().wrap('<div class="col-md-1 control-label"></div>');
         $('#dndinstance_weapon_weapon_edit_damages_'+index+'_damage_'+index_Damage+'_diceEntities_'+index_damages_damage_diceEntities+'_diceType').wrap('<div class="col-md-2"></div>');
     }
     function addBonusNumber(container_damage_bonusNumbers, index, index_Damage, index_damages_damage_bonusNumber) {
-        addPrototypeBonusNumber(container_damages_bonusNumbers, index, index_Damage, index_damages_damage_bonusNumber);
+        addPrototypeBonusNumber(container_damage_bonusNumbers, index, index_Damage, index_damages_damage_bonusNumber);
         formatBonusNumber(index, index_Damage, index_damages_damage_bonusNumber);
     }
     function formatBonusNumber(index, index_Damage, index_damages_damage_bonusNumber) {
         if($('#dndinstance_weapon_weapon_edit_damages_'+index+'_damage_'+index_Damage+'_bonusNumbers_'+index_damages_damage_bonusNumber).prev().is('label')) {
             $('#dndinstance_weapon_weapon_edit_damages_'+index+'_damage_'+index_Damage+'_bonusNumbers_'+index_damages_damage_bonusNumber).prev().hide();
         }
-        $('#dndinstance_weapon_weapon_edit_damages_'+index_Damage+'_damage_'+index+'_bonusNumbers_'+index_damages_damage_bonusNumber+'_value').prev().wrap('<div class="col-md-2 control-label"></div>');
-        $('#dndinstance_weapon_weapon_edit_damages_'+index_Damage+'_damage_'+index+'_bonusNumbers_'+index_damages_damage_bonusNumber+'_value').wrap('<div class="col-md-2"></div>');
+        $('#dndinstance_weapon_weapon_edit_damages_'+index+'_damage_'+index_Damage+'_bonusNumbers_'+index_damages_damage_bonusNumber+'_value').prev().wrap('<div class="col-md-1 control-label"></div>');
+        $('#dndinstance_weapon_weapon_edit_damages_'+index+'_damage_'+index_Damage+'_bonusNumbers_'+index_damages_damage_bonusNumber+'_value').wrap('<div class="col-md-1"></div>');
     }
 
     var container_damages = $('#dndinstance_weapon_weapon_edit_damages');
@@ -135,11 +147,11 @@ $(document).ready(function() {
         });
     }
 
-    /*container_damages.after('<button type="button" class="btn btn-primary" id="buttonAddDamage">Ajouter</button>');
+    container_damages.parent().parent().after('<div class="row"><div class="col-sm-12"><button type="button" class="btn btn-default btn-block" id="buttonAddDamage">Ajouter un Dégât</button></div></div>');
     $('#buttonAddDamage').on('click', function() {
         addDamages(container_damages, index);
         index++;
-    });*/
+    });
 
     // ---- CRITICAL
     function addCritical(containerCriticals, indexCritical) {
@@ -147,27 +159,47 @@ $(document).ready(function() {
         formatCritical(indexCritical);
     }
     function formatCritical(indexCritical) {
-        $('#dndinstance_weapon_weapon_edit_criticals_'+indexCritical).prev().addClass('col-md-3 control-label');
-        $('#dndinstance_weapon_weapon_edit_criticals_'+indexCritical).addClass('col-md-9');
-        $('#dndinstance_weapon_weapon_edit_criticals_'+indexCritical).wrap('<div class="row"></div>');
+        if($('#dndinstance_weapon_weapon_edit_criticals_'+indexCritical).prev().is('label')) {
+            $('#dndinstance_weapon_weapon_edit_criticals_'+indexCritical).prev().hide();
+        }
+        $('#dndinstance_weapon_weapon_edit_criticals_'+indexCritical).addClass('row');
+
+        //$('#dndinstance_weapon_weapon_edit_criticals_'+indexCritical).prev().addClass('col-md-3 control-label');
+        //$('#dndinstance_weapon_weapon_edit_criticals_'+indexCritical).addClass('col-md-9');
+        //$('#dndinstance_weapon_weapon_edit_criticals_'+indexCritical).wrap('<div class="row"></div>');
 
         $('#dndinstance_weapon_weapon_edit_criticals_'+indexCritical+'_rangeCriticalBegin').prev().wrap('<div class="col-md-2 control-label"></div>');
         $('#dndinstance_weapon_weapon_edit_criticals_'+indexCritical+'_rangeCriticalBegin').wrap('<div class="col-md-2"></div>');
         $('#dndinstance_weapon_weapon_edit_criticals_'+indexCritical+'_rangeCriticalEnd').prev().wrap('<div class="col-md-1 control-label"></div>');
         $('#dndinstance_weapon_weapon_edit_criticals_'+indexCritical+'_rangeCriticalEnd').wrap('<div class="col-md-2"></div>');
-        $('#dndinstance_weapon_weapon_edit_criticals_'+indexCritical+'_multiplier').prev().wrap('<div class="col-md-3 control-label"></div>');
+        $('#dndinstance_weapon_weapon_edit_criticals_'+indexCritical+'_multiplier').prev().wrap('<div class="col-md-2 control-label"></div>');
         $('#dndinstance_weapon_weapon_edit_criticals_'+indexCritical+'_multiplier').wrap('<div class="col-md-2"></div>');
+
+        $('#dndinstance_weapon_weapon_edit_criticals_'+indexCritical).append('' +
+            '<div class="col-sm-1">' +
+            '   <button type="button" class="btn btn-warning" id="remove-critic-'+indexCritical+'"><i class="fa fa-remove"></i></button>' +
+            '</div>');
+
+        $('#remove-critic-'+indexCritical).on('click', function() {
+            $(this).parent().parent().parent().remove();
+        });
     }
+
     var containerCriticals = $('#dndinstance_weapon_weapon_edit_criticals');
                              $('#dndinstance_weapon_weapon_edit_criticals').prev().hide();
 
     var indexCritical = containerCriticals.children().length;
     if (indexCritical == 0) {
         addCritical(containerCriticals, indexCritical);
-        index++;
+        indexCritical++;
     } else {
         $.each(containerCriticals.children(), function() {
             formatCritical($(this).index());
         });
     }
+    containerCriticals.parent().parent().after('<div class="row"><div class="col-sm-12"><button type="button" class="btn btn-default btn-block" id="buttonAddCritical">Ajouter un Critique</button></div></div>');
+    $('#buttonAddCritical').on('click', function() {
+        addCritical(containerCriticals, indexCritical);
+        indexCritical++;
+    });
 });

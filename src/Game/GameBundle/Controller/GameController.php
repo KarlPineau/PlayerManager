@@ -18,31 +18,6 @@ class GameController extends Controller
         ));
     }
     
-    public function registerAction(Request $request)
-    {
-        $em = $this->getDoctrine()->getManager();
-        $game = new Game;
-
-        $form = $this->createForm(new GameRegisterType, $game);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($game->getCharacters() as $character) {
-                $character->setGame($game);
-                $em->persist($character);
-            }
-
-            $game->setCreateUser($this->getUser());
-            $em->persist($game);
-            $em->flush();
-
-            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, la partie a bien été créée.' );
-            return $this->redirect($this->generateUrl('game_game_game_view', array('slug' => $game->getSlug(), 'context'=> 'inline', 'profile'=> 'short')));
-        }
-        return $this->render('GameGameBundle:Game:Register/register.html.twig', array(
-                                'form' => $form->createView(),
-                            ));
-    }
-    
     public function viewAction($slug)
     {
         set_time_limit(0);
@@ -55,13 +30,17 @@ class GameController extends Controller
                             ));
     }
     
-    public function editAction($slug, Request $request)
+    public function editAction($id=null, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $game = $em->getRepository('GameGameBundle:Game')->findOneBySlug($slug);
-        if($game === null) {throw $this->createNotFoundException('Game : [slug='.$slug.'] inexistant.');}
-        if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Game : [slug='.$slug.'] undefined.');}
-        
+        if($id != null) {
+            $game = $em->getRepository('GameGameBundle:Game')->findOneById($id);
+            if($game === null or !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Game [id='.$id.'] undefined.');}
+        } else {
+            $game = new Game();
+            $game->setCreateUser($this->getUser());
+        }
+
         $form = $this->createForm(new GameEditType, $game);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
@@ -75,21 +54,19 @@ class GameController extends Controller
             $em->flush();
 
             $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre partie a bien été éditée.' );
-            return $this->redirect($this->generateUrl('game_game_game_view', array('slug' => $game->getSlug(), 'context'=> 'inline', 'profile'=> 'short')));
+            return $this->redirectToRoute('game_game_game_view', array('slug' => $game->getSlug(), 'context'=> 'inline', 'profile'=> 'short'));
         }
         return $this->render('GameGameBundle:Game:Edit/edit.html.twig', array(
-                                'game' => $game,
-                                'form' => $form->createView(),
-                            ));
+            'game' => $game,
+            'form' => $form->createView(),
+        ));
     }
     
-    public function deleteAction($slug)
+    public function deleteAction($id)
     {
         $em = $this->getDoctrine()->getManager();
-        $game = $em->getRepository('GameGameBundle:Game')->findOneBySlug($slug);
-        if($game === null) {throw $this->createNotFoundException('Game : [slug='.$slug.'] undefined.');}
-        if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Game : [slug='.$slug.'] undefined.');}
-
+        $game = $em->getRepository('GameGameBundle:Game')->findOneById($id);
+        if($game === null or !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Game [id='.$id.'] undefined.');}
 
         $gameAction = $this->container->get('game_game.gameaction');
         $gameAction->deleteGame($game);

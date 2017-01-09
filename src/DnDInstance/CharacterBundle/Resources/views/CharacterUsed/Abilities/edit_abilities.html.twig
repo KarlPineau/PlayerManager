@@ -54,6 +54,11 @@
                 </p>
                 <p>Si vous passez actuellement l'un de ces niveaux, <strong>vous pouvez ajouter 1 point à la caractéristique de votre choix.</strong></p>
             </div>
+        {% elseif context == 'levelUp' %}
+            <div class="well">
+                <h3>Vous avez gagné un niveau !</h3>
+                <p><strong>Vous pouvez ajouter <span class="text-info">1 point</span> à la caractéristique de votre choix.</strong></p>
+            </div>
         {% endif %}
     </aside>
 </div>

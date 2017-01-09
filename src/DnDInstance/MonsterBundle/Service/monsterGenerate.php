@@ -17,31 +17,33 @@ class monsterGenerate
         $this->security = $security_context;
     }
     
-    public function generateMonster($monsterType, $number, $game) { 
-        for ($index = 1; $index <= $number; $index++) {
-            $bonusHp = 0;
-            $diceEntitiesHp = 0;
-            foreach ($monsterType->getHpForm() as $hpForm) {
-                foreach ($hpForm->getDiceEntities() as $diceEntity) {
-                     for ($indexDiceEntity = 1; $indexDiceEntity <= $diceEntity->getDiceNumber(); $indexDiceEntity++) {
-                         $diceEntitiesHp += rand(1, $diceEntity->getDiceType()->getDice());
-                     }
+    public function instanceMonster($monsterType, $instancesArray, $game) {
+        foreach($instancesArray as $powerfull => $number) {
+            for ($index = 1; $index <= $number; $index++) {
+                $bonusHp = 0;
+                $diceEntitiesHp = 0;
+                foreach ($monsterType->getHpForm() as $hpForm) {
+                    foreach ($hpForm->getDiceEntities() as $diceEntity) {
+                        for ($indexDiceEntity = 1; $indexDiceEntity <= $diceEntity->getDiceNumber(); $indexDiceEntity++) {
+                            $diceEntitiesHp += rand(1, $diceEntity->getDiceType()->getDice());
+                        }
+                    }
+                    foreach ($hpForm->getBonusNumbers() as $bonus) {
+                        $bonusHp .= $bonus->getValue();
+                    }
                 }
-                foreach ($hpForm->getBonusNumbers() as $bonus) {
-                    $bonusHp .= $bonus->getValue();
-                }
+                $hp = $diceEntitiesHp+$bonusHp;
+
+                $monsterInstance = new MonsterInstance;
+                $monsterInstance->setMonster($monsterType);
+                $monsterInstance->setGame($game);
+                $monsterInstance->setHpCurrent($hp);
+                $monsterInstance->setHpMax($hp);
+                $monsterInstance->setName($monsterType->getName().' '.uniqid());
+                $this->em->persist($monsterInstance);
             }
-            $hp = $diceEntitiesHp+$bonusHp;
-            
-            $monsterInstance = new MonsterInstance;
-            $monsterInstance->setMonster($monsterType);
-            $monsterInstance->setGame($game);
-            $monsterInstance->setHpCurrent($hp);
-            $monsterInstance->setHpMax($hp);
-            $monsterInstance->setName($monsterType->getName().' '.uniqid());
-            $this->em->persist($monsterInstance);
+            $this->em->flush();
         }
-        $this->em->flush();
     }
     
     public function deleteMonsterInstance($monsterInstance)

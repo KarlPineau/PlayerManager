@@ -1,5 +1,33 @@
-dndinstance_armor_armor_instanceforcharacter:
-    path:     /instance/armure/ajouter/{characterSlug}
+dndinstance_armor_armor_instance_forCharacter:
+    path:     /instance/armure/ajouter/{id}
     defaults: { _controller: DnDInstanceArmorBundle:Armor:instanceForCharacter }
     requirements:
-        characterSlug:  \S{0,255}
+        id:  \d+
+
+dndinstance_armor_armor_edit:
+    path:     /instance/armure/edit/{id}
+    defaults: { _controller: DnDInstanceArmorBundle:Armor:edit }
+    requirements:
+        id:  \d+
+
+dndinstance_armor_armor_wear:
+    path:     /instance/armure/ajouter/{instance_id}/a/{characterUsed_id}
+    defaults: { _controller: DnDInstanceArmorBundle:Armor:wear }
+    requirements:
+        characterUsed_id:  \d+
+        instance_id:  \d+
+
+dndinstance_armor_armor_remove_fromCharacter:
+    path:     /instance/armure/supprimer/{instance_id}/de/{characterUsed_id}
+    defaults: { _controller: DnDInstanceArmorBundle:Armor:removeFromCharacter }
+    requirements:
+        characterUsed_id:  \d+
+        instance_id:  \d+
+
+dndinstance_armor_armor_remove:
+    path:     /instance/armure/supprimer/{instance_id}/{game_id}
+    defaults: { _controller: DnDInstanceArmorBundle:Armor:remove }
+    requirements:
+        game_id:  \d+
+        instance_id:  \d+
+

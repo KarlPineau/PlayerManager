@@ -28,19 +28,7 @@ class Fight
      * @ORM\JoinColumn(nullable=false)
      */
     protected $game;
-    
-    /**
-     * @ORM\ManyToMany(targetEntity="DnDInstance\FightBundle\Entity\FightCharacterUsed", mappedBy="fight", cascade={"remove"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $fightCharacters;
-    
-    /**
-     * @ORM\ManyToMany(targetEntity="DnDInstance\FightBundle\Entity\FightMonsterInstance", cascade={"remove"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $fightMonsterInstances;
-    
+
     /**
      * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=true)

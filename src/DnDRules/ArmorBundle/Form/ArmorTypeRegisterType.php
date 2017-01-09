@@ -17,6 +17,7 @@ class ArmorTypeRegisterType extends AbstractType
         $builder
             ->add('name',           'text',         array('required' => true))
             ->add('description',    'textarea',     array('required' => false))
+            ->add('type',           'text',         array('required' => false))
         ;
     }
     

@@ -1,0 +1,21 @@
+{# src/DnDRules/CharacterBundle/Resources/views/Race/register_content.html.twig #}
+
+<form class="form-horizontal" method="post" action="{{ path('dndrules_race_race_edit_skill', {'id': race.id}) }}" {{ form_enctype(form) }} role="form">
+    {% if not form.vars.valid %}
+    <div class="alert alert-error">
+        <strong>Votre formulaire contient les erreurs suivantes :</strong>
+        {{ form_errors(form) }}
+        {{ form_errors(form.raceSkills) }}
+    </div>
+    <br />
+    {% endif %}
+
+    <fieldset>
+        <legend>Compétences :</legend>
+
+        {{ form_widget(form.raceSkills) }}
+    </fieldset>
+        <br />
+    {{ form_rest(form) }}
+    <div class="text-center"><input type="submit" class="btn btn-primary" /></div>
+</form>

@@ -17,26 +17,49 @@
     
 {% block PM_body %}
 <div class="row">
-    <section class="col-lg-12">
+    <section class="col-sm-12">
         {% for flashMessage in app.session.flashbag.get('notice') %}
-            <div class="alert col-lg-7 alert-success">
+            <div class="alert col-sm-7 alert-success">
                 {{ flashMessage }}
             </div>
         {% endfor %}
-        
-        <div class="well">
-            <h2>Sections</h2>
-            <ul>
-                <li><a href="{{ path('dndrules_ability_ability_home') }}">Les Caractéristiques</a></li>
-                <li><a href="{{ path('dndrules_alignment_alignment_home') }}">Les Alignements</a></li>
-                <li><a href="{{ path('dndrules_classdnd_classdnd_home') }}">Les Classes</a></li>
-                <li><a href="{{ path('dndrules_language_language_home') }}">Les Langues</a></li>
-                <li><a href="{{ path('dndrules_level_level_home') }}">Les Niveaux</a></li>
-                <li><a href="{{ path('dndrules_race_race_home') }}">Les Races</a></li>
-                <li><a href="{{ path('dndrules_size_size_home') }}">Les Tailles</a></li>
-                <li><a href="{{ path('dndrules_skill_skill_home') }}">Les Compétences</a></li>
-            </ul>
+
+        <div class="col-sm-6">
+            <div class="well">
+                <h2>L'univers de Donjons & Dragons</h2>
+                <ul>
+                    <li><a href="{{ path('dndrules_classdnd_classdnd_home') }}">Les Classes</a></li>
+                    <li><a href="{{ path('dndrules_race_race_home') }}">Les Races</a></li>
+                    <li><a href="{{ path('dndrules_sort_sort_home') }}">La Magie</a></li>
+                    <li><a href="{{ path('dndrules_monster_monster_home') }}">Les Monstres</a></li>
+                </ul>
+            </div>
+            <div class="well">
+                <h2>La vie d'aventurier</h2>
+                <ul>
+                    <li><a href="{{ path('dndrules_armor_armor_home') }}">Les Armures</a></li>
+                    <li><a href="{{ path('dndrules_weapon_weapon_home') }}">Les Armes</a></li>
+                    <li><a href="{{ path('dndrules_equipment_equipment_home') }}">L'Équipement</a></li>
+                </ul>
+            </div>
         </div>
+        <div class="col-sm-6">
+            <div class="well">
+                <h2>Les Personnages</h2>
+                <ul>
+                    <li><a href="{{ path('dndrules_race_race_home') }}">Les Races</a></li>
+                    <li><a href="{{ path('dndrules_classdnd_classdnd_home') }}">Les Classes</a></li>
+                    <li><a href="{{ path('dndrules_ability_ability_home') }}">Les Caractéristiques</a></li>
+                    <li><a href="{{ path('dndrules_skill_skill_home') }}">Les Compétences</a></li>
+                    <li><a href="{{ path('dndrules_skill_skill_home') }}">Les Dons</a></li>
+                    <li><a href="{{ path('dndrules_level_level_home') }}">Les Niveaux</a></li>
+                    <li><a href="{{ path('dndrules_alignment_alignment_home') }}">Les Alignements</a></li>
+                    <li><a href="{{ path('dndrules_language_language_home') }}">Les Langues</a></li>
+                    <li><a href="{{ path('dndrules_size_size_home') }}">Les Tailles</a></li>
+                </ul>
+            </div>
+        </div>
+
     </section>
 </div>
 {% endblock %}

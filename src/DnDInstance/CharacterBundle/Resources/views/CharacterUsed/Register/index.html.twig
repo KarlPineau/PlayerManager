@@ -1,0 +1,54 @@
+{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/register.html.twig #}
+ 
+{% extends "DnDInstanceCharacterBundle:CharacterUsed:layout.html.twig" %}
+
+{% block title %}
+    Nouveau Personnage - {{ parent() }}
+{% endblock %}
+    
+{% block h1 %}
+    Nouveau Personnage
+{% endblock %}
+
+{% block breadcrumb %}
+    {{ parent() }}
+    <li class="active">Bienvenue !</li>
+{% endblock %} 
+
+{% block PM_body %}
+<div class="row">
+    <section id="content" class="col-sm-12">
+        {% for flashMessage in app.session.flashbag.get('notice') %}
+            <div class="alert alert-success">
+                {{ flashMessage }}
+            </div>
+        {% endfor %}
+
+        <article class="jumbotron">
+            <h2 class="text-center">Bienvenue sur Donjons & Dragons !</h2>
+
+            <p class="lead">
+                Cher joueur,<br />
+                Bienvenue sur Donjons & Dragons, dont tu découvres peut-être l'univers.<br />
+                Tu t'apprêtes à créer un nouveau personnage. Avant toute chose, veille à discuter avec ton Maitre de Jeu (M.J)
+                    afin de découvrir le contexte de la partie et adapter ton personnage.<br />
+                Il t'indiquera peut-être également quelques contraintes auxquelles tu devras te conformer.<br />
+                <br />
+                Si tu souhaites plus d'information avant de te lancer dans la création de ton personnage, nous t'invitons à te tourner vers :
+            </p>
+            <ul class="lead">
+                <li><a href="http://documents.karl-pineau.fr/d&d/Manuels/MdJ.pdf" target="_blank">Le guide du joueur de Donjons & Dragons</a> (un lien utile à conserver)</li>
+                <li><a href="{{ path('pm_help_public_home') }}" target="_blank">L'aide du PlayerManager</a></li>
+            </ul>
+
+            <div class="text-center"><a href="{{ path('dndinstance_characterused_characterused_register') }}" class="btn btn-lg btn-success">Créer mon personnage <i class="fa fa-chevron-right"></i></a></div>
+        </article>
+    </section>
+</div>
+{% endblock %}
+    
+{% block javascripts_block %}
+    {# javascripts '@DnDInstanceCharacterBundle/Resources/public/js/registerCharacterUsed.js'  %}
+        <script type="text/javascript" src="{{ asset_url }}"></script>
+    {% endjavascripts #}
+{% endblock %}

@@ -22,7 +22,7 @@ class weaponInstance
         $this->security = $security_context;
     }
     
-    public function deleteWeapon($weaponInstance)
+    public function remove($weaponInstance)
     {
         $this->em->remove($weaponInstance);
         $this->em->flush();
@@ -52,6 +52,7 @@ class weaponInstance
         foreach($weapon->getDamages() as $weaponDamage) {
             $weaponDamageInstance = new WeaponDamage();
             $weaponDamageInstance->setWeaponInstance($weaponInstance);
+            $weaponDamageInstance->setSize($weaponDamage->getSize());
             $weaponInstance->addDamage($weaponDamageInstance);
 
             $diceForms = $weaponDamage->getDamages();
@@ -84,12 +85,13 @@ class weaponInstance
         }
 
         $this->em->flush();
+        return $weaponInstance;
     }
 
     public function cloneWeaponInstance($weaponInstance, $characterUsedInstance=null, $game=null)
     {
         $newWeaponInstance = clone $weaponInstance;
-        $newWeaponInstance->setCharacterUsedArmors($characterUsedInstance);
+        $newWeaponInstance->setCharacterUsed($characterUsedInstance);
         $newWeaponInstance->setGame($game);
         $newWeaponInstance->setId(null);
 
@@ -103,8 +105,7 @@ class weaponInstance
     {
         if($game != null) {
             $weaponInstance->setGame($game);
-            $characterUsed->removeWeapon($weaponInstance);
-            $weaponInstance->setCharacterUsedWeapons(null);
+            $weaponInstance->setCharacterUsed(null);
             $this->em->persist($weaponInstance);
             $this->em->persist($characterUsed);
             $this->em->flush();
@@ -116,5 +117,14 @@ class weaponInstance
             return null;
         }
 
+    }
+
+    public function getWeapons($characterUsed=null, $game=null)
+    {
+        if($characterUsed != null) {
+            return $this->em->getRepository('DnDInstanceWeaponBundle:WeaponInstance')->findByCharacterUsed($characterUsed);
+        } elseif($game != null) {
+            return $this->em->getRepository('DnDInstanceWeaponBundle:WeaponInstance')->findByGame($game);
+        }
     }
 }

@@ -1,18 +1,10 @@
 {# src/Game/GameBundle/Resources/views/Game/view/view_players.html.twig #}
-<div role="tabpanel">
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist" id="MonsterTab">
-        <li role="presentation" class="active"><a href="#monsters-list" aria-controls="monsters-list" role="tab" data-toggle="tab">Liste</a></li>
-        <li role="presentation"><a href="#monsters-add" aria-controls="monsters-add" role="tab" data-toggle="tab">Ajouter</a></li>
-    </ul>
-
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane active" id="monsters-list">
-            {{ render(controller('DnDInstanceMonsterBundle:Monster:listForGame', {'slug': game.slug})) }}
-        </div>
-        <div role="tabpanel" class="tab-pane" id="monsters-add">
-            {{ render(controller('DnDInstanceMonsterBundle:Monster:generate', {'slug': game.slug})) }}
+<div>
+    <div class="row">
+        <div class="col-sm-12">
+            {{ render(controller('DnDInstanceMonsterBundle:Monster:instance', {'id': game.id})) }}
+            <hr />
+            {{ render(controller('DnDInstanceMonsterBundle:Monster:listForGame', {'id': game.id})) }}
         </div>
     </div>
 </div>

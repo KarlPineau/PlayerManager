@@ -1,6 +1,6 @@
-dndinstance_fight_fight_generate:
+dndinstance_fight_fight_instance:
     path:     /combat/instance/generer/{id}
-    defaults: { _controller: DnDInstanceFightBundle:Fight:generate }
+    defaults: { _controller: DnDInstanceFightBundle:Fight:instance }
     requirements:
         id:  \d+
         
@@ -27,4 +27,4 @@ dndinstance_fight_edit_characterUsed:
     defaults: { _controller: DnDInstanceFightBundle:FightCharacterUsed:edit }
     requirements:
         fightCharacterUsedInstance_id:  \d+
-        game_slug:  \S{0,255}
+        game_id:  \d+

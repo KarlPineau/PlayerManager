@@ -2,10 +2,6 @@
 game_game_game_home:
     path:     /parties
     defaults: { _controller: GameGameBundle:Game:index }
-
-game_game_game_insert:
-    path:     /partie/insertion
-    defaults: { _controller: GameGameBundle:Game:register }
     
 game_game_game_view:
     path:     /partie/vue/{slug}
@@ -14,20 +10,13 @@ game_game_game_view:
         slug:  \S{0,255}
     
 game_game_game_edit:
-    path:     /partie/editer/{slug}
-    defaults: { _controller: GameGameBundle:Game:edit }
+    path:     /partie/editer/{id}
+    defaults: { _controller: GameGameBundle:Game:edit, id: 0 }
     requirements:
-        slug:  \S{0,255}
+        id:  \d+
     
 game_game_game_delete:
-    path:     /partie/supprimer/{slug}
+    path:     /partie/supprimer/{id}
     defaults: { _controller: GameGameBundle:Game:delete }
     requirements:
-        slug:  \S{0,255}
-
-# -- Player -- #
-game_player_public_home:
-    path:     /jeu/{slug}
-    defaults: { _controller: GameGameBundle:Player:index }
-    requirements:
-        slug:  \S{0,255}
+        id:  \d+

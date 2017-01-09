@@ -52,10 +52,10 @@ class WeaponInstance
     private $weapon;
 
     /**
-     * @ORM\ManyToOne(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterUsed", inversedBy="weapons")
+     * @ORM\ManyToOne(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterUsed")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $characterUsedWeapons;
+    private $characterUsed;
 
     /**
      * @ORM\ManyToOne(targetEntity="Game\GameBundle\Entity\Game", inversedBy="weaponInstances")
@@ -103,7 +103,7 @@ class WeaponInstance
     private $damages;
 
     /**
-     * @ORM\OneToMany(targetEntity="PM\HomeBundle\Entity\Critical", mappedBy="weapon", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="PM\HomeBundle\Entity\Critical", mappedBy="weaponInstance", cascade={"persist", "remove"})
      * @ORM\JoinColumn(nullable=true)
      */
     private $criticals;
@@ -411,29 +411,6 @@ class WeaponInstance
     public function getWeapon()
     {
         return $this->weapon;
-    }
-
-    /**
-     * Set characterUsedWeapons
-     *
-     * @param \DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsedWeapons
-     * @return WeaponInstance
-     */
-    public function setCharacterUsedWeapons(\DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsedWeapons = null)
-    {
-        $this->characterUsedWeapons = $characterUsedWeapons;
-
-        return $this;
-    }
-
-    /**
-     * Get characterUsedWeapons
-     *
-     * @return \DnDInstance\CharacterBundle\Entity\CharacterUsed 
-     */
-    public function getCharacterUsedWeapons()
-    {
-        return $this->characterUsedWeapons;
     }
 
     /**

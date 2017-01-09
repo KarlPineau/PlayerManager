@@ -3,30 +3,34 @@ dndinstance_characterused_characterused_home:
     path:     /personnages
     defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:index }
 
-dndinstance_characterused_characterused_insert:
+dndinstance_characterused_characterused_register:
     path:     /personnage/insertion
-    defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:register }
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterRegister:register }
+
+dndinstance_characterused_characterused_register_index:
+    path:     /personnage/presentation
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterRegister:index }
 
 dndinstance_characterused_characterused_edit_abilities:
     path:     /personnage/edition/caracteristiques/{id}/{context}
     defaults: { _controller: DnDInstanceCharacterBundle:CharacterAbility:editAbilities, context: edit }
     requirements:
         id:  \d+
-        context: register|edit
+        context: register|edit|levelUp
 
 dndinstance_characterused_characterused_edit_skills:
     path:     /personnage/edition/competences/{id}/{context}
     defaults: { _controller: DnDInstanceCharacterBundle:CharacterSkill:editSkills, context: edit }
     requirements:
         id:  \d+
-        context: register|edit
+        context: register|edit|levelUp
 
 dndinstance_characterused_characterused_edit_gift:
     path:     /personnage/edition/dons/{id}/{context}
     defaults: { _controller: DnDInstanceCharacterBundle:CharacterGift:editGifts, context: edit }
     requirements:
         id:  \d+
-        context: register|edit
+        context: register|edit|levelUp
 
 dndinstance_characterused_characterused_edit_hpcurrent:
     path:     /personnage/edition/point-de-vie/{id}
@@ -40,33 +44,6 @@ dndinstance_characterused_characterused_edit_hpmax:
     requirements:
         id:  \d+
         context: register|edit|levelUp
-    
-dndinstance_characterused_characterused_view:
-    path:     /personnage/vue/{slug}
-    defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:view, context: block, profile: full, newLevel: false }
-    requirements:
-        slug:  \S{0,255}
-        context: inline|block
-        profile: full|short
-        newLevel: 1|0
-    
-dndinstance_characterused_characterused_edit:
-    path:     /personnage/editer/{id}
-    defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:edit }
-    requirements:
-        id:  \d+
-    
-dndinstance_characterused_characterused_delete:
-    path:     /personnage/supprimer/{id}
-    defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:delete }
-    requirements:
-        id:  \d+
-
-dndinstance_characterused_characterused_clone:
-    path:     /personnage/clone/{id}
-    defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:clone }
-    requirements:
-        id:  \d+
 
 dndinstance_characterused_characterused_edit_xppoints:
     path:     /personnage/edition/points-experience/{id}
@@ -84,5 +61,33 @@ dndinstance_characterused_characterused_edit_wealth:
 dndinstance_characterused_characterused_edit_upgradelevel:
     path:     /personnage/edition/upgrade-niveau/{id}
     defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:upgradeLevel }
+    requirements:
+        id:  \d+
+
+dndinstance_characterused_characterused_edit:
+    path:     /personnage/editer/{id}/{context}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:edit, context: edit }
+    requirements:
+        id:  \d+
+        context: register|edit
+    
+dndinstance_characterused_characterused_view:
+    path:     /personnage/vue/{context}/{profile}/{newLevel}/{slug}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:view, context: block, profile: full, newLevel: 0 }
+    requirements:
+        slug:  \S{0,255}
+        context: inline|block
+        profile: full|short
+        newLevel: 1|0
+    
+dndinstance_characterused_characterused_delete:
+    path:     /personnage/supprimer/{id}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:delete }
+    requirements:
+        id:  \d+
+
+dndinstance_characterused_characterused_clone:
+    path:     /personnage/clone/{id}
+    defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:clone }
     requirements:
         id:  \d+

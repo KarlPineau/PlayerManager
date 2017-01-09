@@ -1,0 +1,26 @@
+{# src/DnDInstance/FightBundle/Resources/views/Fight/generate_content.html.twig #}
+
+<form class="form-horizontal"  action="{{ path('dndinstance_fight_fight_instance', {'id': game.id}) }}" method="post" {{ form_enctype(form) }} role="form">
+    {% if not form.vars.valid %}
+    <div class="alert alert-error">
+        <strong>Votre formulaire contient les erreurs suivantes :</strong>
+        {{ form_errors(form) }}
+        {{ form_errors(form.monsterInstances) }}
+        {{ form_errors(form.characters) }}
+    </div>
+    <br />
+    {% endif %}
+
+    <fieldset>
+        <div class="form-group">
+            <div class="col-md-6">
+                {{ form_widget(form.monsterInstances, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-6">
+                {{ form_widget(form.characters, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+    </fieldset>
+    {{ form_rest(form) }}
+    <div class="text-center"><input type="submit" class="btn btn-primary" /></div>
+</form>

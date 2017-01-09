@@ -57,6 +57,6 @@ class WeaponEditType extends AbstractType
      */
     public function getName()
     {
-        return 'dndrules_weaponbundle_weapon_edit';
+        return 'dndrules_weapon_weapon_edit';
     }
 }

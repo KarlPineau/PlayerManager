@@ -1,7 +1,7 @@
 services:
     dndinstance_character.characteruseddnd:
         class: DnDInstance\CharacterBundle\Service\characterUsedDnD
-        arguments: [ "@doctrine.orm.entity_manager", "@security.context", "@dndinstance_character.characterusedability"]
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context", "@dndinstance_character.characterusedability", "@dndinstance_armor.armorinstance"]
         
     dndinstance_character.characterusedability:
         class: DnDInstance\CharacterBundle\Service\characterUsedAbility
@@ -13,7 +13,7 @@ services:
         
     dndinstance_character.characterusedst:
         class: DnDInstance\CharacterBundle\Service\characterUsedST
-        arguments: [ "@doctrine.orm.entity_manager", "@security.context", "@dndinstance_character.characterusedability"]
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context", "@dndinstance_character.characterusedability", "@dndrules_race.race"]
         
     dndinstance_character.characterusedaction:
         class: DnDInstance\CharacterBundle\Service\characterUsedAction
@@ -34,3 +34,7 @@ services:
     dndinstance_character.characterusedwealth:
         class: DnDInstance\CharacterBundle\Service\characterUsedWealth
         arguments: [ "@doctrine.orm.entity_manager", "@security.context"]
+
+    dndinstance_character.characterusedgift:
+        class: DnDInstance\CharacterBundle\Service\characterUsedGift
+        arguments: [ "@doctrine.orm.entity_manager", "@security.context", "@dndinstance_character.characterusedability", "@dndinstance_character.characterusedclassdnd"]

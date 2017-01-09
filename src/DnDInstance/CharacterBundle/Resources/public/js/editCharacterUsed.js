@@ -1,31 +1,36 @@
 $(document).ready(function() {
-    var index = $('div[id^="dndinstance_characterbundle_characterused_edit_classDnDInstances_"]').prev().text(),
-        select_class = $('select#dndinstance_characterbundle_characterused_edit_classDnDInstances_' + index + '_classDnD').html(),
-        select_level = $('select#dndinstance_characterbundle_characterused_edit_classDnDInstances_' + index + '_level').html();
+    function addPrototype(container, index) {
+        container.append(container.attr('data-prototype')
+            .replace(/__name__label__/g, 'Classe n°' + (index+1))
+            .replace(/__name__/g, index));
+    }
+    function addClassDnD(container) {
+        addPrototype(container, index);
+        formatClassDnD(index);
 
-    $('div#dndinstance_characterbundle_characterused_edit_classDnDInstances').prev().hide();
-    $('div[id^="dndinstance_characterbundle_characterused_edit_classDnDInstances_"]').prev().hide();
-    $('div[id^="dndinstance_characterbundle_characterused_edit_classDnDInstances_"]').html('\n\
-            <div class="col-md-3 control-label">\n\
-                <label class="control-label required" for="dndinstance_characterbundle_characterused_edit_classDnDInstances_' + index + '_classDnD">Classe :</label>\n\
-            </div>\n\
-            <div class="col-md-9">\n\
-                <div class="row">\n\
-                    <div class="col-md-5">\n\
-                        <select id="dndinstance_characterbundle_characterused_edit_classDnDInstances_' + index + '_classDnD" class="required form-control" name="dndinstance_characterbundle_characterused_edit[classDnDInstances][' + index + '][classDnD]">\n\
-                        ' + select_class + '\n\
-                        </select>\n\
-                    </div>\n\
-                    <div class="col-md-3 control-label">\n\
-                        <label class="control-label required" for="dndinstance_characterbundle_characterused_edit_classDnDInstances_' + index + '_level">Niveau :</label>\n\
-                    </div>\n\
-                    <div class="col-md-4">\n\
-                        <select id="dndinstance_characterbundle_characterused_edit_classDnDInstances_' + index + '_level" class="required form-control" name="dndinstance_characterbundle_characterused_edit[classDnDInstances][' + index + '][level]">\n\
-                        ' + select_level + '\
-                        </select>\n\
-                    </div>\n\
-                </div>\n\
-            </div>');
-    
-    
+    }
+    function formatClassDnD(index) {
+        $('#dndinstance_characterbundle_characterused_edit_classDnDInstances_' + index).prev().hide();
+        $('#dndinstance_characterbundle_characterused_edit_classDnDInstances_' + index + '_classDnD').prev().text($('#dndinstance_characterbundle_characterused_edit_classDnDInstances_' + index + '_classDnD').prev().text()+' :');
+        $('#dndinstance_characterbundle_characterused_edit_classDnDInstances_' + index + '_classDnD').prev().wrap('<div class="col-md-3 control-label"></div>');
+        $('#dndinstance_characterbundle_characterused_edit_classDnDInstances_' + index + '_classDnD').wrap('<div class="col-md-4"></div>');
+        $('#dndinstance_characterbundle_characterused_edit_classDnDInstances_' + index + '_classDnD').addClass('form-control');
+        $('#dndinstance_characterbundle_characterused_edit_classDnDInstances_' + index + '_level').prev().text($('#dndinstance_characterbundle_characterused_edit_classDnDInstances_' + index + '_level').prev().text()+' :');
+        $('#dndinstance_characterbundle_characterused_edit_classDnDInstances_' + index + '_level').prev().wrap('<div class="col-md-2 control-label"></div>');
+        $('#dndinstance_characterbundle_characterused_edit_classDnDInstances_' + index + '_level').wrap('<div class="col-md-3"></div>');
+        $('#dndinstance_characterbundle_characterused_edit_classDnDInstances_' + index + '_level').addClass('form-control');
+    }
+
+    var container = $('#dndinstance_characterbundle_characterused_edit_classDnDInstances');
+                    $('#dndinstance_characterbundle_characterused_edit_classDnDInstances').prev().hide();
+
+    var index = container.children().length;
+    if(index == 0) {
+        addClassDnD(container);
+        index++;
+    } else {
+        $.each(container.children(), function() {
+            formatClassDnD($(this).index());
+        });
+    }
 });

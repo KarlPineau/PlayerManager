@@ -1,6 +1,6 @@
 <?php
 
-namespace DnDRules\CharacterBundle\Service;
+namespace DnDRules\RaceBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\SecurityContext;
@@ -27,6 +27,8 @@ class deleteRace
         foreach ($raceAbilities as $raceAbility) {
             $this->em->remove($raceAbility);
         }
+
+        $this->em->remove($this->em->getRepository('DnDRulesRaceBundle:RaceST')->findOneByRace($race));
         
         $this->em->remove($race);
         $this->em->flush();

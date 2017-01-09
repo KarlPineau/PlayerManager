@@ -7,6 +7,7 @@ use DnDRules\RaceBundle\Entity\Race;
 use DnDRules\RaceBundle\Entity\RaceAbility;
 use DnDRules\RaceBundle\Form\RaceRegisterType;
 use DnDRules\RaceBundle\Form\RaceEditType;
+use Symfony\Component\HttpFoundation\Request;
 
 class RaceController extends Controller
 {
@@ -18,7 +19,7 @@ class RaceController extends Controller
         ));
     }
     
-    public function registerAction()
+    public function registerAction(Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         if(!$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Page inexistante.');}
@@ -35,25 +36,21 @@ class RaceController extends Controller
         
         // -- Génération du formulaire :
         $form = $this->createForm(new RaceRegisterType, $race);
-        $request = $this->get('request');
-            if ($request->getMethod() == 'POST') {
-                $form->bind($request);
-                
-                if ($form->isValid()) {
-                    $race->setCreateUser($this->getUser());
-                    $em->persist($race);
-                    $strength->setValue($form->get('strength')->getData()); $em->persist($strength);
-                    $dexterity->setValue($form->get('dexterity')->getData()); $em->persist($dexterity);
-                    $constitution->setValue($form->get('constitution')->getData()); $em->persist($constitution);
-                    $intelligence->setValue($form->get('intelligence')->getData()); $em->persist($intelligence);
-                    $wisdom->setValue($form->get('wisdom')->getData()); $em->persist($wisdom);
-                    $charisma->setValue($form->get('charisma')->getData()); $em->persist($charisma);
-                    $em->flush();
-                    
-                    $this->get('session')->getFlashBag()->add('notice', 'Félicitations, la race a bien été créée.' );
-                    return $this->redirect($this->generateUrl('dndrules_race_race_view', array('slug' => $race->getSlug())));
-                }
-            }
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $race->setCreateUser($this->getUser());
+            $em->persist($race);
+            $strength->setValue($form->get('strength')->getData()); $em->persist($strength);
+            $dexterity->setValue($form->get('dexterity')->getData()); $em->persist($dexterity);
+            $constitution->setValue($form->get('constitution')->getData()); $em->persist($constitution);
+            $intelligence->setValue($form->get('intelligence')->getData()); $em->persist($intelligence);
+            $wisdom->setValue($form->get('wisdom')->getData()); $em->persist($wisdom);
+            $charisma->setValue($form->get('charisma')->getData()); $em->persist($charisma);
+            $em->flush();
+
+            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, la race a bien été créée.' );
+            return $this->redirect($this->generateUrl('dndrules_race_race_view', array('slug' => $race->getSlug())));
+        }
         return $this->render('DnDRulesRaceBundle:Race:Register/register.html.twig', array(
                                 'form' => $form->createView(),
                             ));
@@ -68,26 +65,22 @@ class RaceController extends Controller
                             ));
     }
     
-    public function editAction($slug)
+    public function editAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
-        $race = $em->getRepository('DnDRulesRaceBundle:Race')->findOneBySlug($slug);
-        if($race === null or !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Race : [slug='.$slug.'] inexistante.');}
+        $race = $em->getRepository('DnDRulesRaceBundle:Race')->findOneById($id);
+        if($race === null or !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Race [id='.$id.'] undefined.');}
         
         $form = $this->createForm(new RaceEditType, $race);
-        $request = $this->get('request');
-            if ($request->getMethod() == 'POST') {
-                $form->bind($request);
-                
-                if ($form->isValid()) {
-                    $race->setUpdateUser($this->getUser());
-                    $em->persist($race);
-                    $em->flush();
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $race->setUpdateUser($this->getUser());
+            $em->persist($race);
+            $em->flush();
 
-                    $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre race a bien été éditée.' );
-                    return $this->redirect($this->generateUrl('dndrules_race_race_view', array('slug' => $race->getSlug())));
-                }
-            }
+            $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre race a bien été éditée.' );
+            return $this->redirect($this->generateUrl('dndrules_race_race_view', array('slug' => $race->getSlug())));
+        }
         
         return $this->render('DnDRulesRaceBundle:Race:Edit/edit.html.twig', array(
                                 'race' => $race,
@@ -95,11 +88,11 @@ class RaceController extends Controller
                             ));
     }
     
-    public function deleteAction($slug)
+    public function deleteAction($id)
     {
-        $race = $this->getDoctrine()->getManager()->getRepository('DnDRulesRaceBundle:Race')->findOneBySlug($slug);
-        if ($race === null or !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Race : [slug='.$slug.'] inexistante.');}
-        
+        $race = $this->getDoctrine()->getManager()->getRepository('DnDRulesRaceBundle:Race')->findOneById($id);
+        if ($race === null or !$this->get('security.context')->isGranted('ROLE_ADMIN')) {throw $this->createNotFoundException('Race [id='.$id.'] undefined.');}
+
         $deleteRace = $this->container->get('dndrules_character.deleterace');
         $deleteRace->deleteRace($race);
              

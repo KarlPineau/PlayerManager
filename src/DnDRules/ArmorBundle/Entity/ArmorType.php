@@ -39,6 +39,12 @@ class ArmorType
      * @ORM\Column(name="name", type="string", length=45, nullable=false)
      */
     private $name;
+
+    /**
+     * @var string
+     * @ORM\Column(name="type", type="string", nullable=true)
+     */
+    private $type;
     
     /**
      * @var string
@@ -291,5 +297,28 @@ class ArmorType
     public function getUpdateUser()
     {
         return $this->updateUser;
+    }
+
+    /**
+     * Set type
+     *
+     * @param string $type
+     * @return ArmorType
+     */
+    public function setType($type)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return string 
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }

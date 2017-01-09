@@ -1,0 +1,41 @@
+<form class="form-horizontal"  action="{{ path('dndinstance_monster_monster_instance', {'id': game.id}) }}" method="post" {{ form_enctype(form) }} role="form">
+    {% if not form.vars.valid %}
+    <div class="alert alert-error">
+        <strong>Votre formulaire contient les erreurs suivantes :</strong>
+        {{ form_errors(form) }}
+        {{ form_errors(form.monster) }}
+        {{ form_errors(form.weakNumber) }}
+        {{ form_errors(form.strongNumber) }}
+        {{ form_errors(form.defaultNumber) }}
+        {{ form_errors(form.randomNumber) }}
+    </div>
+    <br />
+    {% endif %}
+
+    <div class="row">
+        {{ form_label(form.monster, "Nouveaux monstres :", {'label_attr': {'class': 'col-sm-3 control-label'}}) }}
+        {{ form_label(form.weakNumber, "Faibles :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+        {{ form_label(form.strongNumber, "Forts :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+        {{ form_label(form.defaultNumber, "Normaux :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+        {{ form_label(form.randomNumber, "Au hasard :", {'label_attr': {'class': 'col-sm-2 control-label'}}) }}
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+            {{ form_widget(form.monster, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="col-sm-2">
+            {{ form_widget(form.weakNumber, {'attr': {'placeholder': 'Faible', 'class': 'form-control'}}) }}
+        </div>
+        <div class="col-sm-2">
+            {{ form_widget(form.strongNumber, {'attr': {'placeholder': 'Fort', 'class': 'form-control'}}) }}
+        </div>
+        <div class="col-sm-2">
+            {{ form_widget(form.defaultNumber, {'attr': {'placeholder': 'Normal', 'class': 'form-control'}}) }}
+        </div>
+        <div class="col-sm-2">
+            {{ form_widget(form.randomNumber, {'attr': {'placeholder': 'Au hasard', 'class': 'form-control'}}) }}
+        </div>
+        <div class="col-sm-1"><input type="submit" class="btn btn-primary" /></div>
+    </div>
+    {{ form_rest(form) }}
+</form>

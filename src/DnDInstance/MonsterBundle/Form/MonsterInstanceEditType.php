@@ -17,6 +17,7 @@ class MonsterInstanceEditType extends AbstractType
         $builder
             ->add('name',       'text',     array('required' => true))
             ->add('hpCurrent',  'integer',  array('required' => true))
+            ->add('hpMax',      'integer',  array('required' => true))
         ;
     }
     

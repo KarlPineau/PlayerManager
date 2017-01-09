@@ -66,12 +66,14 @@ class CharacterHpController extends Controller
             $em->persist($characterUsed);
             $em->flush ();
 
-            if($context == 'edit' or $context == 'levelUp') {
+            if($context == 'edit') {
                 $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre personnage a bien été édité.' );
                 return $this->redirect($this->generateUrl('dndinstance_characterused_characterused_view', array('slug' => $characterUsed->getSlug())));
             } elseif($context == 'register') {
                 $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre personnage est à présent créé !' );
                 return $this->redirectToRoute('dndinstance_characterused_characterused_view', array('slug' => $characterUsed->getSlug(), 'context' => 'register'));
+            } elseif($context == 'levelUp') {
+                return $this->redirectToRoute('dndinstance_characterused_characterused_view', array('slug' => $characterUsed->getSlug(), 'newLevel' => true));
             }
         }
 

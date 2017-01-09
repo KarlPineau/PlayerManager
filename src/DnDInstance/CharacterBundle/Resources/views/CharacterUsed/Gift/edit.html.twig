@@ -18,7 +18,7 @@
 
 {% block PM_body %}
 <div class="row">
-    <section id="content" class="col-lg-12">
+    <section id="content" class="col-sm-8">
         {% for flashMessage in app.session.flashbag.get('notice') %}
             <div class="alert alert-success">
                 {{ flashMessage }}
@@ -29,6 +29,20 @@
             {% include "DnDInstanceCharacterBundle:CharacterUsed:Gift/edit_content.html.twig" %}
         </div>
     </section>
+    <aside class="col-sm-4">
+        <div class="well">
+            <h4>Vos dons</h4>
+            <p class="text-info">Vous avez actuellement droit à {{ dndinstance_character_characterusedgift.getAllowedGiftsNumber(characterUsed) }} dons.</p>
+            <p><small>Ce calcul tient compte de votre niveau et des avantages liés à la race de votre personnage.
+                    Consultez le <a href="http://documents.karl-pineau.fr/d&d/Manuels/MdJ.pdf" target="_blank">Manuel du Joeur</a> pour plus de détail.</small></p>
+        </div>
+        <div class="well">
+            <h4>Les dons</h4>
+            <p>La maîtrise de dons permet d'améliorer les capacités de votre personnage dans des domaines spécialisés.</p>
+            <p>Pour en savoir plus sur chaque don disponible, <a href="{{ path('dndrules_gift_gift_home') }}" target="_blank">consultez cette section</a> ou
+                <a href="http://documents.karl-pineau.fr/d&d/Manuels/MdJ.pdf" target="_blank">le Manuel des Joueurs</a>.</p>
+        </div>
+    </aside>
 </div>
 {% endblock %}
     

@@ -12,19 +12,7 @@
             {{ render(controller('DnDInstanceFightBundle:Fight:listForGame', {'id': game.id})) }}
         </div>
         <div role="tabpanel" class="tab-pane" id="fights-add">
-            {{ render(controller('DnDInstanceFightBundle:Fight:generate', {'id': game.id})) }}
+            {{ render(controller('DnDInstanceFightBundle:Fight:instance', {'id': game.id})) }}
         </div>
     </div>
 </div>
-        
-{#
-Etape : 
-- 1 : génération d'une entité Fight
-- 2 : On y ajoute une liste de personnages et PNJ impliqués
-- 3 : On récupère les initatives de tout le monde / Pour les PNJ, tiré au sort
-- 4 : On détermine les armes des PNJ
-
-- On affiche la liste dans l'ordre des Initiatives
-- Pour chaque personnage, on affiche l'initiative
-- Pour les PNJ, on affiche l'arme
-#}

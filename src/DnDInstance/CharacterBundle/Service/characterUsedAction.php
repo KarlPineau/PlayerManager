@@ -54,8 +54,8 @@ class characterUsedAction
         $skills = $this->em->getRepository('DnDInstanceCharacterBundle:CharacterSkill')->findBy(array('characterUsedSkills' => $characterUsed));
         $instances = $this->em->getRepository('DnDInstanceClassDnDBundle:ClassDnDInstance')->findBy(array('characterUsedDnDInstance' => $characterUsed));
         $xpPoints = $this->em->getRepository('DnDInstanceCharacterBundle:XpPoints')->findBy(array('characterUsedDnDXpPoints' => $characterUsed));
-        $armors = $this->em->getRepository('DnDInstanceArmorBundle:ArmorInstance')->findBy(array('characterUsedArmors' => $characterUsed));
-        $weapons = $this->em->getRepository('DnDInstanceWeaponBundle:WeaponInstance')->findBy(array('characterUsedWeapons' => $characterUsed));
+        $armors = $this->get('dndinstance_armor.armorinstance')->getArmors($characterUsed);
+        $weapons = $this->get('dndinstance_weapon.weaponinstance')->getWeapons($characterUsed);
         $equipments = $this->em->getRepository('DnDInstanceSortBundle:SortInstance')->findBy(array('characterUsedSorts' => $characterUsed));
         $sorts = $this->em->getRepository('DnDInstanceEquipmentBundle:EquipmentInstance')->findBy(array('characterUsedEquipments' => $characterUsed));
         $wealth = $this->em->getRepository('DnDInstanceCharacterBundle:CharacterWealth')->findBy(array('characterUsedWealth' => $characterUsed));

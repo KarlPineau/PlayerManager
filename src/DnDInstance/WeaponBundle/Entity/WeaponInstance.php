@@ -52,10 +52,10 @@ class WeaponInstance
     private $weapon;
 
     /**
-     * @ORM\ManyToOne(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterUsed", inversedBy="weapons")
+     * @ORM\ManyToOne(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterUsed")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $characterUsedWeapons;
+    private $characterUsed;
 
     /**
      * @ORM\ManyToOne(targetEntity="Game\GameBundle\Entity\Game", inversedBy="weaponInstances")
@@ -414,29 +414,6 @@ class WeaponInstance
     }
 
     /**
-     * Set characterUsedWeapons
-     *
-     * @param \DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsedWeapons
-     * @return WeaponInstance
-     */
-    public function setCharacterUsedWeapons(\DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsedWeapons = null)
-    {
-        $this->characterUsedWeapons = $characterUsedWeapons;
-
-        return $this;
-    }
-
-    /**
-     * Get characterUsedWeapons
-     *
-     * @return \DnDInstance\CharacterBundle\Entity\CharacterUsed 
-     */
-    public function getCharacterUsedWeapons()
-    {
-        return $this->characterUsedWeapons;
-    }
-
-    /**
      * Set game
      *
      * @param \Game\GameBundle\Entity\Game $game
@@ -592,5 +569,28 @@ class WeaponInstance
     public function getUpdateUser()
     {
         return $this->updateUser;
+    }
+
+    /**
+     * Set characterUsed
+     *
+     * @param \DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsed
+     * @return WeaponInstance
+     */
+    public function setCharacterUsed(\DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsed = null)
+    {
+        $this->characterUsed = $characterUsed;
+
+        return $this;
+    }
+
+    /**
+     * Get characterUsed
+     *
+     * @return \DnDInstance\CharacterBundle\Entity\CharacterUsed 
+     */
+    public function getCharacterUsed()
+    {
+        return $this->characterUsed;
     }
 }

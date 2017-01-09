@@ -1,0 +1,21 @@
+<p class="alert alert-info">
+    Retrouvez ici tous les objets créés pour cette partie et non présents actuellement dans l'inventaire d'un joueur.
+</p>
+
+<h3>Armes</h3>
+{% for weaponInstance in dndinstance_weapon_weaponinstance.getWeapons(null, game) %}
+    <div class="well">
+        {{ loop.index }}: {{ weaponInstance.name }} <a href="{{ path('dndinstance_weapon_weapon_remove', {'instance_id': weaponInstance.id, 'game_id': game.id}) }}"><i class="fa fa-remove"></i></a>
+    </div>
+{% else %}
+    <p class="alert alert-info">Aucune instance d'armure disponible</p>
+{% endfor %}
+
+<h3>Armures et boucliers</h3>
+{% for armorInstance in dndinstance_armor_armorinstance.getArmors(null, game) %}
+    <div class="well">
+        {{ loop.index }}: {{ armorInstance.name }} <a href="{{ path('dndinstance_armor_armor_remove', {'instance_id': armorInstance.id, 'game_id': game.id}) }}"><i class="fa fa-remove"></i></a>
+    </div>
+{% else %}
+    <p class="alert alert-info">Aucune instance d'armure disponible</p>
+{% endfor %}

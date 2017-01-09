@@ -125,21 +125,26 @@
 <div class="row">
     <div class="col-md-6">
         <h2>Jets de Sauvegarde :</h2>
-        <table class="table table-bordered">
-            <caption>Jets de Sauvegarde :</caption>
-            <tr>
-                <td>Réflex</td>
-                <td>{{fortitude}}</td>
-            </tr>
-            <tr>
-                <td>Vigueur</td>
-                <td>{{reflex}}</td>
-            </tr>
-            <tr>
-                <td>Volonté</td>
-                <td>{{will}}</td>
-            </tr>
-        </table>    
+        <div class="list-group">
+            <dl class="list-group-item dl-horizontal">
+                <dt>Réflexe</dt>
+                <dd>{{fortitude}}</dd>
+            </dl>
+            <dl class="list-group-item dl-horizontal">
+                <dt>Vigueur</dt>
+                <dd>{{reflex}}</dd>
+            </dl>
+            <dl class="list-group-item dl-horizontal">
+                <dt>Volonté</dt>
+                <dd>{{will}}</dd>
+            </dl>
+            {% if dndrules_race_race.getST(characterUsed.race) != null %}
+            <dl class="list-group-item dl-horizontal">
+                <dt>Particularités de classe</dt>
+                <dd>{{ dndrules_race_race.getST(characterUsed.race).specificity }}</dd>
+            </dl>
+            {% endif %}
+        </div>
     </div>
     <div class="col-md-6">
         

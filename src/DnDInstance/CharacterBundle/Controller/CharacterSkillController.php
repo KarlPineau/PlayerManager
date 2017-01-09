@@ -30,6 +30,12 @@ class CharacterSkillController extends Controller
                 return $this->redirect($this->generateUrl('dndinstance_characterused_characterused_view', array('slug' => $characterUsed->getSlug())));
             } elseif($context == 'register') {
                 return $this->redirectToRoute('dndinstance_characterused_characterused_edit_gift', array('id' => $characterUsed->getId(), 'context' => 'register'));
+            } elseif($context == 'levelUp') {
+                if($this->get('dndinstance_character.characterusedclassdnd')->getMainLevelInstance($characterUsed)->getGift() == true) {
+                    return $this->redirectToRoute('dndinstance_characterused_characterused_edit_gift', array('id' => $characterUsed->getId(), 'context' => 'levelUp'));
+                } else {
+                    return $this->redirectToRoute('dndinstance_characterused_characterused_edit_hpmax', array('id' => $characterUsed->getId(), 'context' => 'levelUp'));
+                }
             }
         }
         

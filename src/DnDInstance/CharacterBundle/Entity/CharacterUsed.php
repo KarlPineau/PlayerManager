@@ -32,7 +32,6 @@ class CharacterUsed
 
     /**
      * @var string
-     * @Assert\NotBlank()
      * @Assert\Length(
      *      min = "1",
      *      max = "45",
@@ -40,7 +39,7 @@ class CharacterUsed
      *      maxMessage = "Votre nom ne doit pas dépasser {{ limit }} caractères."
      * )
      *
-     * @ORM\Column(name="name", type="string", length=45)
+     * @ORM\Column(name="name", type="string", length=45, nullable=true)
      */
     private $name;
 
@@ -106,21 +105,19 @@ class CharacterUsed
 
     /**
      * @var integer
-     * @Assert\NotBlank()
      * @Assert\Range(
      *      min = "0",
      *      minMessage = "Votre personnage ne peut pas avoir un nombre de PV maximum négatif."
      * )
      *
-     * @ORM\Column(name="hpMax", type="smallint", options={"default" = 0}, nullable=false)
+     * @ORM\Column(name="hpMax", type="smallint", options={"default" = 0}, nullable=true)
      */
     private $hpMax;
 
     /**
      * @var integer
-     * @Assert\NotBlank()
      *
-     * @ORM\Column(name="hpCurrent", type="smallint", options={"default" = 0}, nullable=false)
+     * @ORM\Column(name="hpCurrent", type="smallint", options={"default" = 0}, nullable=true)
      */
     private $hpCurrent;
 
@@ -138,19 +135,19 @@ class CharacterUsed
 
     /**
      * @ORM\OneToMany(targetEntity="DnDInstance\CharacterBundle\Entity\CharacterAbility", mappedBy="characterUsedDnDAbilities", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $abilities;
 
     /**
      * @ORM\OneToMany(targetEntity="DnDInstance\CharacterBundle\Entity\XpPoints", mappedBy="characterUsedDnDXpPoints", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $xpPoints;
 
     /**
      * @ORM\OneToMany(targetEntity="DnDInstance\ClassDnDBundle\Entity\ClassDnDInstance", mappedBy="characterUsedDnDInstance", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $classDnDInstances;
 
@@ -168,21 +165,9 @@ class CharacterUsed
 
     /**
      * @ORM\ManyToOne(targetEntity="DnDRules\RaceBundle\Entity\Race")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $race;
-
-    /**
-     * @ORM\OneToMany(targetEntity="DnDInstance\WeaponBundle\Entity\WeaponInstance", mappedBy="characterUsedWeapons", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $weapons;
-
-    /**
-     * @ORM\OneToMany(targetEntity="DnDInstance\ArmorBundle\Entity\ArmorInstance", mappedBy="characterUsedArmors", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $armors;
 
     /**
      * @ORM\OneToMany(targetEntity="DnDInstance\EquipmentBundle\Entity\EquipmentInstance", mappedBy="characterUsedEquipments", cascade={"persist"})
@@ -204,7 +189,7 @@ class CharacterUsed
 
     /**
      * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     protected $createUser;
 
@@ -256,8 +241,6 @@ class CharacterUsed
         $this->classDnDInstances = new \Doctrine\Common\Collections\ArrayCollection();
         $this->skills = new \Doctrine\Common\Collections\ArrayCollection();
         $this->languages = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->weapons = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->armors = new \Doctrine\Common\Collections\ArrayCollection();
         $this->equipments = new \Doctrine\Common\Collections\ArrayCollection();
         $this->sorts = new \Doctrine\Common\Collections\ArrayCollection();
     }
@@ -691,72 +674,6 @@ class CharacterUsed
     public function getRace()
     {
         return $this->race;
-    }
-
-    /**
-     * Add weapons
-     *
-     * @param \DnDInstance\WeaponBundle\Entity\WeaponInstance $weapons
-     * @return CharacterUsed
-     */
-    public function addWeapon(\DnDInstance\WeaponBundle\Entity\WeaponInstance $weapons)
-    {
-        $this->weapons[] = $weapons;
-
-        return $this;
-    }
-
-    /**
-     * Remove weapons
-     *
-     * @param \DnDInstance\WeaponBundle\Entity\WeaponInstance $weapons
-     */
-    public function removeWeapon(\DnDInstance\WeaponBundle\Entity\WeaponInstance $weapons)
-    {
-        $this->weapons->removeElement($weapons);
-    }
-
-    /**
-     * Get weapons
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getWeapons()
-    {
-        return $this->weapons;
-    }
-
-    /**
-     * Add armors
-     *
-     * @param \DnDInstance\ArmorBundle\Entity\ArmorInstance $armors
-     * @return CharacterUsed
-     */
-    public function addArmor(\DnDInstance\ArmorBundle\Entity\ArmorInstance $armors)
-    {
-        $this->armors[] = $armors;
-
-        return $this;
-    }
-
-    /**
-     * Remove armors
-     *
-     * @param \DnDInstance\ArmorBundle\Entity\ArmorInstance $armors
-     */
-    public function removeArmor(\DnDInstance\ArmorBundle\Entity\ArmorInstance $armors)
-    {
-        $this->armors->removeElement($armors);
-    }
-
-    /**
-     * Get armors
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getArmors()
-    {
-        return $this->armors;
     }
 
     /**

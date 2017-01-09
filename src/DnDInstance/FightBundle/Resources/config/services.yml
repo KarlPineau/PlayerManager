@@ -1,6 +1,6 @@
 services:
-    dndinstance_fight.fight:
-        class: DnDInstance\FightBundle\Service\fightGenerate
+    dndinstance_fight.fight_instance:
+        class: DnDInstance\FightBundle\Service\fightInstance
         arguments: [ "@doctrine.orm.entity_manager", "@security.context", "@dndinstance_character.characteruseddnd"]
     dndinstance_fight.fightaction:
         class: DnDInstance\FightBundle\Service\fightAction

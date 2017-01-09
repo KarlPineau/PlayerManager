@@ -13,12 +13,14 @@ class characterUsedDnD
     protected $em;
     protected $security;
     protected $characterusedability;
+    protected $armor;
 
-    public function __construct(EntityManager $EntityManager, SecurityContext $security_context, CharacterUsedAbility $characterusedability)
+    public function __construct(EntityManager $EntityManager, SecurityContext $security_context, CharacterUsedAbility $characterusedability, \DnDInstance\ArmorBundle\Service\armorInstance $armor)
     {
         $this->em = $EntityManager;
         $this->security = $security_context;
         $this->characterusedability = $characterusedability;
+        $this->armor = $armor;
     }
     
     public function getBAB($characterUsed) { 
@@ -101,11 +103,8 @@ class characterUsedDnD
     }
 
     public function getArmorBonus($characterUsed) { 
-        //Retourne le modificateur d'armure du personnage
-        //En cas de plusieurs armures, il prend la valeur la plus élevée.
-        if ($characterUsed === null) {
-          throw $this->createNotFoundException('Personnage inexistant.');
-        }
+        //Retourne le modificateur d'armure de l'armure portée par le personnage
+        if ($characterUsed === null) {throw $this->createNotFoundException('CharacterUsed undefined');}
         
         $armorBonus = 0;
         $armor = $this->getAW($characterUsed);
@@ -173,57 +172,35 @@ class characterUsedDnD
 
     public function getAW($characterUsed) { 
         //Retourne l’armure portée portée par le personnage
-        if ($characterUsed === null) {
-          throw $this->createNotFoundException('Personnage inexistant.');
-        }
-        
-        $armorModifier = 0;
-        $armorInstanceCurrent = new ArmorInstance();
-        $armorsInstance = $characterUsed->getArmors();
-        foreach ($armorsInstance as $armorInstance) {
-            if($armorInstance->getArmor()->getBonus() > $armorModifier AND $armorInstance->getArmor()->getType()->getName() == 'Armure') {
-                $armorModifier = $armorInstance->getArmor()->getBonus();
-                $armorInstanceCurrent = $armorInstance;
+        if ($characterUsed === null) {throw $this->createNotFoundException('CharacterUsed undefined.');}
+
+        $finalArmorInstance = null;
+        foreach($this->armor->getWearArmors($characterUsed) as $armorInstance) {
+            if($armorInstance->getType()->getType() == 'armure') {
+                $finalArmorInstance = $armorInstance;
             }
         }
-        
-        if($armorModifier == NULL) {
-            return NULL;
-        } else {
-            return $armorInstanceCurrent->getArmor();
-        }
+        return $finalArmorInstance;
     }
 
     public function getSC($characterUsed) { 
         //Retourne le bouclier porté par le personnage
-        if ($characterUsed === null) {
-          throw $this->createNotFoundException('Personnage inexistant.');
-        }
-        
-        $armorModifier = 0;
-        $armorInstanceCurrent = new ArmorInstance();
-        $armorsInstance = $characterUsed->getArmors();
-        foreach ($armorsInstance as $armorInstance) {
-            if($armorInstance->getArmor()->getBonus() > $armorModifier AND $armorInstance->getArmor()->getType()->getName() == 'Bouclier') {
-                $armorModifier = $armorInstance->getArmor()->getBonus();
-                $armorInstanceCurrent = $armorInstance;
+        if ($characterUsed === null) {throw $this->createNotFoundException('CharacterUsed undefined.');}
+
+        $finalArmorInstance = null;
+        foreach($this->armor->getWearArmors($characterUsed) as $armorInstance) {
+            if($armorInstance->getType()->getType() == 'bouclier') {
+                $finalArmorInstance = $armorInstance;
             }
         }
-        
-        if($armorModifier == NULL) {
-            return NULL;
-        } else {
-            return $armorInstanceCurrent->getArmor();
-        }
+        return $finalArmorInstance;
     }
 
     public function getSpeed($characterUsed) { 
         //Retourne la vitesse du personnage
         //Correspond à la vitesse de déplacement de base au sol de la race du personnage.
         //Attention, de nombreuses règles sont à prendre en compte pour les déplacements en combat. A voir dans le livre de règle. Pas à prendre en compte dans la version de base
-        if ($characterUsed === null) {
-          throw $this->createNotFoundException('Personnage inexistant.');
-        }
+        if ($characterUsed === null) {throw $this->createNotFoundException('CharacterUsed undefined.');}
 
         $speed = $characterUsed->getRace()->getSpeed();
 
@@ -233,9 +210,7 @@ class characterUsedDnD
     public function getInitiativeModifier($characterUsed) { 
         //Retourne l’initiative du personnage
         //ModifierInitiative est égal au modificateur de Dextérité du perso. Peut entrer en compte le don Science de l’initiative.
-        if ($characterUsed === null) {
-          throw $this->createNotFoundException('Personnage inexistant.');
-        }
+        if ($characterUsed === null) {throw $this->createNotFoundException('CharacterUsed undefined.');}
         
         $initiativeModifier = 0;
         $dexterityModifier = $this->characterusedability->getDexterityModifier($characterUsed);
@@ -246,9 +221,7 @@ class characterUsedDnD
     
     public function getGlobalLevel($characterUsed) {
         //Retourne le niveau global d'un personnage
-        if ($characterUsed === null) {
-          throw $this->createNotFoundException('Personnage inexistant.');
-        }
+        if ($characterUsed === null) {throw $this->createNotFoundException('CharacterUsed undefined.');}
         
         $globalLevel = 0;
         $classDnDInstances = $characterUsed->getClassDnDInstances();
@@ -262,9 +235,7 @@ class characterUsedDnD
     
     public function getXpPoints($characterUsed) {
         //Retourne les points d'expérience d'un personnage
-        if ($characterUsed === null) {
-          throw $this->createNotFoundException('Personnage inexistant.');
-        }
+        if ($characterUsed === null) {throw $this->createNotFoundException('CharacterUsed undefined.');}
         
         $xp = 0;
         $repositoryXpPoints = $this->em->getRepository('DnDInstanceCharacterBundle:XpPoints');

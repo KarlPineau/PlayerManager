@@ -1,10 +1,26 @@
-{# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/view_gifts.html.twig #}
-<div class="list-group">
-{% for armorInstance in characterUsed.armors %}
-    <div class="list-group-item">
-        <a href="{{path('dndrules_armor_armor_view', {'slug': armorInstance.armor.slug})}}" target="_blank">{{armorInstance.armor.name}}</a>
-    </div>
-{% else %}
-    <div class="list-group-item list-group-item-warning">Aucune armure pour le moment.</div>
-{% endfor %}
+<div class="panel-group" id="accordionArmorInstances" role="tablist" aria-multiselectable="true">
+    {% for armorInstance in dndinstance_armor_armorinstance.getArmors(characterUsed) %}
+        <div class="panel panel-default">
+            <div class="panel-heading" role="tab" id="heading-armorInstances-{{characterUsed.slug}}-{{armorInstance.id}}">
+                <div class="pull-right">
+                    {% if armorInstance.wear != true %}<a href="{{ path('dndinstance_armor_armor_wear', {'characterUsed_id': characterUsed.id, 'instance_id': armorInstance.id}) }}" title="Équiper votre personnage avec cette armure"><i class="fa fa-plus"></i></a>{% endif %}
+                    <a href="{{ path('dndinstance_armor_armor_edit', {'id': armorInstance.id}) }}"><i class="fa fa-edit"></i></a>
+                    <a href="{{ path('dndinstance_armor_armor_remove_fromCharacter', {'characterUsed_id': characterUsed.id, 'instance_id': armorInstance.id, 'game_id': characterUsed.game.id}) }}" class="text-warning" title="Se défausser de cette armure"><i class="fa fa-trash"></i></a>
+                </div>
+                <h5 class="panel-title">
+                    {% if armorInstance.wear == true %}<span class="text-primary" title="Vous portez actuellement {% if armorInstance.type.type == "armure" %}cette armure{% else %}ce bouclier{% endif %}"><i class="fa fa-thumbs-up" aria-hidden="true"></i></span>{% endif %}
+                    <a role="button" data-toggle="collapse" data-parent="#accordionArmorInstances" href="#collapse-armorInstances-{{characterUsed.slug}}-{{armorInstance.id}}" aria-expanded="false" aria-controls="collapse-armorInstances-{{characterUsed.slug}}{{armorInstance.id}}">
+                        {{ armorInstance.name }}
+                    </a>
+                </h5>
+            </div>
+            <div id="collapse-armorInstances-{{characterUsed.slug}}-{{armorInstance.id}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading-armorInstances-{{characterUsed.slug}}-{{armorInstance.id}}">
+                <div class="panel-body">
+                    {{armorInstance.armor.name}} <a href="{{path('dndrules_armor_armor_view', {'slug': armorInstance.armor.slug})}}" target="_blank"><i class="fa fa-info-circle"></i></a>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-warning" role="alert">Aucune armure pour le moment.</div>
+    {% endfor %}
 </div>

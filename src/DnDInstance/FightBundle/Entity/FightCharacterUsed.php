@@ -24,10 +24,10 @@ class FightCharacterUsed
     private $id;
 
     /**
-     * @ORM\ManyToMany(targetEntity="DnDInstance\FightBundle\Entity\Fight", inversedBy="fightCharacters")
+     * @ORM\ManyToOne(targetEntity="DnDInstance\FightBundle\Entity\Fight")
      * @ORM\JoinColumn(nullable=true)
      */
-    private $fightCharacters;
+    private $fight;
 
     /**
      * @var integer
@@ -69,17 +69,6 @@ class FightCharacterUsed
      * @ORM\Column(name="updateDate", type="datetime", nullable=true)
      */
     protected $updateDate;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="updateComment", type="string", length=255, nullable=true)
-     * @Assert\Length(
-     *      max = "255",
-     *      maxMessage = "Le commentaire ne doit pas dépasser {{ limit }} caractères."
-     * )
-     */
-    protected $updateComment;
 
 
     /**
@@ -162,29 +151,6 @@ class FightCharacterUsed
     }
 
     /**
-     * Set updateComment
-     *
-     * @param string $updateComment
-     * @return FightCharacterUsed
-     */
-    public function setUpdateComment($updateComment)
-    {
-        $this->updateComment = $updateComment;
-
-        return $this;
-    }
-
-    /**
-     * Get updateComment
-     *
-     * @return string 
-     */
-    public function getUpdateComment()
-    {
-        return $this->updateComment;
-    }
-
-    /**
      * Set characterUsed
      *
      * @param \DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsed
@@ -257,39 +223,29 @@ class FightCharacterUsed
      */
     public function __construct()
     {
-        $this->fightCharacters = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->fight = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
-     * Add fightCharacters
+     * Set fight
      *
-     * @param \DnDInstance\FightBundle\Entity\Fight $fightCharacters
+     * @param \DnDInstance\FightBundle\Entity\Fight $fight
      * @return FightCharacterUsed
      */
-    public function addFightCharacter(\DnDInstance\FightBundle\Entity\Fight $fightCharacters)
+    public function setFight(\DnDInstance\FightBundle\Entity\Fight $fight = null)
     {
-        $this->fightCharacters[] = $fightCharacters;
+        $this->fight = $fight;
 
         return $this;
     }
 
     /**
-     * Remove fightCharacters
+     * Get fight
      *
-     * @param \DnDInstance\FightBundle\Entity\Fight $fightCharacters
+     * @return \DnDInstance\FightBundle\Entity\Fight 
      */
-    public function removeFightCharacter(\DnDInstance\FightBundle\Entity\Fight $fightCharacters)
+    public function getFight()
     {
-        $this->fightCharacters->removeElement($fightCharacters);
-    }
-
-    /**
-     * Get fightCharacters
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getFightCharacters()
-    {
-        return $this->fightCharacters;
+        return $this->fight;
     }
 }

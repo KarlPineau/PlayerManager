@@ -12,8 +12,8 @@
     
 {% block h1_extend %}
     {% if is_granted('ROLE_ADMIN') %}
-    <a class="btn btn-primary" href="{{ path('dndrules_weapon_weapon_edit', {'slug': weapon.slug}) }}" >Modifier</a>
-    <a class="btn btn-danger main-JS-delete" href="{{ path('dndrules_weapon_weapon_delete', {'slug': weapon.slug}) }}" >Supprimer</a>
+    <a class="btn btn-primary" href="{{ path('dndrules_weapon_weapon_edit', {'id': weapon.id}) }}" >Modifier</a>
+    <a class="btn btn-danger main-JS-delete" href="{{ path('dndrules_weapon_weapon_delete', {'id': weapon.id}) }}" >Supprimer</a>
     {% endif %}
 {% endblock %}
 
