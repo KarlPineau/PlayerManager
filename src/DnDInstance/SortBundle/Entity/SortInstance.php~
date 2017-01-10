@@ -195,27 +195,4 @@ class SortInstance
     {
         return $this->updateUser;
     }
-
-    /**
-     * Set characterUsed
-     *
-     * @param \DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsed
-     * @return SortInstance
-     */
-    public function setCharacterUsed(\DnDInstance\CharacterBundle\Entity\CharacterUsed $characterUsed)
-    {
-        $this->characterUsed = $characterUsed;
-
-        return $this;
-    }
-
-    /**
-     * Get characterUsed
-     *
-     * @return \DnDInstance\CharacterBundle\Entity\CharacterUsed 
-     */
-    public function getCharacterUsed()
-    {
-        return $this->characterUsed;
-    }
 }

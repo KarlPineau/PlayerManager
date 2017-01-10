@@ -1,12 +1,12 @@
-dndinstance_sort_sort_generateInstance:
+dndinstance_sort_sort_instance:
     path:     /instance/sort/ajouter/{id}
-    defaults: { _controller: DnDInstanceSortBundle:Sort:generateInstance }
+    defaults: { _controller: DnDInstanceSortBundle:Sort:instance }
     requirements:
         id:  \d+
 
-dndinstance_sort_sort_removeInstance:
+dndinstance_sort_sort_remove:
     path:     /instance/sort/supprimer/{id_sortInstance}/{id_characterUsed}
-    defaults: { _controller: DnDInstanceSortBundle:Sort:removeInstance }
+    defaults: { _controller: DnDInstanceSortBundle:Sort:remove }
     requirements:
         id_sortInstance:  \d+
         id_characterUsed:  \d+

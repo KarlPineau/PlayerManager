@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class SortController extends Controller
 {
-    public function generateInstanceAction($id, Request $request)
+    public function instanceAction($id, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
         $characterUsed = $em->getRepository('DnDInstanceCharacterBundle:CharacterUsed')->findOneById($id);
@@ -17,17 +17,17 @@ class SortController extends Controller
 
         $sortInstance = new SortInstance();
         $sortInstance->setCreateUser($this->getUser());
-        $sortInstance->setCharacterUsedSorts($characterUsed);
+        $sortInstance->setCharacterUsed($characterUsed);
 
         $arraySort = [];
         foreach($characterUsed->getClassDnDInstances() as $classDnDInstance) {
             $sortsByLevel = $this->get('dndrules_classdnd.classdndaction')->getSortsForLevelMaxByLevel($classDnDInstance->getClassDnD(), $this->get('dndinstance_character.characterusedclassdnd')->getMainLevel($characterUsed));
             $arraySort = array_merge($arraySort, $sortsByLevel);
         }
-        foreach($characterUsed->getSorts() as $sortOfCharacterUser) {
+        foreach($em->getRepository('DnDInstanceSortBundle:SortInstance')->findByCharacterUsed($characterUsed) as $sortOfCharacterUser) {
             foreach($arraySort as $level) {
                 foreach($level as $key => &$sortAvailable) {
-                    if ($sortOfCharacterUser == $sortAvailable) {
+                    if ($sortOfCharacterUser->getSort() == $sortAvailable) {
                         unset($arraySort[$key]);
                     }
                 }
@@ -49,13 +49,13 @@ class SortController extends Controller
                             ));
     }
 
-    public function removeInstanceAction($id_sortInstance, $id_characterUsed)
+    public function removeAction($id_sortInstance, $id_characterUsed)
     {
         $em = $this->getDoctrine()->getManager();
         $characterUsed = $em->getRepository('DnDInstanceCharacterBundle:CharacterUsed')->findOneById($id_characterUsed);
         if($characterUsed === null or ($characterUsed->getUser() != $this->getUser() AND !$this->get('security.context')->isGranted('ROLE_ADMIN'))) {throw $this->createNotFoundException('CharacterUsed [id='.$id_characterUsed.'] undefined.');}
 
-        $sortInstance = $em->getRepository('DnDInstanceSortBundle:SortInstance')->findOneBy(array('id' => $id_sortInstance, 'characterUsedSorts' => $id_characterUsed));
+        $sortInstance = $em->getRepository('DnDInstanceSortBundle:SortInstance')->findOneBy(array('id' => $id_sortInstance, 'characterUsed' => $id_characterUsed));
         if($sortInstance === null) {throw $this->createNotFoundException('SortInstance [id='.$id_sortInstance.'] undefined.');}
 
         $em->remove($sortInstance);

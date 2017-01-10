@@ -176,12 +176,6 @@ class CharacterUsed
     private $equipments;
 
     /**
-     * @ORM\OneToMany(targetEntity="DnDInstance\SortBundle\Entity\SortInstance", mappedBy="characterUsedSorts", cascade={"persist"})
-     * @ORM\JoinColumn(nullable=true)
-     */
-    private $sorts;
-
-    /**
      * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -242,7 +236,6 @@ class CharacterUsed
         $this->skills = new \Doctrine\Common\Collections\ArrayCollection();
         $this->languages = new \Doctrine\Common\Collections\ArrayCollection();
         $this->equipments = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->sorts = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -707,39 +700,6 @@ class CharacterUsed
     public function getEquipments()
     {
         return $this->equipments;
-    }
-
-    /**
-     * Add sorts
-     *
-     * @param \DnDInstance\SortBundle\Entity\SortInstance $sorts
-     * @return CharacterUsed
-     */
-    public function addSort(\DnDInstance\SortBundle\Entity\SortInstance $sorts)
-    {
-        $this->sorts[] = $sorts;
-
-        return $this;
-    }
-
-    /**
-     * Remove sorts
-     *
-     * @param \DnDInstance\SortBundle\Entity\SortInstance $sorts
-     */
-    public function removeSort(\DnDInstance\SortBundle\Entity\SortInstance $sorts)
-    {
-        $this->sorts->removeElement($sorts);
-    }
-
-    /**
-     * Get sorts
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getSorts()
-    {
-        return $this->sorts;
     }
 
     /**

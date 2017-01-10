@@ -1,11 +1,11 @@
 {# src/DnDInstance/CharacterBundle/Resources/views/CharacterUsed/view_gifts.html.twig #}
 <h4>Mes sorts :</h4>
 <div class="panel-group" id="accordionSortView" role="tablist" aria-multiselectable="true">
-    {% for sortInstance in characterUsed.sorts %}
+    {% for sortInstance in dndinstance_sort_sortinstance.getSorts(characterUsed) %}
     <div class="panel panel-default">
         <div class="panel-heading" role="tab" id="headingSortView-{{ loop.index }}">
             <div class="pull-right">
-                <a href="{{ path('dndinstance_sort_sort_removeInstance', {'id_sortInstance': sortInstance.id, 'id_characterUsed': characterUsed.id}) }}"><i class="fa fa-remove"></i></a>
+                <a href="{{ path('dndinstance_sort_sort_remove', {'id_sortInstance': sortInstance.id, 'id_characterUsed': characterUsed.id}) }}"><i class="fa fa-remove"></i></a>
             </div>
             <h4 class="panel-title">
                 <a role="button" data-toggle="collapse" data-parent="#accordionSortView" href="#collapseSortView-{{ loop.index }}" aria-expanded="true" aria-controls="collapseSortView-{{ loop.index }}">

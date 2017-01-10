@@ -19,12 +19,17 @@ class sortInstance
     public function cloneSortInstance($sortInstance, $characterUsedDnDInstance)
     {
         $newSortInstance = clone $sortInstance;
-        $newSortInstance->setCharacterUsedSorts($characterUsedDnDInstance);
+        $newSortInstance->setCharacterUsed($characterUsedDnDInstance);
         $newSortInstance->setId(null);
 
         $this->em->persist($newSortInstance);
         $this->em->flush();
 
         return $newSortInstance;
+    }
+
+    public function getSorts($characterUsed)
+    {
+        return $this->em->getRepository('DnDInstanceSortBundle:SortInstance')->findByCharacterUsed($characterUsed);
     }
 }
