@@ -26,11 +26,11 @@ class FightCharacterUsedController extends Controller
                     $em->flush();
 
                     $this->get('session')->getFlashBag()->add('notice', 'Félicitations, votre instance a bien été éditée.' );
-                    return $this->redirect($this->generateUrl('game_game_game_view', array('slug' => $game_slug)));
+                    return $this->redirect($this->generateUrl('game_game_game_view', array('slug' => $game->getSlug())));
                 }
             }
         
-        return $this->render('DnDInstanceFightBundle:FightCharacterUsed:edit.html.twig', array(
+        return $this->render('DnDInstanceFightBundle:FightCharacterUsed:Edit/edit.html.twig', array(
                                 'fightCharacterUsed' => $fightCharacterUsed,
                                 'game' => $game,
                                 'form' => $form->createView(),

@@ -55,4 +55,30 @@ class fightInstance
     {
         return $this->em->getRepository('DnDInstanceFightBundle:FightMonsterInstance')->findByFight($fightInstance);
     }
+
+    protected function cmp($a, $b)
+    {
+        return strcmp($a->getInitiative(), $b->getInitiative());
+    }
+
+    public function getOrder($fightInstance, $fightCharacterUsed, $fightMonsterInstance)
+    {
+        if($fightCharacterUsed != null) {
+            $selectEntity = $fightCharacterUsed;
+        } elseif($fightMonsterInstance != null) {
+            $selectEntity = $fightMonsterInstance;
+        }
+
+        $characters = $this->getCharacters($fightInstance);
+        $monsters = $this->getMonsters($fightInstance);
+        $entities = array_merge($characters, $monsters);
+
+        usort($entities, array($this, 'cmp'));
+
+        foreach($entities as $key => $entity) {
+            if($selectEntity == $entity) {return $key;}
+        }
+
+        return 0;
+    }
 }

@@ -1,13 +1,42 @@
 {# src/DnDInstance/FightBundle/Resources/views/Fight/listForGame.html.twig #}
-<strong>Monstres :</strong>
-<ul>
-{% for fightMonsterInstance in dndinstance_fight_fightinstance.getMonsters(fight) %}
-    <li>{{fightMonsterInstance.monsterInstance.name}} : {{fightMonsterInstance.initiative}}</li>
-{% endfor %}
-</ul>
-<strong>Personnages :</strong>
-<ul>
-{% for fightCharacter in dndinstance_fight_fightinstance.getCharacters(fight) %}
-    <li>{{fightCharacter.characterUsed.name}} : {{fightCharacter.initiative}} <a href="{{path('dndinstance_fight_edit_characterUsed', {'fightCharacterUsedInstance_id': fightCharacter.id, 'game_id': game.id})}}"><i class="fa fa-edit"></i></a></li>
-{% endfor %}
-</ul>
+
+<div class="col-sm-6">
+    <strong>Monstres :</strong>
+    <div class="list-group">
+        {% for fightMonsterInstance in dndinstance_fight_fightinstance.getMonsters(fight) %}
+            <div class="list-group-item">
+                <div>
+                    <div class="pull-right"><strong title="Order de jeu">{{ dndinstance_fight_fightinstance.getOrder(fight, null, fightMonsterInstance)+1 }}</strong></div>
+                    <h4>{{fightMonsterInstance.monsterInstance.name}}</h4>
+                </div>
+                <dl class="dl-horizontal"><dt>Initiative :</dt><dd>{{fightMonsterInstance.initiative}}</dd></dl>
+                <dl class="dl-horizontal"><dt>PV :</dt><dd>{{fightMonsterInstance.monsterInstance.hpCurrent}}/{{fightMonsterInstance.monsterInstance.hpMax}}</dd></dl>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+<div class="col-sm-6">
+    <strong>Personnages :</strong>
+    <div class="list-group">
+        {% for fightCharacter in dndinstance_fight_fightinstance.getCharacters(fight) %}
+            <div class="list-group-item">
+                <div>
+                    <div class="pull-right"><strong title="Order de jeu">{{ dndinstance_fight_fightinstance.getOrder(fight, fightCharacter, null)+1 }}</strong></div>
+                    <h4>{{fightCharacter.characterUsed.name}}</h4>
+                </div>
+                <dl class="dl-horizontal">
+                    <dt>Initiative :</dt>
+                    <dd>{{fightCharacter.initiative}}
+                        <a href="{{path('dndinstance_fight_edit_characterUsed', {'fightCharacterUsedInstance_id': fightCharacter.id, 'game_id': game.id})}}"><i class="fa fa-edit"></i></a>
+                    </dd>
+                </dl>
+                <dl class="dl-horizontal">
+                    <dt>Initiative :</dt>
+                    <dd>
+                        {{ fightCharacter.characterUsed.hpCurrent }} / {{ fightCharacter.characterUsed.hpMax }}
+                    </dd>
+                </dl>
+            </div>
+        {% endfor %}
+    </div>
+</div>
