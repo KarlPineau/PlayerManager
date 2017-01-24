@@ -76,7 +76,7 @@ dndinstance_characterused_characterused_view:
     defaults: { _controller: DnDInstanceCharacterBundle:CharacterUsed:view, context: block, profile: full, newLevel: 0 }
     requirements:
         slug:  \S{0,255}
-        context: inline|block
+        context: inline|block|register
         profile: full|short
         newLevel: 1|0
     

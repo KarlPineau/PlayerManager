@@ -52,7 +52,7 @@ class Gift
     /**
      * @var string
      * @Assert\Length(
-     *      max = "1000",
+     *      max = "10000",
      *      maxMessage = "Le champs 'Conditions' ne peut pas dépasser {{ limit }} caractères."
      * )
      *
@@ -63,7 +63,7 @@ class Gift
     /**
      * @var string
      * @Assert\Length(
-     *      max = "1000",
+     *      max = "10000",
      *      maxMessage = "Le champs 'Avantage' ne peut pas dépasser {{ limit }} caractères."
      * )
      *
@@ -74,7 +74,7 @@ class Gift
     /**
      * @var string
      * @Assert\Length(
-     *      max = "1000",
+     *      max = "10000",
      *      maxMessage = "Le champs 'Normal' ne peut pas dépasser {{ limit }} caractères."
      * )
      *
@@ -85,7 +85,7 @@ class Gift
     /**
      * @var string
      * @Assert\Length(
-     *      max = "1000",
+     *      max = "10000",
      *      maxMessage = "Le champs 'Spécial' ne peut pas dépasser {{ limit }} caractères."
      * )
      *
@@ -96,7 +96,7 @@ class Gift
     /**
      * @var string
      * @Assert\Length(
-     *      max = "1000",
+     *      max = "10000",
      *      maxMessage = "Le champs 'Description' ne peut pas dépasser {{ limit }} caractères."
      * )
      *

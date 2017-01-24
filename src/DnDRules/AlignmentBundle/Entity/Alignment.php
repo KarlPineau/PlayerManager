@@ -56,7 +56,7 @@ class Alignment
 
     /**
      * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     protected $createUser;
 

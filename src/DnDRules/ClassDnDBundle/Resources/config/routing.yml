@@ -48,3 +48,16 @@ dndrules_classdnd_classdnd_generateLevel:
     defaults: { _controller: DnDRulesClassDnDBundle:ClassDnD:generateLevel }
     requirements:
         slug:  \S{0,255}
+
+dndrules_classdnd_classspecificitiy_edit:
+    path:     /classe/spécificités/edit/{id}
+    defaults: { _controller: DnDRulesClassDnDBundle:ClassSpecificity:edit }
+    requirements:
+        id:  \d+
+
+dndrules_classdnd_classspecificitiy_remove:
+    path:     /classe/spécificités/supprimer/{id_specificity}/{id_classDnD}
+    defaults: { _controller: DnDRulesClassDnDBundle:ClassSpecificity:remove }
+    requirements:
+        id_specificity:  \d+
+        id_classDnD:  \d+

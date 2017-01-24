@@ -1,0 +1,23 @@
+<div class="panel-group" id="accordion-specificity" role="tablist" aria-multiselectable="true">
+{% for classSpecificity in dndrules_classdnd_classdnd.getSpecificities(classDnD) %}
+    <div class="panel panel-default">
+        <div class="panel-heading" role="tab" id="heading-accordion-specificity-{{ classSpecificity.id }}">
+            <div class="pull-right">
+                {% if classSpecificity.levelMin != null %}Niveau minimum : {{ classSpecificity.levelMin.level }}{% endif %}
+                <a href="{{ path('dndrules_classdnd_classspecificitiy_remove', {'id_specificity': classSpecificity.id, 'id_classDnD': classDnD.id}) }}"><i class="fa fa-remove"></i></a>
+            </div>
+
+            <h4 class="panel-title">
+                <a role="button" data-toggle="collapse" data-parent="#accordion-specificity" href="#collapse-accordion-specificity-{{ classSpecificity.id }}" aria-expanded="true" aria-controls="collapse-accordion-specificity-{{ classSpecificity.id }}">
+                {{ classSpecificity.title }}
+                </a>
+            </h4>
+        </div>
+        <div id="collapse-accordion-specificity-{{ classSpecificity.id }}" class="panel-collapse collapse {% if loop.index == 1 %}in{% endif %}" role="tabpanel" aria-labelledby="heading-accordion-specificity-{{ classSpecificity.id }}">
+            <div class="panel-body">
+                {{ classSpecificity.description|raw }}
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>

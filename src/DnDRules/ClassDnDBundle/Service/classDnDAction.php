@@ -79,4 +79,8 @@ class classDnDAction
         $this->em->flush();
         return $count;
     }
+
+    public function getSpecificities($classDnD) {
+        return $this->em->getRepository('DnDRulesClassDnDBundle:ClassSpecificity')->findBy(array('classDnD' => $classDnD), array('levelMin' => 'ASC'));
+    }
 }

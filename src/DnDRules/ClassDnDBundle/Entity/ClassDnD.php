@@ -52,7 +52,7 @@ class ClassDnD
     /**
      * @var string
      * @Assert\Length(
-     *      max = "10000",
+     *      max = "100000",
      *      maxMessage = "Votre description ne doit pas dépasser {{ limit }} caractères."
      * )
      * @ORM\Column(name="description", type="text", nullable=true)

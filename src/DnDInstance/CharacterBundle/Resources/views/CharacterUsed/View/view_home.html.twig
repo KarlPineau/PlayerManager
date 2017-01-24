@@ -141,7 +141,7 @@
             {% if dndrules_race_race.getST(characterUsed.race) != null %}
             <dl class="list-group-item dl-horizontal">
                 <dt>Particularités de classe</dt>
-                <dd>{{ dndrules_race_race.getST(characterUsed.race).specificity }}</dd>
+                <dd>{{ dndrules_race_race.getST(characterUsed.race).specificity|raw }}</dd>
             </dl>
             {% endif %}
         </div>

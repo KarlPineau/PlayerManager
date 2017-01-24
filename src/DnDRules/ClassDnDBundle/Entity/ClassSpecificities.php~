@@ -1,0 +1,39 @@
+<?php
+
+namespace DnDRules\ClassDnDBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * ClassSpecificities
+ *
+ * @ORM\Entity
+ */
+class ClassSpecificities
+{
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\OneToMany(targetEntity="DnDRules\ClassDnDBundle\Entity\ClassSpecificity", mappedBy="classSpecificity")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $classSpecificities;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+}

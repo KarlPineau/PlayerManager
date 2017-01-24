@@ -1,21 +1,18 @@
 <?php
 
-namespace DnDRules\AbilityBundle\Entity;
+namespace DnDRules\ClassDnDBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
- * Ability
+ * ClassSpecificity
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="DnDRules\AbilityBundle\Entity\AbilityRepository")
- * 
- * @UniqueEntity(fields="name", message="Une Caractéristique semble déjà porter ce nom ...")
+ * @ORM\Entity(repositoryClass="DnDRules\ClassDnDBundle\Entity\ClassSpecificityRepository")
  */
-class Ability
+class ClassSpecificity
 {
     /**
      * @var integer
@@ -27,6 +24,12 @@ class Ability
     private $id;
 
     /**
+     * @ORM\ManyToOne(targetEntity="DnDRules\ClassDnDBundle\Entity\ClassDnD", inversedBy="classSpecificities")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $classDnD;
+
+    /**
      * @var string
      * @Assert\NotBlank()
      * @Assert\Length(
@@ -36,41 +39,26 @@ class Ability
      *      maxMessage = "Votre nom ne peut pas être plus long que {{ limit }} caractères"
      * )
      *
-     * @ORM\Column(name="name", type="string", length=45)
+     * @ORM\Column(name="title", type="string", length=45)
      */
-    private $name;
-    
-    /**
-     * @var string
-     *
-     * @Gedmo\Slug(fields={"name"})
-     * @ORM\Column(name="slug", type="string", length=255, nullable=false, unique=true)
-     */
-    private $slug;
+    private $title;
 
     /**
      * @var string
      * @Assert\Length(
-     *      max = "10000",
+     *      max = "100000",
      *      maxMessage = "Votre description ne doit pas dépasser {{ limit }} caractères."
      * )
+     *
      * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
     /**
-     * @var integer
-     * @Assert\NotBlank()
-     * @Assert\Range(
-     *      min = "1",
-     *      max = "6",
-     *      minMessage = "Le type de la caractéristique doit être compris entre 1 et 6.",
-     *      maxMessage = "Le type de la caractéristique doit être compris entre 1 et 6."
-     * )
-     *
-     * @ORM\Column(name="type", type="smallint")
+     * @ORM\ManyToOne(targetEntity="DnDRules\LevelBundle\Entity\Level")
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $type;
+    private $levelMin;
 
     /**
      * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
@@ -87,9 +75,9 @@ class Ability
     protected $createDate;
 
     /**
-    * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
-    * @ORM\JoinColumn(nullable=true)
-    */
+     * @ORM\ManyToOne(targetEntity="CAS\UserBundle\Entity\User")
+     * @ORM\JoinColumn(nullable=true)
+     */
     protected $updateUser;
 
     /**
@@ -99,17 +87,6 @@ class Ability
      * @ORM\Column(name="updateDate", type="datetime", nullable=true)
      */
     protected $updateDate;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="updateComment", type="string", length=255, nullable=true)
-     * @Assert\Length(
-     *      max = "255",
-     *      maxMessage = "Le commentaire ne doit pas dépasser {{ limit }} caractères."
-     * )
-     */
-    protected $updateComment;
 
 
     /**
@@ -123,33 +100,56 @@ class Ability
     }
 
     /**
-     * Set name
+     * Set classDnD
      *
-     * @param string $name
-     * @return Ability
+     * @param \stdClass $classDnD
+     * @return ClassSpecificity
      */
-    public function setName($name)
+    public function setClassDnD($classDnD)
     {
-        $this->name = $name;
+        $this->classDnD = $classDnD;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Get classDnD
+     *
+     * @return \stdClass 
+     */
+    public function getClassDnD()
+    {
+        return $this->classDnD;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     * @return ClassSpecificity
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
      *
      * @return string 
      */
-    public function getName()
+    public function getTitle()
     {
-        return $this->name;
+        return $this->title;
     }
 
     /**
      * Set description
      *
      * @param string $description
-     * @return Ability
+     * @return ClassSpecificity
      */
     public function setDescription($description)
     {
@@ -169,10 +169,33 @@ class Ability
     }
 
     /**
+     * Set levelMin
+     *
+     * @param \stdClass $levelMin
+     * @return ClassSpecificity
+     */
+    public function setLevelMin($levelMin)
+    {
+        $this->levelMin = $levelMin;
+
+        return $this;
+    }
+
+    /**
+     * Get levelMin
+     *
+     * @return \stdClass 
+     */
+    public function getLevelMin()
+    {
+        return $this->levelMin;
+    }
+
+    /**
      * Set createDate
      *
      * @param \DateTime $createDate
-     * @return Ability
+     * @return ClassSpecificity
      */
     public function setCreateDate($createDate)
     {
@@ -195,7 +218,7 @@ class Ability
      * Set updateDate
      *
      * @param \DateTime $updateDate
-     * @return Ability
+     * @return ClassSpecificity
      */
     public function setUpdateDate($updateDate)
     {
@@ -215,33 +238,10 @@ class Ability
     }
 
     /**
-     * Set updateComment
-     *
-     * @param string $updateComment
-     * @return Ability
-     */
-    public function setUpdateComment($updateComment)
-    {
-        $this->updateComment = $updateComment;
-
-        return $this;
-    }
-
-    /**
-     * Get updateComment
-     *
-     * @return string 
-     */
-    public function getUpdateComment()
-    {
-        return $this->updateComment;
-    }
-
-    /**
      * Set createUser
      *
      * @param \CAS\UserBundle\Entity\User $createUser
-     * @return Ability
+     * @return ClassSpecificity
      */
     public function setCreateUser(\CAS\UserBundle\Entity\User $createUser)
     {
@@ -253,7 +253,7 @@ class Ability
     /**
      * Get createUser
      *
-     * @return \CAS\UserBundle\Entity\User
+     * @return \CAS\UserBundle\Entity\User 
      */
     public function getCreateUser()
     {
@@ -264,7 +264,7 @@ class Ability
      * Set updateUser
      *
      * @param \CAS\UserBundle\Entity\User $updateUser
-     * @return Ability
+     * @return ClassSpecificity
      */
     public function setUpdateUser(\CAS\UserBundle\Entity\User $updateUser = null)
     {
@@ -276,56 +276,10 @@ class Ability
     /**
      * Get updateUser
      *
-     * @return \CAS\UserBundle\Entity\User
+     * @return \CAS\UserBundle\Entity\User 
      */
     public function getUpdateUser()
     {
         return $this->updateUser;
-    }
-
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     * @return Ability
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string 
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
-     * Set type
-     *
-     * @param integer $type
-     * @return Ability
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return integer 
-     */
-    public function getType()
-    {
-        return $this->type;
     }
 }

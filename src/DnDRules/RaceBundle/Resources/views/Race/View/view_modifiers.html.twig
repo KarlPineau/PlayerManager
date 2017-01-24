@@ -44,7 +44,7 @@
             <dl class="list-group-item dl-horizontal"><dt>Réflexe</dt><dd>{{ dndrules_race_race.getST(race).fortitude }}</dd></dl>
             <dl class="list-group-item dl-horizontal"><dt>Vigueur</dt><dd>{{ dndrules_race_race.getST(race).reflex }}</dd></dl>
             <dl class="list-group-item dl-horizontal"><dt>Volonté</dt><dd>{{ dndrules_race_race.getST(race).will }}</dd></dl>
-            <dl class="list-group-item dl-horizontal"><dt>Particularités</dt><dd>{{ dndrules_race_race.getST(race).specificity }}</dd></dl>
+            <dl class="list-group-item dl-horizontal"><dt>Particularités</dt><dd>{{ dndrules_race_race.getST(race).specificity|raw }}</dd></dl>
         </div>
     {% else %}
         <div class="alert alert-warning"><p>Pas de Jets de Sauvegarde pour cette race.</p></div>

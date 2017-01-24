@@ -1,0 +1,56 @@
+<table class="table table-bordered table-condensed table-striped">
+    <tr>
+        <th rowspan="3">Niveau</th>
+        <th rowspan="3">BBA</th>
+        <th colspan="3">JdS</th>
+        <th colspan="20">Sorts</th>
+    </tr>
+    <tr>
+        <th rowspan="2">Reflex</th>
+        <th rowspan="2">Vigueur</th>
+        <th rowspan="2">Volonté</th>
+        {% for i in 0..9%}
+            <th colspan="2">{{i}}</th>
+        {% endfor %}
+    </tr>
+    <tr>
+        {% for i in 0..9%}
+            <th>C</th>
+            <th>M/j</th>
+        {% endfor %}
+    </tr>
+
+    {% for classDnDLevel in classDnDLevels %}
+        <tr>
+            <td><a href="{{path('dndrules_level_level_view', {'level': classDnDLevel.level.level})}}" target="_blank">#{{classDnDLevel.level.level}}</a></td>
+            <td>
+                {% for bab in classDnDLevel.classBABs %}
+                    {% if loop.index > 1 %}/{% endif %} {{bab.value}}
+                {% endfor %}
+            </td>
+            {% for st in classDnDLevel.classST%}
+                <td>{{st.fortitude}}</td>
+                <td>{{st.reflex}}</td>
+                <td>{{st.will}}</td>
+            {% endfor %}
+            {% for i in 0..9%}
+                {% for sort in classDnDLevel.classSorts %}
+                    {% set levelMaximumKnownSorts = '' %}
+                    {% if sort.sortLevel.level == i %}
+                        {% set levelMaximumKnownSorts = sort.maximumKnownSorts %}
+                        <td>{{sort.maximumKnownSorts}}</td>
+                        <td>{{sort.maximumUsedSorts}}</td>
+                    {% endif %}
+                    {% if levelMaximumKnownSorts is empty %}
+
+                    {% endif %}
+                {% endfor %}
+
+            {% endfor %}
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="23"><em>Aucune information connue.</em></td>
+        </tr>
+    {% endfor %}
+</table>

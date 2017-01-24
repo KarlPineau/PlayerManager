@@ -1,0 +1,27 @@
+<div>
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        {% for sortsbylevel in allSorts %}
+            <li role="presentation" {% if sortsbylevel[0].level == 0 %} class="active" {% endif %}>
+                <a href="#sortlevel{{sortsbylevel[0].level}}" aria-controls="sortlevel{{sortsbylevel[0].level}}" role="tab" data-toggle="tab">{{sortsbylevel[0].level}}</a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        {% for sortsbylevel in allSorts %}
+            <div role="tabpanel" class="tab-pane {% if sortsbylevel[0].level == 0 %}active{% endif %}" id="sortlevel{{sortsbylevel[0].level}}">
+                <ul>
+                    {% for sort in sortsbylevel[1] %}
+                        <li>
+                            <a href="{{path('dndrules_sort_sort_view', {'slug': sort.slug})}}" target="_blank">{{sort.name}}</a>{% if not loop.last %},{% endif %}
+                        </li>
+                    {% else %}
+                        <li>Pas de sort à ce niveau</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endfor %}
+    </div>
+</div>
