@@ -19,6 +19,14 @@ class fightAction
     
     public function deleteFight($fight)
     {
+        foreach($this->em->getRepository('DnDInstanceFightBundle:FightCharacterUsed')->findByFight($fight) as $fightCharacterUsed) {
+            $this->em->remove($fightCharacterUsed);
+        }
+
+        foreach($this->em->getRepository('DnDInstanceFightBundle:FightMonsterInstance')->findByFight($fight) as $fightMonsterInstance) {
+            $this->em->remove($fightMonsterInstance);
+        }
+
         $this->em->remove($fight);
         $this->em->flush();
     }
